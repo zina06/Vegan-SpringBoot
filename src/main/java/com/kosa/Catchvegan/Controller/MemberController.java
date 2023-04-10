@@ -15,8 +15,8 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    //@Autowired
+    //private PasswordEncoder passwordEncoder;
 
     @PostMapping("/member/join")
     public String saveMember(@RequestBody MemberDTO memberdto) throws Exception{
