@@ -5,12 +5,53 @@
 
 <mapper namespace="com.kosa.Catchvegan.Mapper.MemberMapper">
     <select id="findAllMembers" resultType="MemberDTO">
-        select * from member
+        select * from member WHERE withdraw = 'x'
     </select>
 
     <insert id="createMember">
-        insert into member(memberidx,id,password,name,phone,email,vegantype,withdraw)
-        values(MEMBERSEQ.nextval,#{name},#{password},#{name},#{phone},#{email},#{vegantype},#{withdraw})
+        <selectKey keyProperty="memberidx" keyColumn="memberidx" order="BEFORE" resultType="Integer">
+            select memberseq.nextval from dual
+        </selectKey>
+        insert into member(memberidx,id,password,name,phone,email,vegantype)
+        values(#{memberidx},#{id},#{password},#{name},#{phone},#{email},#{vegantype})
     </insert>
+
+    <insert id ="userRole">
+        insert into memberauth values(#{memberidx}, 'ROLE_USER')
+    </insert>
+
+    <resultMap id="veganmember" type="MemberDTO">
+        <id column="memberidx" property="memberidx" />
+        <result column="id" property="idd" />
+        <result column="password" property="password" />
+        <result column="name" property="name" />
+        <result column="phone" property="phone" />
+        <result column="email" property="email" />
+        <result column="vegantype" property="vegantype"/>
+        <result column="withdraw" property="withdraw" />
+        <collection property="roles" resultMap="auth" />
+    </resultMap>
+
+    <resultMap type="MemberAuthDTO" id="auth">
+        <result column="memberidx" property="memberidx"/>
+        <result column="auth" property="auth"/>
+    </resultMap>
+
+    <select id="getUserByIdAndPassword" resultMap="veganmember">
+        select mb.id,password,name,phone,email,vegantype,withdraw,auth
+        from member mb, memberauth ma
+        where mb.id = ma.id(+)
+          and mb.id = #{id}
+    </select>
+
+    <select id="userGet" resultType="MemberDTO">
+        SELECT id, name FROM member WHERE id = #{id}
+    </select>
+
+    <select id="idGet" resultType="MemberDTO">
+        select id from member where id=#{id}
+    </select>
+
+
 
 </mapper>

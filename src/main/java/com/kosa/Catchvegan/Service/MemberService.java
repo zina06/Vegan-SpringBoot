@@ -1,17 +1,31 @@
 package com.kosa.Catchvegan.Service;
 
+import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.MemberDTO;
-import com.kosa.Catchvegan.Mapper.MemberMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.apache.catalina.Manager;
 
 import java.util.List;
 
 
 public interface MemberService {
 
+    //Member
     public List<MemberDTO> findAllMembers();
 
-    public void createMember(MemberDTO member);
+    public MemberDTO createMember(MemberDTO member);
+
+    public boolean getId(String id);
+
+    public MemberDTO getUserByIdAndPassword(String id);
+
+    //Manager
+    public List<ManagerDTO> findAllManagers();
+
+    public ManagerDTO createManager(ManagerDTO manager);
+
+    public boolean managerIdGet(String id);
+
+    public ManagerDTO managerGetUserByIdAndPassword(String id);
+
 
 }
