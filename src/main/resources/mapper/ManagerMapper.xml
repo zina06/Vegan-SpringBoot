@@ -4,25 +4,37 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kosa.Catchvegan.Mapper.ManagerMapper">
-    <resultMap id="ManagerMap" type="com.kosa.Catchvegan.ManagerDto">
-        <id column="manageridx" property="manageridx"/>
-        <result column="id" property="id"/>
-        <result column="password" property="password"/>
-        <result column="restaurantidx" property="restaurantidx"/>
-    </resultMap>
+<!--    <resultMap id="ManagerMap" type="com.kosa.Catchvegan.DTO.ManagerDTO">-->
+<!--        <id column="manageridx" property="manageridx"/>-->
+<!--        <result column="id" property="id"/>-->
+<!--        <result column="password" property="password"/>-->
+<!--        <result column="restaurantidx" property="restaurantidx"/>-->
+<!--        <association property="RestaurantMap" resultMap="RestaurantMap"/>-->
+<!--    </resultMap>-->
+
+<!--    <resultMap id="RestaurantMap" type="com.kosa.Catchvegan.DTO.RestaurantDTO">-->
+<!--        <id column="restaurantidx" property="restaurantIdx"/>-->
+<!--        <result column="veganType" property="veganType"/>-->
+<!--        <result column="restaurantInfo" property="restaurantInfo"/>-->
+<!--        <result column="menu" property="menu"/>-->
+<!--        <result column="longitude" property="longitude"/>-->
+<!--        <result column="latitude" property="latitude"/>-->
+<!--        <result column="limitPerson" property="limitPerson"/>-->
+<!--        <result column="reservePay" property="reservePay"/>-->
+<!--        <result column="images" property="images"/>-->
+<!--    </resultMap>-->
 
 
-    <select id="findrestaurantbymanager" resultMap="">
+    <select id="findrestaurantbymanager">
         select
             r.vegantype,
             r.restaurantinfo,
             r.menu,
             r.images,
-            m.manageridx
             from restaurant r
                 left outer join manager m
                 on r.restaurantidx=m.restaurantidx
-                    where manegeridx=#{manageridx}
+                    where manageridx=#{manageridx}
 
     </select>
 </mapper>

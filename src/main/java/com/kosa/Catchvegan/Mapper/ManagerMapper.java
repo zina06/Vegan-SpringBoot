@@ -1,4 +1,9 @@
 package com.kosa.Catchvegan.Mapper;
 
-public class ManagerMapper {
+import com.kosa.Catchvegan.DTO.RestaurantDTO;
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface ManagerMapper {
+    public RestaurantDTO findrestaurantbymanager(int memberidx);
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RestaurantDTO {
 
-    private Integer restaurentIdx;
+    private Integer restaurantIdx;
     private String veganType;
     private String restaurantInfo;
     private String menu;
