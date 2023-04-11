@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosa.Catchvegan.Mapper.ManagerMapper">
+    <resultMap id="ManagerMap" type="com.kosa.Catchvegan.ManagerDto">
+        <id column="manageridx" property="manageridx"/>
+        <result column="id" property="id"/>
+        <result column="password" property="password"/>
+        <result column="restaurantidx" property="restaurantidx"/>
+    </resultMap>
+
+
+    <select id="findrestaurantbymanager" resultMap="">
+        select
+            r.vegantype,
+            r.restaurantinfo,
+            r.menu,
+            r.images,
+            m.manageridx
+            from restaurant r
+                left outer join manager m
+                on r.restaurantidx=m.restaurantidx
+                    where manegeridx=#{manageridx}
+
+    </select>
+</mapper>

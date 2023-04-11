@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberController {
 
-    @Autowired
-    private MemberService memberService;
-    //@Autowired
-    //private PasswordEncoder passwordEncoder;
-
-    @PostMapping("/member/join")
-    public String saveMember(@RequestBody MemberDTO memberdto) throws Exception{
-        return "success";
-    }
+//    @Autowired
+//    private MemberService memberService;
+//    //@Autowired
+//    //private PasswordEncoder passwordEncoder;
+//
+//    @PostMapping("/member/join")
+//    public String saveMember(@RequestBody MemberDTO memberdto) throws Exception{
+//        return "success";
+//    }
 
 }
