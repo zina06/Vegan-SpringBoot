@@ -4,37 +4,54 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kosa.Catchvegan.Mapper.ManagerMapper">
-<!--    <resultMap id="ManagerMap" type="com.kosa.Catchvegan.DTO.ManagerDTO">-->
-<!--        <id column="manageridx" property="manageridx"/>-->
-<!--        <result column="id" property="id"/>-->
-<!--        <result column="password" property="password"/>-->
-<!--        <result column="restaurantidx" property="restaurantidx"/>-->
-<!--        <association property="RestaurantMap" resultMap="RestaurantMap"/>-->
+<!--    <resultMap id="" type="">-->
+<!--        <result column="reserveIdx" property="reserveIdx"/>-->
+<!--        <result column="reserveidx" property="reserveidx"/>-->
+<!--        <result column="restaurantIdx" property="restaurantIdx"/>-->
+<!--        <result column="reserveDate" property="reserveDate"/>-->
+<!--        <result column="rescount" property="rescount"/>-->
+<!--        <result column="visitstatus" property="visitstatus"/>-->
+<!--        <result column="cancelstatus" property="cancelstatus"/>-->
 <!--    </resultMap>-->
 
-<!--    <resultMap id="RestaurantMap" type="com.kosa.Catchvegan.DTO.RestaurantDTO">-->
-<!--        <id column="restaurantidx" property="restaurantIdx"/>-->
-<!--        <result column="veganType" property="veganType"/>-->
-<!--        <result column="restaurantInfo" property="restaurantInfo"/>-->
-<!--        <result column="menu" property="menu"/>-->
-<!--        <result column="longitude" property="longitude"/>-->
-<!--        <result column="latitude" property="latitude"/>-->
-<!--        <result column="limitPerson" property="limitPerson"/>-->
-<!--        <result column="reservePay" property="reservePay"/>-->
-<!--        <result column="images" property="images"/>-->
-<!--    </resultMap>-->
-
-
-    <select id="findrestaurantbymanager">
+    <!--  식당정보 불러오기-->
+    <select id="restaurantmanage" resultType="RestaurantDto">
         select
-            r.vegantype,
-            r.restaurantinfo,
-            r.menu,
-            r.images,
+            *
             from restaurant r
                 left outer join manager m
-                on r.restaurantidx=m.restaurantidx
-                    where manageridx=#{manageridx}
+                on r.restaurantIdx=m.restaurantIdx
+                    where managerIdx=#{managerIdx}
+
 
     </select>
+
+    <!--  식당정보 수정하기-->
+    <update id="updaterestaurant" parameterType="RestaurantDto">
+        update
+            restaurant
+                set
+                    name=#{name},
+                    menu=#{menu},
+                    restaurantinfo=#{restaurantInfo},
+                    images=#{images},
+                    reservepay=#{reservePay},
+                    limitperson=#{limitPerson}
+                        where restaurantidx=#{restaurantIdx}
+
+    </update>
+
+    <!--  예약자목록 불러오기-->
+    <select id="reservememberlist" parameterType="RestaurantDto">
+        select
+            m.name,
+            m.phone,
+            r.reserveDate
+            from member m
+                 left outer join reserve r
+                 on m.memberIdx=r.memberIdx
+                    where restaurantidx=#{restaurantIdx}
+    </select>
+
+
 </mapper>

@@ -10,9 +10,15 @@ public class ManagerServiceImpl implements ManagerService{
     @Autowired
     private ManagerMapper managerMapper;
 
+    @Override
+    public RestaurantDTO restaurantmanage(int managerIdx) {
+        return managerMapper.restaurantmanage(managerIdx);
+    }
 
     @Override
-    public RestaurantDTO findrestaurantbymanager(int memberidx) {
-        return managerMapper.findrestaurantbymanager(memberidx);
+    public void updaterestaurant(RestaurantDTO restaurantDTO) {
+         managerMapper.updaterestaurant(restaurantDTO);
     }
+
+
 }

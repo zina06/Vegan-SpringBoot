@@ -5,5 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ManagerMapper {
-    public RestaurantDTO findrestaurantbymanager(int memberidx);
+    public RestaurantDTO restaurantmanage(int managerIdx);
+    public void updaterestaurant(RestaurantDTO restaurantDTO);
 }
