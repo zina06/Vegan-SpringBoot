@@ -3,8 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kosa.Catchvegan.mapper.MemberMapper">
-    <select id="findAllUsers" resultType="User">
-        select * from dual
+<mapper namespace="com.kosa.Catchvegan.Mapper.MemberMapper">
+    <select id="findAllMembers" resultType="MemberDTO">
+        select * from member
     </select>
+
+    <insert id="createMember">
+        insert into member(memberidx,id,password,name,phone,email,vegantype,withdraw)
+        values(MEMBERSEQ.nextval,#{name},#{password},#{name},#{phone},#{email},#{vegantype},#{withdraw})
+    </insert>
+
 </mapper>
