@@ -2,7 +2,9 @@ package com.kosa.Catchvegan.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 
 @Data
 @NoArgsConstructor
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class RestaurantDTO {
 
     private Integer restaurantIdx;
+    private String name;
     private String veganType;
     private String restaurantInfo;
     private String menu;
