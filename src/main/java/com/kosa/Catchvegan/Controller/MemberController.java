@@ -14,6 +14,11 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
+    @GetMapping("")
+    public String gomain(){
+        return "main";
+    }
+
     @GetMapping("/member/checkid")
     public ResponseEntity<String> checkid(@RequestBody MemberDTO memberDTO) {
         String id = memberDTO.getId();
