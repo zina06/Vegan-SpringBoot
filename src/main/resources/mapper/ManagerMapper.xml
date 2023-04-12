@@ -4,15 +4,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kosa.Catchvegan.Mapper.ManagerMapper">
-<!--    <resultMap id="" type="">-->
-<!--        <result column="reserveIdx" property="reserveIdx"/>-->
-<!--        <result column="reserveidx" property="reserveidx"/>-->
-<!--        <result column="restaurantIdx" property="restaurantIdx"/>-->
-<!--        <result column="reserveDate" property="reserveDate"/>-->
-<!--        <result column="rescount" property="rescount"/>-->
-<!--        <result column="visitstatus" property="visitstatus"/>-->
-<!--        <result column="cancelstatus" property="cancelstatus"/>-->
-<!--    </resultMap>-->
+    <resultMap id="reserveMap" type="ReserveDto">
+        <result column="reserveIdx" property="reserveIdx"/>
+        <result column="memberIdx" property="memberIdx"/>
+        <result column="restaurantIdx" property="restaurantIdx"/>
+        <result column="reserveDate" property="reserveDate"/>
+        <result column="resCount" property="resCount"/>
+        <result column="visitStatus" property="visitStatus"/>
+        <result column="cancelStatus" property="cancelStatus"/>
+        <association property="memberDTO" resultMap="memberMap"/>
+    </resultMap>
+
+    <resultMap id="memberMap" type="MemberDto">
+        <result column="memberidx" property="memberidx"/>
+        <result column="id" property="id"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="vegantype" property="vegantype"/>
+        <result column="withdraw" property="withdraw"/>
+    </resultMap>
 
     <!--  식당정보 불러오기-->
     <select id="restaurantmanage" resultType="RestaurantDto">
@@ -42,16 +54,28 @@
     </update>
 
     <!--  예약자목록 불러오기-->
-    <select id="reservememberlist" parameterType="RestaurantDto">
+    <select id="reservememberlist" resultMap="reserveMap">
         select
             m.name,
             m.phone,
-            r.reserveDate
+            r.reserveDate,
+            r.rescount,
+            r.visitStatus,
+            r.cancelStatus
             from member m
                  left outer join reserve r
                  on m.memberIdx=r.memberIdx
-                    where restaurantidx=#{restaurantIdx}
+                    where r.restaurantidx=#{restaurantIdx}
     </select>
+
+    <!-- 방문완료한 회원의 상태 변경-->
+    <update id="confirmstatus">
+        update
+            reserve
+                set
+                  visitstatus=#{visitStatus}
+                    where reserveidx=#{reserveIdx}
+    </update>
 
 
 </mapper>
