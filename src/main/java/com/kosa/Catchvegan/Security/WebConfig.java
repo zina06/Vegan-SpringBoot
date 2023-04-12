@@ -38,13 +38,13 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/Catchvegan")
                 .antMatchers("/Catchvegan/member/checkid")
-                .antMatchers("/Catchvegan/member/signup");// 이 요청들에 대해서는 spring security 필터 체인을 적용하지 않겠다
+                .antMatchers("/Catchvegan/member/signup");
+        // 이 요청들에 대해서는 spring security 필터 체인을 적용하지 않겠다
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception{
         http.csrf().disable();
-
         http.authorizeRequests()
                 .antMatchers("/Catchvegan").permitAll()
                 .antMatchers("/Catchvegan/member/checkid").permitAll()

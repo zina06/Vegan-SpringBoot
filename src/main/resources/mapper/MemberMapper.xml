@@ -22,7 +22,7 @@
 
     <resultMap id="veganmember" type="MemberDTO">
         <id column="memberidx" property="memberidx" />
-        <result column="id" property="idd" />
+        <result column="id" property="id" />
         <result column="password" property="password" />
         <result column="name" property="name" />
         <result column="phone" property="phone" />
@@ -40,7 +40,7 @@
     <select id="getUserByIdAndPassword" resultMap="veganmember">
         select mb.id,password,name,phone,email,vegantype,withdraw,auth
         from member mb, memberauth ma
-        where mb.id = ma.id(+)
+        where mb.memberidx = ma.memberidx(+)
           and mb.id = #{id}
     </select>
 

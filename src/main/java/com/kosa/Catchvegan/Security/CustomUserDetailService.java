@@ -27,23 +27,29 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("================================" + username);
         MemberDTO member = memberMapper.getUserByIdAndPassword(username);
         ManagerDTO manager = managerMapper.managerGetUserByIdAndPassword(username);
 
-        if (memberMapper.idGet(member.getId()) != null){
+        if (member != null){
+            System.out.println("=================================================");
+            System.out.println(member);
+            System.out.println("=================================================");
+            System.out.println(member.getRoles());
             String memberId = member.getId();
             String memberPw = member.getPassword();
-            List<MemberAuthDTO> memberRoles = member.getRoles();
+//            List<MemberAuthDTO> memberRoles = member.getRoles();
+            System.out.println(memberId);
+            System.out.println(memberPw);
             List<GrantedAuthority> authorities = new ArrayList<>();
-            if (memberRoles != null && !memberRoles.isEmpty()) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_USER")); // member 객체에 ROLE_USER role 추가
-            }
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER")); // member 객체에 ROLE_USER role 추가
             return User.builder()
                     .username(memberId)
                     .password(memberPw)
                     .authorities(authorities)
                     .build();
-        } else if (managerMapper.managerIdGet(manager.getId()) != null){
+        } else if (manager != null){
+            System.out.println("MANAGER");
             String managerId = manager.getId();
             String managerPw = manager.getPassword();
             List<ManagerAuthDTO> managerRoles = manager.getRoles();

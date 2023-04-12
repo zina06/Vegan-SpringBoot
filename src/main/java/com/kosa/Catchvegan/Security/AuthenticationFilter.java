@@ -29,6 +29,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private ManagerMapper managerMapper;
     private MemberMapper memberMapper;
 
+    //로그인 처리
     public AuthenticationFilter(AuthenticationManager authenticationManager,
                                 ManagerMapper managerMapper,MemberMapper memberMapper){
         super.setAuthenticationManager(authenticationManager);
@@ -44,20 +45,22 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             MemberDTO md = new ObjectMapper().readValue(request.getInputStream(),
                     MemberDTO.class);
             MemberDTO mds = memberMapper.getUserByIdAndPassword(md.getId());
-            ManagerDTO mg = new ObjectMapper().readValue(request.getInputStream(),
-                    ManagerDTO.class);
+            ManagerDTO mg = new ManagerDTO();
+            mg.setId(md.getId());
+            mg.setPassword(md.getPassword());
             ManagerDTO mas = managerMapper.managerGetUserByIdAndPassword(mg.getId());
             if (mas != null) {
                 return getAuthenticationManager().authenticate(
                         new UsernamePasswordAuthenticationToken(
-                                mds.getId(),
+                                mas.getId(),
                                 md.getPassword(),
                                 new ArrayList<>())
                 );
             } else if (mds != null) {
+
                 return getAuthenticationManager().authenticate(
                         new UsernamePasswordAuthenticationToken(
-                                mas.getId(),
+                                mds.getId(),
                                 mg.getPassword(),
                                 new ArrayList<>())
                 );
@@ -73,7 +76,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
         String userName = ((User)authResult.getPrincipal()).getUsername();
-        System.out.println(userName+"============================");
+        System.out.println(userName+"============================ success");
 
         String jwt = Jwts.builder()
                 .setHeaderParam("type", "jwt")

@@ -33,9 +33,9 @@
     </resultMap>
 
     <select id="managerGetUserByIdAndPassword" resultMap="veganmanager">
-        select mb.id,password,auth
+        select mg.id,password,auth
         from manager mg, managerauth ma
-        where mg.id = ma.id(+)
+        where mg.manageridx = ma.manageridx(+)
           and mg.id = #{id}
     </select>
 
