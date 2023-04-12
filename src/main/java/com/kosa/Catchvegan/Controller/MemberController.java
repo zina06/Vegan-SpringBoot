@@ -1,31 +1,38 @@
 package com.kosa.Catchvegan.Controller;
 
-
 import com.kosa.Catchvegan.DTO.MemberDTO;
 import com.kosa.Catchvegan.Service.MemberService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/Catchvegan")
 public class MemberController {
 
     @Autowired
     private MemberService memberService;
-    //@Autowired
-    //private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/")
-    public String main(){
-        return "success";
+    @GetMapping("/member/checkid")
+    public ResponseEntity<String> checkid(@RequestBody MemberDTO memberDTO) {
+        String id = memberDTO.getId();
+        if(memberService.getId(id)){
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("fail",HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/member/join")
-    public String saveMember(@RequestBody MemberDTO memberDTO) {
+    @PostMapping("/member/signup")
+    public ResponseEntity<String> signup(@RequestBody MemberDTO memberDTO) {
         memberService.createMember(memberDTO);
-        return "success";
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+        //return new ResponseEntity<>("signup", HttpStatus.OK);
+    }
+
+    @GetMapping("/member/aftersignup")
+    public String aftersignup(){
+        return "aftersignup";
     }
 
 }
