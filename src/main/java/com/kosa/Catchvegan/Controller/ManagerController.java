@@ -69,6 +69,8 @@ public class ManagerController {
     }
 
 
+
+
     //방문 회원 상태 변경
     @PutMapping("/manager/confirmstatus")
     public ResponseEntity<Void> ConfirmStatus(@RequestBody ReserveDTO reserveDTO){
