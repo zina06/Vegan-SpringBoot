@@ -24,6 +24,7 @@
         <id column="manageridx" property="manageridx" />
         <result column="id" property="id" />
         <result column="password" property="password" />
+        <result column="restaurantIdx" property="restaurantIdx" />
         <collection property="roles" resultMap="auth" />
     </resultMap>
 
@@ -40,11 +41,11 @@
     </select>
 
     <select id="managerGet" resultType="ManagerDTO">
-        SELECT id, name FROM member WHERE id = #{id}
+        SELECT id, name FROM manager WHERE id = #{id}
     </select>
 
     <select id="managerIdGet" resultType="ManagerDTO">
-        select id from member where id=#{id}
+        select id from manager where id=#{id}
     </select>
 
 </mapper>
