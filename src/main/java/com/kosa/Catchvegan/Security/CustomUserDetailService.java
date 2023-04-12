@@ -27,20 +27,13 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("================================" + username);
         MemberDTO member = memberMapper.getUserByIdAndPassword(username);
         ManagerDTO manager = managerMapper.managerGetUserByIdAndPassword(username);
 
         if (member != null){
-            System.out.println("=================================================");
-            System.out.println(member);
-            System.out.println("=================================================");
-            System.out.println(member.getRoles());
             String memberId = member.getId();
             String memberPw = member.getPassword();
 //            List<MemberAuthDTO> memberRoles = member.getRoles();
-            System.out.println(memberId);
-            System.out.println(memberPw);
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority("ROLE_USER")); // member 객체에 ROLE_USER role 추가
             return User.builder()
