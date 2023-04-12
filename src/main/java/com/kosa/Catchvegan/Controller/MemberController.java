@@ -26,14 +26,13 @@ public class MemberController {
     @PostMapping("/member/signup")
     public ResponseEntity<String> signup(@RequestBody MemberDTO memberDTO) {
         memberService.createMember(memberDTO);
-        //return ResponseEntity.status(HttpStatus.CREATED).build();
-        return new ResponseEntity<>("signup", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+        //return new ResponseEntity<>("signup", HttpStatus.OK);
     }
 
     @GetMapping("/member/aftersignup")
     public String aftersignup(){
         return "aftersignup";
     }
-
 
 }
