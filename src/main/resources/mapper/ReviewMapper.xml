@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosa.Catchvegan.Mapper.ReviewMapper">
+    <select id="reviewsFindAll" resultType="ReviewDTO">
+        select * from review
+    </select>
+
+    <insert id="createReview">
+        insert into review
+        values(REVIEWSEQ.nextval,#{visitIdx},#{title},#{content},#{rating},#{images})
+    </insert>
+
+    <select id="detailReview" resultType="ReviewDTO">
+        select * from review where visitidx = #{visitIdx}
+    </select>
+
+    <update id="updateReview" parameterType="ReviewDTO">
+        update review
+        set content = #{content}
+        where reviewidx = #{reviewIdx}
+    </update>
+
+    <delete id="deleteReview" >
+        delete from review
+        where reviewidx = #{reviewIdx}
+    </delete>
+
+</mapper>
