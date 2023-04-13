@@ -56,7 +56,7 @@ public class MemberServiceImpl implements MemberService{
         String pw = manager.getPassword();
         manager.setPassword(pe.encode(pw));
         managerMapper.createManager(manager);
-        managerMapper.managerRole(manager.getManagerIdx());
+        managerMapper.managerRole(manager.getManageridx());
         return null;
     }
 

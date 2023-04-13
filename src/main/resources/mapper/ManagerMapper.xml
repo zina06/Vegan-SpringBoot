@@ -12,7 +12,7 @@
         <selectKey keyProperty="manageridx" keyColumn="manageridx" order="BEFORE" resultType="Integer">
             select managerseq.nextval from dual
         </selectKey>
-        insert into manageridx(managerIdx,restaurantIdx,id,password)
+        insert into manager(manageridx,restaurantIdx,id,password)
         values(#{manageridx},#{restaurantIdx},#{id},#{password})
     </insert>
 
@@ -22,6 +22,7 @@
 
     <resultMap id="veganmanager" type="ManagerDTO">
         <id column="manageridx" property="manageridx" />
+        <result column="restaurantIdx" property="restaurantIdx" />
         <result column="id" property="id" />
         <result column="password" property="password" />
         <collection property="roles" resultMap="auth" />
@@ -40,11 +41,11 @@
     </select>
 
     <select id="managerGet" resultType="ManagerDTO">
-        SELECT id, name FROM member WHERE id = #{id}
+        SELECT id, name FROM manager WHERE id = #{id}
     </select>
 
     <select id="managerIdGet" resultType="ManagerDTO">
-        select id from member where id=#{id}
+        select id from manager where id=#{id}
     </select>
 
 </mapper>
