@@ -41,7 +41,13 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**")
                 .antMatchers("/Catchvegan")
                 .antMatchers("/Catchvegan/member/checkid")
+<<<<<<< HEAD
                 .antMatchers("/Catchvegan/member/signup");
+=======
+                .antMatchers("/Catchvegan/member/signup")
+                .antMatchers("/Catchvegan/owner/signup")
+                .antMatchers("/**"); //임시 어드민 가입
+>>>>>>> 1abfa0db33cc6f1e4d3c431ec5e9fe1361812dea
         // 이 요청들에 대해서는 spring security 필터 체인을 적용하지 않겠다
     }
 

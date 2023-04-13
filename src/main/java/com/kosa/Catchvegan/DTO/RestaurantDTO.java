@@ -14,6 +14,8 @@ public class RestaurantDTO {
     private Integer restaurantIdx;
     private String name;
     private String veganType;
+    private String address;
+    private String city;
     private String restaurantInfo;
     private String menu;
     private double longitude;
