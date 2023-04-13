@@ -1,5 +1,6 @@
 package com.kosa.Catchvegan.Controller;
 
+import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.ReserveDTO;
 import com.kosa.Catchvegan.DTO.RestaurantDTO;
 import com.kosa.Catchvegan.Service.ManagerService;
@@ -20,12 +21,18 @@ public class ManagerController {
     @Autowired
     ManagerService managerService;
 
+    @PostMapping("/manager/signup")
+    public ResponseEntity<String> adminSignup(@RequestBody ManagerDTO managerDTO){
+        System.out.println("나는 어드민으로 가입할꺼야");
+        managerService.createManager(managerDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
     //식당 정보 불러오기
     @GetMapping("/manager/{managerIdx}")
     public ResponseEntity<RestaurantDTO> RestaurantManager(@PathVariable int managerIdx){
         try {
             RestaurantDTO restaurantDTO = managerService.restaurantmanage(managerIdx);
-
             if (restaurantDTO != null) {
                 return new ResponseEntity<RestaurantDTO>(restaurantDTO, HttpStatus.OK);
             }
