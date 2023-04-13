@@ -10,31 +10,31 @@
     </select>
 
     <insert id="createMember">
-        <selectKey keyProperty="memberidx" keyColumn="memberidx" order="BEFORE" resultType="Integer">
+        <selectKey keyProperty="memberidx" keyColumn="memberIdx" order="BEFORE" resultType="Integer">
             select memberseq.nextval from dual
         </selectKey>
         insert into member(memberidx,id,password,name,phone,email,vegantype)
-        values(#{memberidx},#{id},#{password},#{name},#{phone},#{email},#{vegantype})
+        values(#{memberIdx},#{id},#{password},#{name},#{phone},#{email},#{veganType})
     </insert>
 
     <insert id ="userRole">
-        insert into memberauth values(#{memberidx}, 'ROLE_USER')
+        insert into memberauth values(#{memberIdx}, 'ROLE_USER')
     </insert>
 
     <resultMap id="veganmember" type="MemberDTO">
-        <id column="memberidx" property="memberidx" />
+        <id column="memberidx" property="memberIdx" />
         <result column="id" property="id" />
         <result column="password" property="password" />
         <result column="name" property="name" />
         <result column="phone" property="phone" />
         <result column="email" property="email" />
-        <result column="vegantype" property="vegantype"/>
+        <result column="vegantype" property="veganType"/>
         <result column="withdraw" property="withdraw" />
         <collection property="roles" resultMap="auth" />
     </resultMap>
 
     <resultMap type="MemberAuthDTO" id="auth">
-        <result column="memberidx" property="memberidx"/>
+        <result column="memberidx" property="memberIdx"/>
         <result column="auth" property="auth"/>
     </resultMap>
 
@@ -72,7 +72,7 @@
         set password = #{password},
             phone = #{phone},
             email = #{email},
-            vegantype = #{vegantype}
+            vegantype = #{veganType}
         where id = #{id}
     </update>
 

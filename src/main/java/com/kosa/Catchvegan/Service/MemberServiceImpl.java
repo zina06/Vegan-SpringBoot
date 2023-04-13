@@ -17,16 +17,15 @@ public class MemberServiceImpl implements MemberService{
     @Autowired
     private MemberMapper memberMapper;
     @Autowired
-    private ManagerMapper managerMapper;
-    @Autowired
     private BCryptPasswordEncoder pe;
 
 
     //Member
+    @Override
     public List<MemberDTO> findAllMembers(){
         return memberMapper.findAllMembers();
     }
-
+    @Override
     public MemberDTO createMember(MemberDTO member){
         String pw = member.getPassword();
         member.setPassword(pe.encode(pw));
@@ -46,6 +45,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
 
+<<<<<<< HEAD
+=======
     //Manager
     @Override
     public List<ManagerDTO> findAllManagers() {
@@ -70,6 +71,7 @@ public class MemberServiceImpl implements MemberService{
     public ManagerDTO managerGetUserByIdAndPassword(String id) {
         return managerMapper.managerGetUserByIdAndPassword(id);
     }
+>>>>>>> 1abfa0db33cc6f1e4d3c431ec5e9fe1361812dea
 
 
 

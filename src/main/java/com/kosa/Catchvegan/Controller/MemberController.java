@@ -20,7 +20,7 @@ public class MemberController {
         return "main";
     }
 
-    @GetMapping("/member/checkid")
+    @PostMapping("/member/checkid")
     public ResponseEntity<String> checkId(@RequestBody MemberDTO memberDTO) {
         String id = memberDTO.getId();
         if(memberService.getId(id)){
@@ -31,15 +31,7 @@ public class MemberController {
 
     @PostMapping("/member/signup")
     public ResponseEntity<String> signup(@RequestBody MemberDTO memberDTO) {
-        System.out.println("나는 멤버로 가입할꺼야");
         memberService.createMember(memberDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    @PostMapping("/owner/signup")
-    public ResponseEntity<String> adminsignup(@RequestBody ManagerDTO managerDTO){
-        System.out.println("나는 어드민으로 가입할꺼야");
-        memberService.createManager(managerDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

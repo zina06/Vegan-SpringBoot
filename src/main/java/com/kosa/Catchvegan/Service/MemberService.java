@@ -19,14 +19,6 @@ public interface MemberService {
 
     public MemberDTO getUserByIdAndPassword(String id);
 
-    //Manager
-    public List<ManagerDTO> findAllManagers();
-
-    public ManagerDTO createManager(ManagerDTO manager);
-
-    public boolean managerIdGet(String id);
-
-    public ManagerDTO managerGetUserByIdAndPassword(String id);
 
 
 
