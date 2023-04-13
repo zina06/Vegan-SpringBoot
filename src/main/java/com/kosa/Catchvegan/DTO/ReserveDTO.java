@@ -10,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReserveDTO {
-    private Integer reserveIdx;
+    private Long reserveIdx;
     private Integer memberIdx;
     private Integer restaurantIdx;
     private Date reserveDate;
@@ -19,4 +19,6 @@ public class ReserveDTO {
     private String cancelStatus;
 
     private MemberDTO memberDTO;
+
+    private RestaurantDTO restaurantDTO;
 }
