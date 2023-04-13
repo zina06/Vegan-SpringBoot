@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosa.Catchvegan.Mapper.ReserveMapper">
+    <select id="restaurantDetail" resultType="RestaurantDTO">
+        select * from restaurant where restaurantidx = #{restaurantIdx}
+    </select>
+
+    <select id="reserveDate" resultType="ReserveDTO">
+        SELECT * FROM reserve
+        WHERE TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+        AND restaurantidx = #{restaurantIdx}
+    </select>
+
+</mapper>

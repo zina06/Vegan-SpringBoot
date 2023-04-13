@@ -76,7 +76,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
         String userName = ((User)authResult.getPrincipal()).getUsername();
-        System.out.println(userName+"============================ success");
 
         String jwt = Jwts.builder()
                 .setHeaderParam("type", "jwt")

@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.context.request.WebRequest;
 
 @Configuration
 @EnableWebSecurity
@@ -21,8 +23,8 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
     private CustomUserDetailService customUserDetailService;
 
-    public WebConfig(MemberMapper memberMapper,ManagerMapper managerMapper,
-                     CustomUserDetailService customUserDetailService) {
+    public WebConfig(MemberMapper memberMapper, ManagerMapper managerMapper,
+            CustomUserDetailService customUserDetailService) {
         this.memberMapper = memberMapper;
         this.managerMapper = managerMapper;
         this.customUserDetailService = customUserDetailService;
@@ -34,21 +36,23 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws  Exception{
+    public void configure(WebSecurity web) throws Exception {
         web.ignoring()
                 .antMatchers("/Catchvegan")
                 .antMatchers("/Catchvegan/member/checkid")
-                .antMatchers("/Catchvegan/member/signup");
+                .antMatchers("/Catchvegan/member/signup")
+                .antMatchers("/Catchvegan/owner/signup"); //임시 어드민 가입
         // 이 요청들에 대해서는 spring security 필터 체인을 적용하지 않겠다
     }
 
     @Override
-    public void configure(HttpSecurity http) throws Exception{
+    public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/Catchvegan").permitAll()
                 .antMatchers("/Catchvegan/member/checkid").permitAll()
                 .antMatchers("/Catchvegan/member/signup").permitAll()
+                .antMatchers("/Catchvegan/owner/signup").permitAll()
                 .and()
                 .addFilter(authenticationFilter())
                 .addFilter(JwtFilter()).authorizeRequests()
@@ -61,11 +65,11 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     }
 
     private JwtFilter JwtFilter() throws Exception {
-        return new JwtFilter(authenticationManager(),memberMapper,managerMapper);
+        return new JwtFilter(authenticationManager(), memberMapper, managerMapper);
     }
 
     private AuthenticationFilter authenticationFilter() throws Exception {
-        return new AuthenticationFilter(authenticationManager(),managerMapper,memberMapper);
+        return new AuthenticationFilter(authenticationManager(), managerMapper, memberMapper);
     }
 
     @Override
@@ -73,11 +77,14 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(customUserDetailService).passwordEncoder(passwordEncoder());
     }
 
-    /* 시큐리티 설정 제거
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeRequests().antMatchers("/").permitAll().and().build();
-    }
-    */
+    /*
+     * 시큐리티 설정 제거
+     * 
+     * @Bean
+     * public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
+     * Exception {
+     * return http.authorizeRequests().antMatchers("/").permitAll().and().build();
+     * }
+     */
 
 }

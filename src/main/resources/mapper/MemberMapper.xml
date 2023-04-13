@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kosa.Catchvegan.Mapper.MemberMapper">
+
     <select id="findAllMembers" resultType="MemberDTO">
         select * from member WHERE withdraw = 'x'
     </select>
@@ -52,6 +53,27 @@
         select id from member where id=#{id}
     </select>
 
+    <update id="passwordGet" >
+        update member set password = #{password} where id = #{id}
+    </update>
 
+    <update id="userRemove">
+        update member
+        set withdraw = 'o'
+        where id = #{id}
+    </update>
+
+    <delete id="userDelete">
+        delete from member where id = #{id}
+    </delete>
+
+    <update id="userUpdate">
+        update member
+        set password = #{password},
+            phone = #{phone},
+            email = #{email},
+            vegantype = #{vegantype}
+        where id = #{id}
+    </update>
 
 </mapper>

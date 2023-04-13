@@ -90,14 +90,12 @@
 			<artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
 			<version>1.16</version>
 		</dependency>
-
 		<!-- jwt-->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
-
 		<!-- 에러해결-->
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
