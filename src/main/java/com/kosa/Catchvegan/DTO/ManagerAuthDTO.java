@@ -1,20 +1,14 @@
 package com.kosa.Catchvegan.DTO;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ManagerDTO {
+public class ManagerAuthDTO {
     private Integer manageridx;
-    private Integer restaurantIdx;
-    private String id;
-    private String password;
-
-    private List<ManagerAuthDTO> roles;
-
+    private String auth;
 }

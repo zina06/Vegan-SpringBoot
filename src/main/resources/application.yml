@@ -2,6 +2,9 @@ server:
   port: 8082
 
 spring:
+  messages:
+    basename: message
+
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: "jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"
