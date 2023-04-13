@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberAuthDTO {
 
-    private Integer memberidx;
+    private Integer memberIdx;
     private String auth;
 
 }

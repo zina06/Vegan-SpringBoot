@@ -2,6 +2,7 @@ package com.kosa.Catchvegan.Service;
 
 import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.MemberDTO;
+import com.kosa.Catchvegan.DTO.ReserveDTO;
 import com.kosa.Catchvegan.Mapper.ManagerMapper;
 import com.kosa.Catchvegan.Mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class MemberServiceImpl implements MemberService{
         String pw = member.getPassword();
         member.setPassword(pe.encode(pw));
         memberMapper.createMember(member);
-        memberMapper.userRole(member.getMemberidx());
+        memberMapper.userRole(member.getMemberIdx());
         return null;
     }
 
@@ -56,7 +57,7 @@ public class MemberServiceImpl implements MemberService{
         String pw = manager.getPassword();
         manager.setPassword(pe.encode(pw));
         managerMapper.createManager(manager);
-        managerMapper.managerRole(manager.getManageridx());
+        managerMapper.managerRole(manager.getManagerIdx());
         return null;
     }
 
@@ -69,5 +70,8 @@ public class MemberServiceImpl implements MemberService{
     public ManagerDTO managerGetUserByIdAndPassword(String id) {
         return managerMapper.managerGetUserByIdAndPassword(id);
     }
+
+
+
 
 }

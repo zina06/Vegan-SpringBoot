@@ -1,11 +1,13 @@
 package com.kosa.Catchvegan.Service;
 
+import com.kosa.Catchvegan.DTO.PaymentDTO;
 import com.kosa.Catchvegan.DTO.ReserveDTO;
 import com.kosa.Catchvegan.DTO.RestaurantDTO;
 import com.kosa.Catchvegan.DTO.TimeDTO;
 import com.kosa.Catchvegan.Mapper.ReserveMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,6 +23,7 @@ public class ReserveServiceImpl implements ReserveService{
         return mapper.restaurantDetail(restaurantIdx);
     }
 
+    @Transactional
     @Override
     public TimeDTO reserveDate(ReserveDTO reserveDTO) {
         int totalResCount18=0;
@@ -79,5 +82,21 @@ public class ReserveServiceImpl implements ReserveService{
         dto.setSevenHalf(restaurantDTO.getLimitPerson()-totalResCount1930);
         dto.setEight(restaurantDTO.getLimitPerson()-totalResCount20);
         return dto;
+    }
+
+    @Override
+    public Long reserveRes(ReserveDTO reserveDTO) {
+        mapper.reserveRes(reserveDTO);
+        return reserveDTO.getReserveIdx();
+    }
+
+    @Override
+    public void reservePay(PaymentDTO paymentDTO) {
+        mapper.reservePay(paymentDTO);
+    }
+
+    @Override
+    public int deleteReserve(ReserveDTO reserveDTO) {
+        return mapper.deleteReserve(reserveDTO);
     }
 }

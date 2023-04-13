@@ -1,5 +1,6 @@
 package com.kosa.Catchvegan.Service;
 
+import com.kosa.Catchvegan.DTO.PaymentDTO;
 import com.kosa.Catchvegan.DTO.ReserveDTO;
 import com.kosa.Catchvegan.DTO.RestaurantDTO;
 import com.kosa.Catchvegan.DTO.TimeDTO;
@@ -11,5 +12,9 @@ public interface ReserveService {
 
     public TimeDTO reserveDate(ReserveDTO reserveDTO);
 
+    public Long reserveRes(ReserveDTO reserveDTO);
 
+    public void reservePay(PaymentDTO paymentDTO);
+
+    public int deleteReserve(ReserveDTO reserveDTO);
 }

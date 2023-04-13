@@ -15,4 +15,5 @@ public class PaymentDTO {
     private Integer payAmount;
     private Date payDate;
     private String payInfo;
+    private String tid;
 }

@@ -36,6 +36,36 @@
         AND restaurantidx = #{restaurantIdx}
     </select>
 
+    <insert id="reserveRes">
+        <selectKey resultType="java.lang.Long" keyProperty="reserveIdx" order="BEFORE">
+            SELECT reserveseq.nextval FROM dual
+        </selectKey>
+        insert into reserve values(
+                                #{reserveIdx},
+                                #{memberIdx},
+                                #{restaurantIdx},
+                                #{reserveDate},
+                                #{resCount},
+                                'x',
+                                'x'
+        )
+    </insert>
+
+    <insert id="reservePay">
+        insert into payment values(
+                                   payseq.nextval,
+                                   #{reserveIdx},
+                                   #{payAmount},
+                                   sysdate,
+                                   #{payInfo},
+                                   #{tid}
+            )
+    </insert>
+
+    <delete id="deleteReserve">
+        delete from reserve
+        where reserveidx = #{reserveIdx}
+    </delete>
     <select id="reserveDateAlert" resultMap="reserveMap">
         SELECT * FROM reserve , member
            where reserve.memberidx = member.memberidx
