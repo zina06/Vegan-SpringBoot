@@ -18,4 +18,5 @@ public interface ReserveMapper {
     public void reservePay(PaymentDTO paymentDTO);
 
     public int  deleteReserve(ReserveDTO reserveDTO);
+    public List<ReserveDTO> reserveDateAlert(ReserveDTO reserveDTO);
 }
