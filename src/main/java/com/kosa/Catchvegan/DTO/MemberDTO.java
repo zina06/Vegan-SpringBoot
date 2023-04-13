@@ -10,13 +10,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberDTO {
-    private Integer memberidx;
+    private Integer memberIdx;
     private String id;
     private String password;
     private String name;
     private String phone;
     private String email;
-    private String vegantype;
+    private String veganType;
     private String withdraw;
 
     private List<MemberAuthDTO> roles;

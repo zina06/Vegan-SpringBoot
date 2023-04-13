@@ -1,6 +1,7 @@
 package com.kosa.Catchvegan.mapper;
 
 
+import com.kosa.Catchvegan.DTO.PaymentDTO;
 import com.kosa.Catchvegan.DTO.ReserveDTO;
 import com.kosa.Catchvegan.Mapper.ReserveMapper;
 import org.junit.Test;
@@ -18,12 +19,30 @@ public class ReserveMapperTest {
 
     @Autowired
     private ReserveMapper mapper;
+//    @Test
+//    public void test1(){
+//        ReserveDTO reserveDTO = new ReserveDTO();
+//        reserveDTO.setReserveDate(new Date());
+//        reserveDTO.setRestaurantIdx(5);
+//        System.out.println(mapper.reserveDate(reserveDTO));
+//    }
+
+//    @Test
+//    public void test1(){
+//        ReserveDTO reserveDTO = new ReserveDTO();
+//        reserveDTO.setReserveDate(new Date());
+//        reserveDTO.setRestaurantIdx(5);
+//        reserveDTO.setMemberIdx(1);
+//        reserveDTO.setResCount(4);
+//        mapper.reserveRes(reserveDTO);
+//    }
     @Test
     public void test1(){
-        ReserveDTO reserveDTO = new ReserveDTO();
-        reserveDTO.setReserveDate(new Date());
-        reserveDTO.setRestaurantIdx(5);
-        System.out.println(mapper.reserveDate(reserveDTO));
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setTid("123");
+        paymentDTO.setReserveIdx(9);
+        paymentDTO.setPayAmount(1000);
+        paymentDTO.setPayInfo("");
+        mapper.reservePay(paymentDTO);
     }
-
 }

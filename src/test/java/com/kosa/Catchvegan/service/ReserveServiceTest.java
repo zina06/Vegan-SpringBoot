@@ -18,12 +18,20 @@ public class ReserveServiceTest {
 
     @Autowired
     private ReserveService service;
+//    @Test
+//    public void test1(){
+//        ReserveDTO reserveDTO = new ReserveDTO();
+//        reserveDTO.setReserveDate(new Date());
+//        reserveDTO.setRestaurantIdx(5);
+//        System.out.println(service.reserveDate(reserveDTO));
+//    }
     @Test
     public void test1(){
         ReserveDTO reserveDTO = new ReserveDTO();
+        reserveDTO.setMemberIdx(1);
+        reserveDTO.setResCount(13);
         reserveDTO.setReserveDate(new Date());
         reserveDTO.setRestaurantIdx(5);
-        System.out.println(service.reserveDate(reserveDTO));
+        System.out.println(service.reserveRes(reserveDTO));
     }
-
 }

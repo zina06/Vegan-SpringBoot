@@ -16,21 +16,21 @@ public class KakaoPayService {
 
     private KakaoReadyResponseDTO kakaoReady;
 
-    public KakaoReadyResponseDTO kakaoPayReady(String name, int persons, int total){
+    public KakaoReadyResponseDTO kakaoPayReady(String name, int persons, int total, Long reserveIdx){
 
         // 카카오페이 요청 양식
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", "TC0ONETIME");
-        parameters.add("partner_order_id", "가맹점 주문 번호");
+        parameters.add("partner_order_id", Long.toString(reserveIdx));
         parameters.add("partner_user_id", "가맹점 회원 ID");
         parameters.add("item_name", name);
         parameters.add("quantity", Integer.toString(persons));
         parameters.add("total_amount", Integer.toString(total));
         parameters.add("vat_amount", "0");
         parameters.add("tax_free_amount", "0");
-        parameters.add("approval_url", "http://localhost:8082/Catchvegan/reserve/success"); // 성공 시 redirect url
-        parameters.add("cancel_url", "http://localhost:8082/Catchvegan/reserve/cancel"); // 취소 시 redirect url
-        parameters.add("fail_url", "http://localhost:8082/Catchvegan/reserve/fail"); // 실패 시 redirect url
+        parameters.add("approval_url", "http://localhost:8082/Catchvegan/reserve/success/"+Long.toString(reserveIdx)); // 성공 시 redirect url
+        parameters.add("cancel_url", "http://localhost:8082/Catchvegan/reserve/cancel/"+Long.toString(reserveIdx)); // 취소 시 redirect url
+        parameters.add("fail_url", "http://localhost:8082/Catchvegan/reserve/fail/"+Long.toString(reserveIdx)); // 실패 시 redirect url
 
         // 파라미터, 헤더
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
@@ -46,13 +46,13 @@ public class KakaoPayService {
         return kakaoReady;
     }
 
-    public KakaoApproveResponseDTO approveResponse(String pgToken) {
+    public KakaoApproveResponseDTO approveResponse(String pgToken, Long reserveIdx) {
 
         // 카카오 요청
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", "TC0ONETIME");
         parameters.add("tid", kakaoReady.getTid());
-        parameters.add("partner_order_id", "가맹점 주문 번호");
+        parameters.add("partner_order_id", Long.toString(reserveIdx));
         parameters.add("partner_user_id", "가맹점 회원 ID");
         parameters.add("pg_token", pgToken);
 
