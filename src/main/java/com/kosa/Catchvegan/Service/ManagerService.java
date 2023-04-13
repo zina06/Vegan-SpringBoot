@@ -1,5 +1,6 @@
 package com.kosa.Catchvegan.Service;
 
+import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.MemberDTO;
 import com.kosa.Catchvegan.DTO.ReserveDTO;
 import com.kosa.Catchvegan.DTO.RestaurantDTO;
@@ -11,4 +12,14 @@ public interface ManagerService  {
     public void updaterestaurant(RestaurantDTO restaurantDTO);
     public List<ReserveDTO> reservememberlist(int restaurantIdx);
     public void confirmstatus(ReserveDTO reserveDTO);
+
+
+    //Manager create
+    public List<ManagerDTO> findAllManagers();
+
+    public ManagerDTO createManager(ManagerDTO manager);
+
+    public boolean managerIdGet(String id);
+
+    public ManagerDTO managerGetUserByIdAndPassword(String id);
 }

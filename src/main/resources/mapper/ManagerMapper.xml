@@ -16,13 +16,13 @@
     </resultMap>
 
     <resultMap id="memberMap" type="MemberDto">
-        <result column="memberidx" property="memberidx"/>
+        <result column="memberidx" property="memberIdx"/>
         <result column="id" property="id"/>
         <result column="password" property="password"/>
         <result column="name" property="name"/>
         <result column="phone" property="phone"/>
         <result column="email" property="email"/>
-        <result column="vegantype" property="vegantype"/>
+        <result column="vegantype" property="veganType"/>
         <result column="withdraw" property="withdraw"/>
     </resultMap>
 
@@ -77,32 +77,36 @@
                     where reserveidx=#{reserveIdx}
     </update>
 
+
+
+
+
     <select id="findAllManagers" resultType="ManagerDTO">
         select * from manager
     </select>
 
     <insert id="createManager">
-        <selectKey keyProperty="manageridx" keyColumn="manageridx" order="BEFORE" resultType="Integer">
+        <selectKey keyProperty="manageridx" keyColumn="managerIdx" order="BEFORE" resultType="Integer">
             select managerseq.nextval from dual
         </selectKey>
-        insert into manager(manageridx,restaurantIdx,id,password)
-        values(#{manageridx},#{restaurantIdx},#{id},#{password})
+        insert into manager(manageridx,restaurantidx,id,password)
+        values(#{managerIdx},#{restaurantIdx},#{id},#{password})
     </insert>
 
     <insert id ="managerRole">
-        insert into managerauth values(#{manageridx}, 'ROLE_MANAGER')
+        insert into managerauth values(#{managerIdx}, 'ROLE_MANAGER')
     </insert>
 
     <resultMap id="veganmanager" type="ManagerDTO">
-        <id column="manageridx" property="manageridx" />
-        <result column="restaurantIdx" property="restaurantIdx" />
+        <id column="manageridx" property="managerIdx" />
+        <result column="restaurantidx" property="restaurantIdx" />
         <result column="id" property="id" />
         <result column="password" property="password" />
         <collection property="roles" resultMap="auth" />
     </resultMap>
 
     <resultMap type="ManagerAuthDTO" id="auth">
-        <result column="manageridx" property="manageridx"/>
+        <result column="manageridx" property="managerIdx"/>
         <result column="auth" property="auth"/>
     </resultMap>
 
