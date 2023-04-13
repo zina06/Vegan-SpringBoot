@@ -22,8 +22,7 @@ public class ReserveMapperTest {
     public void test1(){
         ReserveDTO reserveDTO = new ReserveDTO();
         reserveDTO.setReserveDate(new Date());
-        reserveDTO.setRestaurantIdx(5);
-        System.out.println(mapper.reserveDate(reserveDTO));
+        System.out.println(mapper.reserveDateAlert(reserveDTO));
     }
 
 }

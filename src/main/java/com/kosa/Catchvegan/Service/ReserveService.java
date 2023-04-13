@@ -10,4 +10,6 @@ public interface ReserveService {
     public RestaurantDTO restaurantDetail(int restaurantIdx);
 
     public TimeDTO reserveDate(ReserveDTO reserveDTO);
+
+
 }
