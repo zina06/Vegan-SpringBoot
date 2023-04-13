@@ -17,4 +17,6 @@ public class ReserveDTO {
     private Integer resCount;
     private String visitStatus;
     private String cancelStatus;
+
+    private MemberDTO memberDTO;
 }

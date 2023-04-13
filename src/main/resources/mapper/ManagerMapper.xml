@@ -4,6 +4,79 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kosa.Catchvegan.Mapper.ManagerMapper">
+    <resultMap id="reserveMap" type="ReserveDto">
+        <result column="reserveIdx" property="reserveIdx"/>
+        <result column="memberIdx" property="memberIdx"/>
+        <result column="restaurantIdx" property="restaurantIdx"/>
+        <result column="reserveDate" property="reserveDate"/>
+        <result column="resCount" property="resCount"/>
+        <result column="visitStatus" property="visitStatus"/>
+        <result column="cancelStatus" property="cancelStatus"/>
+        <association property="memberDTO" resultMap="memberMap"/>
+    </resultMap>
+
+    <resultMap id="memberMap" type="MemberDto">
+        <result column="memberidx" property="memberidx"/>
+        <result column="id" property="id"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="vegantype" property="vegantype"/>
+        <result column="withdraw" property="withdraw"/>
+    </resultMap>
+
+    <!--  식당정보 불러오기-->
+    <select id="restaurantmanage" resultType="RestaurantDto">
+        select
+            *
+            from restaurant r
+                left outer join manager m
+                on r.restaurantIdx=m.restaurantIdx
+                    where managerIdx=#{managerIdx}
+
+
+    </select>
+
+    <!--  식당정보 수정하기-->
+    <update id="updaterestaurant" parameterType="RestaurantDto">
+        update
+            restaurant
+                set
+                    name=#{name},
+                    menu=#{menu},
+                    restaurantinfo=#{restaurantInfo},
+                    images=#{images},
+                    reservepay=#{reservePay},
+                    limitperson=#{limitPerson}
+                        where restaurantidx=#{restaurantIdx}
+
+    </update>
+
+    <!--  예약자목록 불러오기-->
+    <select id="reservememberlist" resultMap="reserveMap">
+        select
+            m.name,
+            m.phone,
+            r.reserveDate,
+            r.rescount,
+            r.visitStatus,
+            r.cancelStatus
+            from member m
+                 left outer join reserve r
+                 on m.memberIdx=r.memberIdx
+                    where r.restaurantidx=#{restaurantIdx}
+    </select>
+
+    <!-- 방문완료한 회원의 상태 변경-->
+    <update id="confirmstatus">
+        update
+            reserve
+                set
+                  visitstatus=#{visitStatus}
+                    where reserveidx=#{reserveIdx}
+    </update>
+
     <select id="findAllManagers" resultType="ManagerDTO">
         select * from manager
     </select>
