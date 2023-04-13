@@ -8,5 +8,10 @@
         select * from restaurant where restaurantidx = #{restaurantIdx}
     </select>
 
+    <select id="reserveDate" resultType="ReserveDTO">
+        SELECT * FROM reserve
+        WHERE TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+        AND restaurantidx = #{restaurantIdx}
+    </select>
 
 </mapper>
