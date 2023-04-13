@@ -11,4 +11,5 @@ public interface ReserveMapper {
     public RestaurantDTO restaurantDetail(int restaurantIdx);
 
     public List<ReserveDTO> reserveDate(ReserveDTO reserveDTO);
+    public List<ReserveDTO> reserveDateAlert(ReserveDTO reserveDTO);
 }
