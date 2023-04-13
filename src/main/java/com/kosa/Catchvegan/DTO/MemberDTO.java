@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,5 +19,6 @@ public class MemberDTO {
     private String vegantype;
     private String withdraw;
 
-//    private List<MemberAuthDTO> roles;
+    private List<MemberAuthDTO> roles;
+
 }

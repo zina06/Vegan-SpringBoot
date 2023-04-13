@@ -77,5 +77,48 @@
                     where reserveidx=#{reserveIdx}
     </update>
 
+    <select id="findAllManagers" resultType="ManagerDTO">
+        select * from manager
+    </select>
+
+    <insert id="createManager">
+        <selectKey keyProperty="manageridx" keyColumn="manageridx" order="BEFORE" resultType="Integer">
+            select managerseq.nextval from dual
+        </selectKey>
+        insert into manager(manageridx,restaurantIdx,id,password)
+        values(#{manageridx},#{restaurantIdx},#{id},#{password})
+    </insert>
+
+    <insert id ="managerRole">
+        insert into managerauth values(#{manageridx}, 'ROLE_MANAGER')
+    </insert>
+
+    <resultMap id="veganmanager" type="ManagerDTO">
+        <id column="manageridx" property="manageridx" />
+        <result column="restaurantIdx" property="restaurantIdx" />
+        <result column="id" property="id" />
+        <result column="password" property="password" />
+        <collection property="roles" resultMap="auth" />
+    </resultMap>
+
+    <resultMap type="ManagerAuthDTO" id="auth">
+        <result column="manageridx" property="manageridx"/>
+        <result column="auth" property="auth"/>
+    </resultMap>
+
+    <select id="managerGetUserByIdAndPassword" resultMap="veganmanager">
+        select mg.id,password,auth
+        from manager mg, managerauth ma
+        where mg.manageridx = ma.manageridx(+)
+          and mg.id = #{id}
+    </select>
+
+    <select id="managerGet" resultType="ManagerDTO">
+        SELECT id, name FROM manager WHERE id = #{id}
+    </select>
+
+    <select id="managerIdGet" resultType="ManagerDTO">
+        select id from manager where id=#{id}
+    </select>
 
 </mapper>
