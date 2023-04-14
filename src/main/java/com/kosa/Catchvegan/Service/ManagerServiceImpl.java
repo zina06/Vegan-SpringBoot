@@ -24,8 +24,8 @@ public class ManagerServiceImpl implements ManagerService{
     }
 
     @Override
-    public List<ReserveDTO> reservememberlist(int restaurantIdx) {
-        return managerMapper.reservememberlist(restaurantIdx);
+    public List<ReserveDTO> reservememberlist(ReserveDTO reserveDTO) {
+        return managerMapper.reservememberlist(reserveDTO);
     }
 
     @Override
