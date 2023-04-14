@@ -18,7 +18,7 @@ public interface ManagerMapper {
     public List<ManagerDTO> findAllManagers();
     public Long createManager(ManagerDTO manager);
 
-    public void managerRole(@Param("manageridx") Integer manageridx);
+    public void managerRole(@Param("managerIdx") Integer managerIdx);
 
     public ManagerDTO managerGetUserByIdAndPassword(@Param("id") String id);
     public ManagerDTO managerIdGet(@Param("id") String id);

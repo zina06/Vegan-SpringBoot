@@ -2,6 +2,7 @@ package com.kosa.Catchvegan.Controller;
 
 import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.MemberDTO;
+import com.kosa.Catchvegan.Security.JwtFilter;
 import com.kosa.Catchvegan.Service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,9 +36,9 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/member/aftersignup")
+    @PostMapping ("/member/aftersignup")
     public String aftersignup(){
-        return "aftersignup";
+        return "여기는 토큰있는사람만 올수있어";
     }
 
 }
