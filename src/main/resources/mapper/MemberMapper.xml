@@ -10,7 +10,7 @@
     </select>
 
     <insert id="createMember">
-        <selectKey keyProperty="memberidx" keyColumn="memberIdx" order="BEFORE" resultType="Integer">
+        <selectKey keyProperty="memberIdx" keyColumn="memberIdx" order="BEFORE" resultType="Integer">
             select memberseq.nextval from dual
         </selectKey>
         insert into member(memberidx,id,password,name,phone,email,vegantype)

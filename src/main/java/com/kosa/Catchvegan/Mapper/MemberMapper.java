@@ -12,7 +12,7 @@ public interface MemberMapper {
     public List<MemberDTO> findAllMembers();
     public Long createMember(MemberDTO member);
 
-    public void userRole(@Param("memberidx") Integer memberidx);
+    public void userRole(@Param("memberIdx") Integer memberIdx);
 
     public MemberDTO getUserByIdAndPassword(@Param("id") String id);
     public MemberDTO idGet(@Param("id") String id);

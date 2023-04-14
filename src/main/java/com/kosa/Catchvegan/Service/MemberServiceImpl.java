@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class MemberServiceImpl implements MemberService{
         return memberMapper.findAllMembers();
     }
     @Override
+    @Transactional
     public MemberDTO createMember(MemberDTO member){
         String pw = member.getPassword();
         member.setPassword(pe.encode(pw));
@@ -43,37 +45,5 @@ public class MemberServiceImpl implements MemberService{
     public MemberDTO getUserByIdAndPassword(String id) {
         return memberMapper.getUserByIdAndPassword(id);
     }
-
-
-<<<<<<< HEAD
-=======
-    //Manager
-    @Override
-    public List<ManagerDTO> findAllManagers() {
-        return managerMapper.findAllManagers();
-    }
-
-    @Override
-    public ManagerDTO createManager(ManagerDTO manager) {
-        String pw = manager.getPassword();
-        manager.setPassword(pe.encode(pw));
-        managerMapper.createManager(manager);
-        managerMapper.managerRole(manager.getManagerIdx());
-        return null;
-    }
-
-    @Override
-    public boolean managerIdGet(String id) {
-        return managerMapper.managerIdGet(id) == null? false : true;
-    }
-
-    @Override
-    public ManagerDTO managerGetUserByIdAndPassword(String id) {
-        return managerMapper.managerGetUserByIdAndPassword(id);
-    }
->>>>>>> 1abfa0db33cc6f1e4d3c431ec5e9fe1361812dea
-
-
-
 
 }
