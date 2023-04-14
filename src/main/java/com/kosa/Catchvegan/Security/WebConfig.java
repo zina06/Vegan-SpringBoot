@@ -55,6 +55,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/Catchvegan/member/checkid").permitAll()
                 .antMatchers("/Catchvegan/member/signup").permitAll()
                 .antMatchers("/Catchvegan/manager/signup").permitAll()
+                .antMatchers("/Catchvegan/member/aftersignup").access("hasRole('ROLE_USER')")
                 .and()
                 .addFilter(authenticationFilter())
                 .addFilter(JwtFilter()).authorizeRequests()

@@ -63,12 +63,22 @@ public class JwtFilter extends BasicAuthenticationFilter {
                         .authorities(memberDTO.getRoles().stream().map(auth -> new SimpleGrantedAuthority(auth.getAuth()))
                                 .collect(Collectors.toList()))
                         .build();
-                Authentication authentication = new UsernamePasswordAuthenticationToken(
-                        user,
-                        memberDTO.getPassword(),
-                        memberDTO.getRoles().stream().map(auth -> new SimpleGrantedAuthority(auth.getAuth()))
-                                .collect(Collectors.toList()));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+//                Authentication authentication = new UsernamePasswordAuthenticationToken(
+//                        user,
+//                        memberDTO.getPassword(),
+//                        memberDTO.getRoles().stream().map(auth -> new SimpleGrantedAuthority(auth.getAuth()))
+//                                .collect(Collectors.toList()));
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                if (authentication != null && authentication.isAuthenticated() && authentication.getAuthorities().stream()
+                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_USER"))) {
+                    System.out.println("통과통과통괕와토나ㅓ람넉우하ㅣㅓㅁ우하ㅓㅁㅋㅇ궇");
+                    filterChain.doFilter(request, response);
+                } else {
+                    // 권한이 없으면 거부 처리 또는 다른 처리를 수행
+                    // 예를 들어, 응답 상태 코드를 변경하거나 예외를 던질 수 있음
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                }
                 filterChain.doFilter(request2, response2);
             } else if (managerDTO != null) {
                 UserDetails user = User.builder()
