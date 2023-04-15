@@ -1,9 +1,12 @@
 package com.kosa.Catchvegan.Service;
 
+import com.kosa.Catchvegan.DTO.MemberDTO;
 import com.kosa.Catchvegan.DTO.ReviewDTO;
 import com.kosa.Catchvegan.Mapper.ReviewMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ReviewServiceImpl implements ReviewService{
@@ -29,6 +32,11 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public void reviewDelete(int reviewIdx) {
         mapper.deleteReview(reviewIdx);
+    }
+
+    @Override
+    public List<MemberDTO> oneMemberAllReview(MemberDTO memberDTO) {
+        return mapper.oneMemberAllReview(memberDTO);
     }
 
 

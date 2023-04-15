@@ -1,5 +1,6 @@
 package com.kosa.Catchvegan.Controller;
 
+import com.kosa.Catchvegan.DTO.MemberDTO;
 import com.kosa.Catchvegan.DTO.RestaurantDTO;
 import com.kosa.Catchvegan.DTO.ReviewDTO;
 import com.kosa.Catchvegan.Service.ReserveService;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/Catchvegan")
@@ -45,5 +47,13 @@ public class ReviewController {
     public ResponseEntity<ReviewDTO> reviewDelete(@PathVariable int reviewIdx){
         service.reviewDelete(reviewIdx);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/member/mypage/{memberIdx}")
+    public ResponseEntity<List<MemberDTO>> oneMemberAllReview(@PathVariable int memberIdx){
+        MemberDTO dto = new MemberDTO();
+        dto.setMemberIdx(memberIdx);
+
+        return new ResponseEntity<>(service.oneMemberAllReview(dto), HttpStatus.OK);
     }
 }

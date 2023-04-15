@@ -20,5 +20,5 @@ public class MemberDTO {
     private String withdraw;
 
     private List<MemberAuthDTO> roles;
-
+    private List<ReviewDTO> reviewDTOList; // 추가
 }

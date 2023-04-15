@@ -17,4 +17,16 @@ public class MyDiningServiceImpl implements MyDiningService{
     public List<ReserveDTO> getReserves(MemberDTO dto) {
         return mapper.getReserves(dto);
     }
+
+    @Override
+    public List<ReserveDTO> getVisitCompleted(MemberDTO dto) {
+        return mapper.getVisitCompleted(dto);
+    }
+
+    @Override
+    public List<ReserveDTO> getReserveCancel(MemberDTO dto) {
+        return mapper.getReserveCancel(dto);
+    }
+
+
 }

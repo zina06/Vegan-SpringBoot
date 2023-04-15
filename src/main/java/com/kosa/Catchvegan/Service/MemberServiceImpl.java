@@ -46,4 +46,9 @@ public class MemberServiceImpl implements MemberService{
         return memberMapper.getUserByIdAndPassword(id);
     }
 
+    @Override
+    public void memberUpdate(MemberDTO memberDTO) {
+        memberMapper.memberUpdate(memberDTO);
+    }
+
 }

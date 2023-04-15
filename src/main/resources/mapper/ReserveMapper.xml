@@ -16,13 +16,13 @@
     </resultMap>
 
     <resultMap id="memberMap" type="MemberDTO" >
-        <result column="memberidx" property="memberidx"/>
+        <result column="memberidx" property="memberIdx"/>
         <result column="id" property="id"/>
         <result column="password" property="password"/>
         <result column="name" property="name"/>
         <result column="phone" property="phone"/>
         <result column="email" property="email"/>
-        <result column="vegantype" property="vegantype"/>
+        <result column="vegantype" property="veganType"/>
         <result column="withdraw" property="withdraw"/>
     </resultMap>
 
