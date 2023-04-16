@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ManagerDTO {
-    private Integer manageridx;
+    private Integer managerIdx;
     private Integer restaurantIdx;
     private String id;
     private String password;

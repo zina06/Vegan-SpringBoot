@@ -17,3 +17,28 @@ mybatis:
 
 logging:
   config: src/main/resources/log4j2.xml
+
+quartz:
+  properties:
+    org:
+      quartz:
+        jobStore:
+          class: org.quartz.impl.jdbcjobstore.JobStoreTX
+          driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+          dataSource: myDataSource
+          tablePrefix: QRTZ_
+        dataSource:
+          myDataSource:
+            driver: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+            URL: jdbc:log4jdbc:oracle:thin:@localhost:1521:xe
+            user: kosa01
+            password: 1234
+        threadPool:
+          threadCount: 3
+twilio:
+  account:
+    sid: ACe7800a91efb2cbb3d1c9fc0e6d83c630
+  auth:
+    token: e46763b4c0c31ecf549e57643c3e7834
+  from:
+    number: +15074458078

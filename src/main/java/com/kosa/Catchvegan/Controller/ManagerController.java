@@ -42,6 +42,14 @@ public class ManagerController {
 //
 //        return map;
 //    }
+    @PostMapping("/manager/signup")
+    public ResponseEntity<String> adminSignup(@RequestBody ManagerDTO managerDTO){
+        System.out.println("나는 어드민으로 가입할꺼야");
+        managerService.createManager(managerDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+  
 
     @GetMapping("/manager/{managerIdx}")
     public Map<String, Object> RestaurantManager(@PathVariable int managerIdx, @RequestParam String reserveDate){
@@ -73,21 +81,6 @@ public class ManagerController {
     }
 
 
-    //식당 정보 불러오기
-//    @GetMapping("/manager/{managerIdx}")
-//    public ResponseEntity<RestaurantDTO> RestaurantManager(@PathVariable int managerIdx){
-//        try {
-//            RestaurantDTO restaurantDTO = managerService.restaurantmanage(managerIdx);
-//
-//            if (restaurantDTO != null) {
-//                return new ResponseEntity<RestaurantDTO>(restaurantDTO, HttpStatus.OK);
-//            }
-//
-//        } catch (Exception e) {
-//            log.error(e.getMessage());
-//        }
-//        return new ResponseEntity<RestaurantDTO>(HttpStatus.NO_CONTENT);
-//    }
 
     //식당 정보 수정
     @PutMapping("/managerupdate")

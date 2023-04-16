@@ -4,6 +4,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kosa.Catchvegan.Mapper.ReserveMapper">
+    <resultMap id="reserveMap" type="ReserveDTO">
+        <result column="reserveIdx" property="reserveIdx"/>
+        <result column="memberIdx" property="memberIdx"/>
+        <result column="restaurantIdx" property="restaurantIdx"/>
+        <result column="reserveDate" property="reserveDate"/>
+        <result column="resCount" property="resCount"/>
+        <result column="visitStatus" property="visitStatus"/>
+        <result column="cancelStatus" property="cancelStatus"/>
+        <association property="memberDTO" resultMap="memberMap"/>
+    </resultMap>
+
+    <resultMap id="memberMap" type="MemberDTO" >
+        <result column="memberidx" property="memberIdx"/>
+        <result column="id" property="id"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="vegantype" property="veganType"/>
+        <result column="withdraw" property="withdraw"/>
+    </resultMap>
+
     <select id="restaurantDetail" resultType="RestaurantDTO">
         select * from restaurant where restaurantidx = #{restaurantIdx}
     </select>
@@ -12,6 +34,42 @@
         SELECT * FROM reserve
         WHERE TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
         AND restaurantidx = #{restaurantIdx}
+    </select>
+
+    <insert id="reserveRes">
+        <selectKey resultType="java.lang.Long" keyProperty="reserveIdx" order="BEFORE">
+            SELECT reserveseq.nextval FROM dual
+        </selectKey>
+        insert into reserve values(
+                                #{reserveIdx},
+                                #{memberIdx},
+                                #{restaurantIdx},
+                                #{reserveDate},
+                                #{resCount},
+                                'x',
+                                'x'
+        )
+    </insert>
+
+    <insert id="reservePay">
+        insert into payment values(
+                                   payseq.nextval,
+                                   #{reserveIdx},
+                                   #{payAmount},
+                                   sysdate,
+                                   #{payInfo},
+                                   #{tid}
+            )
+    </insert>
+
+    <delete id="deleteReserve">
+        delete from reserve
+        where reserveidx = #{reserveIdx}
+    </delete>
+    <select id="reserveDateAlert" resultMap="reserveMap">
+        SELECT * FROM reserve , member
+           where reserve.memberidx = member.memberidx
+        and TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
     </select>
 
 </mapper>

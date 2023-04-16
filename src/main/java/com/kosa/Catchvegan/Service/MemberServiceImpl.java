@@ -2,12 +2,14 @@ package com.kosa.Catchvegan.Service;
 
 import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.MemberDTO;
+import com.kosa.Catchvegan.DTO.ReserveDTO;
 import com.kosa.Catchvegan.Mapper.ManagerMapper;
 import com.kosa.Catchvegan.Mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,21 +18,21 @@ public class MemberServiceImpl implements MemberService{
     @Autowired
     private MemberMapper memberMapper;
     @Autowired
-    private ManagerMapper managerMapper;
-    @Autowired
     private BCryptPasswordEncoder pe;
 
 
     //Member
+    @Override
     public List<MemberDTO> findAllMembers(){
         return memberMapper.findAllMembers();
     }
-
+    @Override
+    @Transactional
     public MemberDTO createMember(MemberDTO member){
         String pw = member.getPassword();
         member.setPassword(pe.encode(pw));
         memberMapper.createMember(member);
-        memberMapper.userRole(member.getMemberidx());
+        memberMapper.userRole(member.getMemberIdx());
         return null;
     }
 
@@ -44,30 +46,11 @@ public class MemberServiceImpl implements MemberService{
         return memberMapper.getUserByIdAndPassword(id);
     }
 
-
-    //Manager
     @Override
-    public List<ManagerDTO> findAllManagers() {
-        return managerMapper.findAllManagers();
-    }
-
-    @Override
-    public ManagerDTO createManager(ManagerDTO manager) {
-        String pw = manager.getPassword();
-        manager.setPassword(pe.encode(pw));
-        managerMapper.createManager(manager);
-        managerMapper.managerRole(manager.getManageridx());
-        return null;
-    }
-
-    @Override
-    public boolean managerIdGet(String id) {
-        return managerMapper.managerIdGet(id) == null? false : true;
-    }
-
-    @Override
-    public ManagerDTO managerGetUserByIdAndPassword(String id) {
-        return managerMapper.managerGetUserByIdAndPassword(id);
+    public void memberUpdate(MemberDTO memberDTO) {
+        String pw = memberDTO.getPassword();
+        memberDTO.setPassword(pe.encode(pw));
+        memberMapper.memberUpdate(memberDTO);
     }
 
 }

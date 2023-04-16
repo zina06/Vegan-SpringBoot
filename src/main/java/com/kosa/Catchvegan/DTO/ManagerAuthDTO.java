@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ManagerAuthDTO {
-    private Integer manageridx;
+    private Integer managerIdx;
     private String auth;
 }

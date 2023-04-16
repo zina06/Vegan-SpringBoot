@@ -1,9 +1,11 @@
 package com.kosa.Catchvegan.Service;
 
+import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.ReserveDTO;
 import com.kosa.Catchvegan.DTO.RestaurantDTO;
 import com.kosa.Catchvegan.Mapper.ManagerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +14,9 @@ import java.util.List;
 public class ManagerServiceImpl implements ManagerService{
     @Autowired
     private ManagerMapper managerMapper;
+
+    @Autowired
+    private BCryptPasswordEncoder pe;
 
     @Override
     public RestaurantDTO restaurantmanage(int managerIdx) {
@@ -33,5 +38,30 @@ public class ManagerServiceImpl implements ManagerService{
         managerMapper.confirmstatus(reserveDTO);
     }
 
+
+    //Manager Create
+    @Override
+    public List<ManagerDTO> findAllManagers() {
+        return managerMapper.findAllManagers();
+    }
+
+    @Override
+    public ManagerDTO createManager(ManagerDTO manager) {
+        String pw = manager.getPassword();
+        manager.setPassword(pe.encode(pw));
+        managerMapper.createManager(manager);
+        managerMapper.managerRole(manager.getManagerIdx());
+        return null;
+    }
+
+    @Override
+    public boolean managerIdGet(String id) {
+        return managerMapper.managerIdGet(id) == null? false : true;
+    }
+
+    @Override
+    public ManagerDTO managerGetUserByIdAndPassword(String id) {
+        return managerMapper.managerGetUserByIdAndPassword(id);
+    }
 
 }
