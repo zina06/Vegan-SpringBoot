@@ -48,6 +48,8 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void memberUpdate(MemberDTO memberDTO) {
+        String pw = memberDTO.getPassword();
+        memberDTO.setPassword(pe.encode(pw));
         memberMapper.memberUpdate(memberDTO);
     }
 
