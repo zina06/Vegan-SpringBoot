@@ -44,4 +44,13 @@ public class MemberController {
         return "여기는 멤버 토큰있는사람만 올수있어";
     }
 
+    @PutMapping("/member/mypage")
+    public ResponseEntity<MemberDTO> memberModify(@RequestBody MemberDTO memberDTO){
+
+        memberService.memberUpdate(memberDTO);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }

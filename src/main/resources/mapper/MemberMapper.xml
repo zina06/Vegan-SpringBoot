@@ -63,13 +63,13 @@
         delete from member where id = #{id}
     </delete>
 
-    <update id="userUpdate">
+    <update id="memberUpdate">
         update member
         set password = #{password},
             phone = #{phone},
             email = #{email},
             vegantype = #{veganType}
-        where id = #{id}
+        where memberidx = #{memberIdx}
     </update>
 
 

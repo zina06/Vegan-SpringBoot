@@ -7,4 +7,9 @@ import java.util.List;
 
 public interface MyDiningService {
     public List<ReserveDTO> getReserves(MemberDTO dto);
+
+    public List<ReserveDTO> getVisitCompleted(MemberDTO dto);
+
+    public List<ReserveDTO> getReserveCancel(MemberDTO dto);
+
 }
