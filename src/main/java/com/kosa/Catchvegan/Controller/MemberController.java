@@ -11,6 +11,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping("/Catchvegan")
 public class MemberController {
 
@@ -40,7 +41,7 @@ public class MemberController {
     @Secured("ROLE_USER")
     @PostMapping ("/member/aftersignup")
     public String aftersignup(){
-        return "여기는 토큰있는사람만 올수있어";
+        return "여기는 멤버 토큰있는사람만 올수있어";
     }
 
 }

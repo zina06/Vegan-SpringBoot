@@ -24,7 +24,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     private CustomUserDetailService customUserDetailService;
 
     public WebConfig(MemberMapper memberMapper, ManagerMapper managerMapper,
-            CustomUserDetailService customUserDetailService) {
+                     CustomUserDetailService customUserDetailService) {
         this.memberMapper = memberMapper;
         this.managerMapper = managerMapper;
         this.customUserDetailService = customUserDetailService;
@@ -82,7 +82,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
     /*
      * 시큐리티 설정 제거
-     * 
+     *
      * @Bean
      * public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
      * Exception {
