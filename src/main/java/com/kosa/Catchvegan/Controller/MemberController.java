@@ -40,4 +40,13 @@ public class MemberController {
         return "aftersignup";
     }
 
+    @PutMapping("/member/mypage")
+    public ResponseEntity<MemberDTO> memberModify(@RequestBody MemberDTO memberDTO){
+
+        memberService.memberUpdate(memberDTO);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }

@@ -22,6 +22,26 @@
         and memberidx = #{memberIdx}
         and visitstatus = 'x'
         and cancelstatus = 'x'
+        and reservedate &gt; SYSTIMESTAMP
+        order by reserveDate
+    </select>
+
+    <select id="getVisitCompleted" resultMap="reserves">
+        select reserveidx, reservedate, rescount, name, city from reserve r, restaurant rt
+        where r.restaurantidx = rt.restaurantidx
+          and memberidx = #{memberIdx}
+          and visitstatus = 'o'
+          and cancelstatus = 'x'
+        order by reserveDate
+    </select>
+
+    <select id="getReserveCancel" resultMap="reserves">
+        select reserveidx, reservedate, rescount, name, city from reserve r, restaurant rt
+        where r.restaurantidx = rt.restaurantidx
+          and memberidx = #{memberIdx}
+          and ((visitstatus = 'x'
+          and cancelstatus = 'o')
+          or (visitstatus = 'x' and reservedate &lt; SYSTIMESTAMP))
         order by reserveDate
     </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.kosa.Catchvegan.Mapper;
 
 import com.kosa.Catchvegan.DTO.MemberDTO;
 import com.kosa.Catchvegan.DTO.ReserveDTO;
+import com.kosa.Catchvegan.DTO.ReviewDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,5 +17,7 @@ public interface MemberMapper {
 
     public MemberDTO getUserByIdAndPassword(@Param("id") String id);
     public MemberDTO idGet(@Param("id") String id);
+
+    public void memberUpdate(MemberDTO memberDTO);
 
 }

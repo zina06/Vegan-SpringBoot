@@ -25,4 +25,18 @@ public class MyDiningController {
         dto.setMemberIdx(memberIdx);
         return new ResponseEntity<>(service.getReserves(dto), HttpStatus.OK);
     }
+
+    @GetMapping("/mydining/getVisitCompleted/{memberIdx}")
+    public ResponseEntity<List<ReserveDTO>> getVisitCompleted(@PathVariable int memberIdx){
+        MemberDTO dto = new MemberDTO();
+        dto.setMemberIdx(memberIdx);
+        return new ResponseEntity<>(service.getVisitCompleted(dto), HttpStatus.OK);
+    }
+
+    @GetMapping("/mydining/getReserveCancel/{memberIdx}")
+    public ResponseEntity<List<ReserveDTO>> getReserveCancel(@PathVariable int memberIdx){
+        MemberDTO dto = new MemberDTO();
+        dto.setMemberIdx(memberIdx);
+        return new ResponseEntity<>(service.getReserveCancel(dto), HttpStatus.OK);
+    }
 }
