@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosa.Catchvegan.Mapper.SearchMapper">
+    <select id="restaurantAllShow" resultType="RestaurantDTO">
+        select * from vegun_data
+    </select>
+    <select id="getAddressWithPagingList"
+            resultType="RestaurantDTO">
+   		<![CDATA[
+        SELECT RESTAURANTIDX, NAME, VEGANTYPE, ADDRESS, CITY, RESTAURANTINFO, MENU, LONGITUDE, LATITUDE, LIMITPERSON, RESERVEPAY, IMAGES
+        FROM (SELECT /*+INDEX_DESC(vegun_data RESTAURANTIDX) */
+                  ROWNUM rn, RESTAURANTIDX, NAME, VEGANTYPE, ADDRESS, CITY, RESTAURANTINFO, MENU, LONGITUDE, LATITUDE, LIMITPERSON, RESERVEPAY, IMAGES
+            FROM vegun_data
+            WHERE CITY = #{keyword}
+            AND
+            (
+                (
+                    VEGANTYPE = #{typeVege} OR
+                    VEGANTYPE = #{typeMilk} OR
+                    VEGANTYPE = #{typeEgg} OR
+                    VEGANTYPE = #{typeFish}
+                )
+                OR
+                (
+                    NULLIF(#{typeVege}, '') is null AND
+                    NULLIF(#{typeMilk}, '') is null AND
+                    NULLIF(#{typeEgg}, '') is null AND
+                    NULLIF(#{typeFish}, '') is null
+                )
+            )
+        AND rownum <= #{pageNum} * #{amount})
+        where rn > (#{pageNum} - 1) * #{amount}
+        ]]>
+	</select>
+
+    <select id="getLocationWithPagingList" resultType="RestaurantDTO">
+        <![CDATA[
+        SELECT RESTAURANTIDX, NAME, VEGANTYPE, ADDRESS, CITY, RESTAURANTINFO, MENU, LONGITUDE, LATITUDE, LIMITPERSON, RESERVEPAY, IMAGES FROM
+            (SELECT /*+INDEX_DESC(vegun_data RESTAURANTIDX) */
+                 ROWNUM rn,  RESTAURANTIDX, NAME, VEGANTYPE, ADDRESS, CITY, RESTAURANTINFO, MENU, LONGITUDE, LATITUDE, LIMITPERSON, RESERVEPAY, IMAGES
+            FROM vegun_data
+            WHERE       (LATITUDE  BETWEEN #{latitude} - 0.019 AND #{latitude} + 0.019)
+                AND     (LONGITUDE BETWEEN #{longitude} - 0.022 AND #{longitude} + 0.022)
+                AND
+                (
+                    (
+                        VEGANTYPE = #{typeVege} OR
+                        VEGANTYPE = #{typeMilk} OR
+                        VEGANTYPE = #{typeEgg} OR
+                        VEGANTYPE = #{typeFish}
+                    )
+                    OR
+                    (
+                        NULLIF(#{typeVege}, '') is null AND
+                        NULLIF(#{typeMilk}, '') is null AND
+                        NULLIF(#{typeEgg}, '') is null AND
+                        NULLIF(#{typeFish}, '') is null
+                    )
+                )
+                AND     rownum <= #{pageNum} * #{amount})
+        where rn > (#{pageNum} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <select id="getAddressList" resultType="String">
+        select CITY from vegun_data
+            GROUP BY CITY
+            ORDER BY CITY
+    </select>
+
+    <select id="getAddressPagingCnt" resultType="Integer">
+        <![CDATA[
+        select count(*)
+        from (select CITY, VEGANTYPE
+              from vegun_data
+              WHERE CITY = #{keyword}
+                AND ((
+                                 VEGANTYPE = #{typeVege} OR
+                                 VEGANTYPE = #{typeMilk} OR
+                                 VEGANTYPE = #{typeEgg} OR
+                                 VEGANTYPE = #{typeFish}
+                         )
+                  OR
+                     (
+                             NULLIF(#{typeVege}, '') is null AND
+                             NULLIF(#{typeMilk}, '') is null AND
+                             NULLIF(#{typeEgg}, '') is null AND
+                             NULLIF(#{typeFish}, '') is null
+                     )))
+        ]]>
+    </select>
+
+    <select id="getLocationPagingCnt" resultType="Integer">
+        <![CDATA[
+        select count(*)
+        from (select LATITUDE, LONGITUDE, VEGANTYPE
+              from vegun_data
+              WHERE (LATITUDE BETWEEN #{latitude} - 0.019 AND #{latitude} + 0.019)
+                AND (LONGITUDE BETWEEN #{longitude} - 0.022 AND #{longitude} + 0.022)
+                AND ((
+                                 VEGANTYPE = #{typeVege} OR
+                                 VEGANTYPE = #{typeMilk} OR
+                                 VEGANTYPE = #{typeEgg} OR
+                                 VEGANTYPE = #{typeFish}
+                         )
+                  OR
+                     (
+                             NULLIF(#{typeVege}, '') is null AND
+                             NULLIF(#{typeMilk}, '') is null AND
+                             NULLIF(#{typeEgg}, '') is null AND
+                             NULLIF(#{typeFish}, '') is null
+                         )))
+        ]]>
+    </select>
+
+</mapper>
