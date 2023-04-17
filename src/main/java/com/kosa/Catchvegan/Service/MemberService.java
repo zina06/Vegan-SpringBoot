@@ -20,7 +20,8 @@ public interface MemberService {
 
     public void memberUpdate(MemberDTO memberDTO);
 
-    public boolean idFindByPhone(String phone);
+    public boolean findByPhone(String phone);
+    public boolean idFindByPhone(String id);
 
     public void passwordUpdate(MemberDTO memberDTO);
 

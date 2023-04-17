@@ -72,6 +72,10 @@
         where memberidx = #{memberIdx}
     </update>
 
+    <select id="findByPhone" resultType="MemberDTO">
+        select phone from member where phone=#{phone}
+    </select>
+
     <select id="idFindByPhone" resultType="MemberDTO">
         select id from member where phone=#{phone}
     </select>

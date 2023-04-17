@@ -55,13 +55,22 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @ResponseBody
-    @GetMapping("/member/findMyId")
-    public ResponseEntity<String> findId(String phone) {
+
+    @GetMapping("/authPhone/{phone}")
+    public ResponseEntity<String> authPhone(@RequestParam String phone){
         String userphone = String.valueOf(memberService.idFindByPhone(phone));
         if(userphone == null)
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("아이디를 찾지 못했습니다.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("핸드폰 번호를 찾을 수 없습니다.");
         return ResponseEntity.ok(userphone);
+    }
+
+    @ResponseBody
+    @GetMapping("/member/findMyId")
+    public ResponseEntity<String> findId(@RequestParam String id) {
+        String userid = String.valueOf(memberService.idFindByPhone(id));
+        if(userid == null)
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("아이디를 찾지 못했습니다.");
+        return ResponseEntity.ok(userid);
     }
 
     @ResponseBody

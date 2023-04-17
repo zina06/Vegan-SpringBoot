@@ -41,9 +41,12 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 //        .antMatchers("/**")
                 .antMatchers("/Catchvegan")
                 .antMatchers("/Catchvegan/error")
-                .antMatchers("/Catchvegan/member/checkid")
+                .antMatchers("/Catchvegan/member/findMyId")
+                .antMatchers("/Catchvegan/member/findMyPassword")
                 .antMatchers("/Catchvegan/member/signup")
-                .antMatchers("/Catchvegan/manager/signup");
+                .antMatchers("/Catchvegan/member/checkid")
+                .antMatchers("/Catchvegan/manager/signup")
+                .antMatchers("/Catchvegan/authPhone/**");
         // 이 요청들에 대해서는 spring security 필터 체인을 적용하지 않겠다
     }
 
@@ -55,9 +58,10 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/Catchvegan/error").permitAll()
                 .antMatchers("/Catchvegan/member/checkid").permitAll()
                 .antMatchers("/Catchvegan/member/signup").permitAll()
-                .antMatchers("/Catchvegan/member/findMyID").permitAll()
+                .antMatchers("/Catchvegan/member/findMyId").permitAll()
                 .antMatchers("/Catchvegan/manager/findMyPassword").permitAll()
                 .antMatchers("/Catchvegan/manager/signup").permitAll()
+                .antMatchers("/Catchvegan/manager/signup/**").permitAll()
                 //.antMatchers("/Catchvegan/member/aftersignup").access("hasRole('ROLE_USER')")
                 .anyRequest().authenticated() // authenticated()는 가장 마지막에 위치하도록 변경
                 .and()

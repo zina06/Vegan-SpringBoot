@@ -54,8 +54,13 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public boolean idFindByPhone(String phone) {
-        return memberMapper.idFindByPhone(phone) == null? false : true;
+    public boolean findByPhone(String phone) {
+        return memberMapper.findByPhone(phone) == null? false : true;
+    }
+
+    @Override
+    public boolean idFindByPhone(String id) {
+        return memberMapper.idFindByPhone(id) == null? false : true;
     }
 
     @Override
