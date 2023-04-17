@@ -20,4 +20,8 @@ public interface MemberMapper {
 
     public void memberUpdate(MemberDTO memberDTO);
 
+    public  MemberDTO idFindByPhone(String phone);
+
+    public void passwordUpdate(MemberDTO memberDTO);
+
 }

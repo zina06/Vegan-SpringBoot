@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -38,17 +41,33 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Secured("ROLE_USER")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping ("/member/aftersignup")
-    public String aftersignup(){
+    public String aftersignup(Principal principal){
+        System.out.println("principal2 = " + principal);
+        System.out.println(principal.getName());
         return "여기는 멤버 토큰있는사람만 올수있어";
     }
 
     @PutMapping("/member/mypage")
     public ResponseEntity<MemberDTO> memberModify(@RequestBody MemberDTO memberDTO){
-
         memberService.memberUpdate(memberDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    @ResponseBody
+    @GetMapping("/member/findMyId")
+    public ResponseEntity<String> findId(String phone) {
+        String userphone = String.valueOf(memberService.idFindByPhone(phone));
+        if(userphone == null)
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("아이디를 찾지 못했습니다.");
+        return ResponseEntity.ok(userphone);
+    }
+
+    @ResponseBody
+    @PostMapping("/member/findMyPassword")
+    public ResponseEntity<String> findPassword(@RequestBody MemberDTO memberDTO) {
+        memberService.passwordUpdate(memberDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

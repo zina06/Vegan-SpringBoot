@@ -80,7 +80,7 @@ public class JwtFilter extends BasicAuthenticationFilter {
                 else {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 }
-                filterChain.doFilter(request2, response2);
+//                filterChain.doFilter(request2, response2);
             } else if (managerDTO != null) {
                 System.out.println("나는어드민이야나는어드민이야나는어드민이야나는어드민이야나는어드민이야나는어드민이야나는어드민이야");
                 UserDetails user = User.builder()
@@ -95,7 +95,7 @@ public class JwtFilter extends BasicAuthenticationFilter {
                         managerDTO.getRoles().stream().map(auth -> new SimpleGrantedAuthority(auth.getAuth()))
                                 .collect(Collectors.toList()));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                System.out.println("authenticationauthenticationauthenticationauthentication" + authentication);
+                System.out.println("authenticationauthenticationauthenticationauthentication" + SecurityContextHolder.getContext().getAuthentication());
                 if (authentication != null && authentication.isAuthenticated() && authentication.getAuthorities().stream()
                         .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_MANAGER"))) {
                     filterChain.doFilter(request, response);
@@ -104,7 +104,7 @@ public class JwtFilter extends BasicAuthenticationFilter {
 //                    System.out.println("430430430430430430430430430403403403403403403403403403");
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 }
-                filterChain.doFilter(request2, response2);
+//                filterChain.doFilter(request2, response2);
             } else {
                 throw new UsernameNotFoundException("유저없음");
             }

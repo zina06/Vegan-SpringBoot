@@ -14,7 +14,7 @@
             select memberseq.nextval from dual
         </selectKey>
         insert into member(memberidx,id,password,name,phone,email,vegantype)
-        values(#{memberIdx},#{id},#{password},#{name},#{phone},#{email},#{veganType})
+        values(#{memberIdx},#{id},#{password},#{name},'+82'||#{phone},#{email},#{veganType})
     </insert>
 
     <insert id ="userRole">
@@ -69,6 +69,16 @@
             phone = #{phone},
             email = #{email},
             vegantype = #{veganType}
+        where memberidx = #{memberIdx}
+    </update>
+
+    <select id="idFindByPhone" resultType="MemberDTO">
+        select id from member where phone=#{phone}
+    </select>
+
+    <update id="passwordUpdate">
+        update member
+        set password = #{password}
         where memberidx = #{memberIdx}
     </update>
 

@@ -49,20 +49,23 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests()
+        http.csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/Catchvegan").permitAll()
                 .antMatchers("/Catchvegan/error").permitAll()
                 .antMatchers("/Catchvegan/member/checkid").permitAll()
                 .antMatchers("/Catchvegan/member/signup").permitAll()
+                .antMatchers("/Catchvegan/member/findMyID").permitAll()
+                .antMatchers("/Catchvegan/manager/findMyPassword").permitAll()
                 .antMatchers("/Catchvegan/manager/signup").permitAll()
-                .antMatchers("/Catchvegan/member/aftersignup").access("hasRole('ROLE_USER')")
+                //.antMatchers("/Catchvegan/member/aftersignup").access("hasRole('ROLE_USER')")
+                .anyRequest().authenticated() // authenticated()는 가장 마지막에 위치하도록 변경
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler())
                 .and()
                 .addFilter(authenticationFilter())
-                .addFilter(JwtFilter()).authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
+                .addFilter(JwtFilter())
                 .formLogin()
                 .and()
                 .logout();
@@ -81,6 +84,10 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(customUserDetailService).passwordEncoder(passwordEncoder());
     }
 
+    @Bean
+    public CustomAccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
     /*
      * 시큐리티 설정 제거
      *
