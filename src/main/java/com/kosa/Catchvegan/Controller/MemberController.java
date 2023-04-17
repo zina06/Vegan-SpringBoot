@@ -1,17 +1,15 @@
 package com.kosa.Catchvegan.Controller;
 
-import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.MemberDTO;
-import com.kosa.Catchvegan.Security.JwtFilter;
+import com.kosa.Catchvegan.Quartz.SignUpSMS;
 import com.kosa.Catchvegan.Service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -20,6 +18,8 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private SignUpSMS signUp;
 
     @GetMapping("")
     public String gomain(){
@@ -41,7 +41,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    //@PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping ("/member/aftersignup")
     public String aftersignup(Principal principal){
         System.out.println("principal2 = " + principal);
@@ -57,21 +57,36 @@ public class MemberController {
 
 
     @GetMapping("/authPhone/{phone}")
-    public ResponseEntity<String> authPhone(@RequestParam String phone){
-        String userphone = String.valueOf(memberService.idFindByPhone(phone));
-        if(userphone == null)
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("핸드폰 번호를 찾을 수 없습니다.");
-        return ResponseEntity.ok(userphone);
+    public ResponseEntity<Map<String, String>> authPhone(@PathVariable String phone) {
+        if (!memberService.findByPhone(phone)) {
+            System.out.println(phone);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("error", "휴대폰 번호를 찾지 못했습니다."));
+        }
+        String authNo = signUp.sendSMS("+82" + phone);
+        Map<String, String> response = new HashMap<>();
+        System.out.println("phonephonephonephonephonephonephonephonephonephone"+phone);
+        System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo"+authNo);
+        response.put("phone", phone);
+        response.put("authNo", authNo);
+        return ResponseEntity.ok(response);
     }
 
+
+    /*
     @ResponseBody
     @GetMapping("/member/findMyId")
     public ResponseEntity<String> findId(@RequestParam String id) {
-        String userid = String.valueOf(memberService.idFindByPhone(id));
-        if(userid == null)
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("아이디를 찾지 못했습니다.");
-        return ResponseEntity.ok(userid);
+        tring authNo = authPhone().getBody().get("authNo");
+        String authNoCheck = String.valueOf(authNo);
+        if(authNo.equals(authNoCheck)) { // 인증번호와 입력한 텍스트가 같으면
+            return new ResponseEntity<>("일치", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("불일치", HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(id);
     }
+    */
+
 
     @ResponseBody
     @PostMapping("/member/findMyPassword")

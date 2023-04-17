@@ -59,6 +59,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/Catchvegan/member/checkid").permitAll()
                 .antMatchers("/Catchvegan/member/signup").permitAll()
                 .antMatchers("/Catchvegan/member/findMyId").permitAll()
+                .antMatchers("/Catchvegan/authPhone/**").permitAll()
                 .antMatchers("/Catchvegan/manager/findMyPassword").permitAll()
                 .antMatchers("/Catchvegan/manager/signup").permitAll()
                 .antMatchers("/Catchvegan/manager/signup/**").permitAll()

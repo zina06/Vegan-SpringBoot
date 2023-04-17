@@ -73,7 +73,7 @@
     </update>
 
     <select id="findByPhone" resultType="MemberDTO">
-        select phone from member where phone=#{phone}
+        select phone from member where phone='+82'||#{phone}
     </select>
 
     <select id="idFindByPhone" resultType="MemberDTO">
