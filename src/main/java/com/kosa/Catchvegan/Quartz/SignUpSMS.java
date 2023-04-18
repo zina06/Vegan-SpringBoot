@@ -10,17 +10,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SignUpSMS {
-    @Value("${twilio.account.sid}")
+    @Value("AC0dfdf07723f0a2c8a520dc69e9019a1c")
     private String sid;
 
-    @Value("${twilio.auth.token}")
+    @Value("fe1d2e5b849922dcae4b382512fee51e")
     private String token;
 
     @Autowired
     MemberMapper memberMapper;
 
-    // SMS 전송
-    public String sendSMS (String phone) {
+    // 회원가입 SMS 전송
+    public String sendSingupSMS (String phone) {
         Twilio.init(sid,token);
         // 휴대폰 인증번호 생성
         int authNo = randomRange(100000, 999999);
@@ -33,10 +33,31 @@ public class SignUpSMS {
                 // to
                 new PhoneNumber(sendTarget),
                 // from
-                new PhoneNumber("+15074458078"),
+                new PhoneNumber("+16205165212"),
                 // message
                 authMsg).create();
         return String.valueOf(authNo);
+    }
+
+
+    // 아이디 찾기 SMS 전송
+    public int sendIdSMS(String phone) {
+        Twilio.init(sid,token);
+        // 휴대폰 인증번호 생성
+        int authNo = randomRange(100000, 999999);
+        // 전송대상 휴대폰 번호
+        String sendTarget = phone;
+        // 전송 메세지
+        System.out.println(phone);
+        String authMsg = "Catchvegan ID 찾기 인증 번호 [" + authNo + "] 입니다" ;
+        Message message = Message.creator(
+                // to
+                new PhoneNumber(sendTarget),
+                // from
+                new PhoneNumber("+16205165212"),
+                // message
+                authMsg).create();
+        return authNo;
     }
 
     // 인증번호 범위 지정

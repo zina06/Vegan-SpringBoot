@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.Session;
 import java.security.Principal;
 import java.util.*;
 
@@ -37,6 +38,7 @@ public class MemberController {
 
     @PostMapping("/member/signup")
     public ResponseEntity<String> signup(@RequestBody MemberDTO memberDTO) {
+        this.authPhone(memberDTO.getPhone());
         memberService.createMember(memberDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -55,37 +57,43 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-    @GetMapping("/authPhone/{phone}")
+    // 회원 가입 할때만 인증번호만 보내는 컨트롤러
+    @GetMapping("/authPhone/signup/{phone}")
     public ResponseEntity<Map<String, String>> authPhone(@PathVariable String phone) {
         if (!memberService.findByPhone(phone)) {
-            System.out.println(phone);
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("error", "휴대폰 번호를 찾지 못했습니다."));
         }
-        String authNo = signUp.sendSMS("+82" + phone);
+        String authNo = signUp.sendSingupSMS("+82" + phone);
         Map<String, String> response = new HashMap<>();
-        System.out.println("phonephonephonephonephonephonephonephonephonephone"+phone);
-        System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo"+authNo);
         response.put("phone", phone);
         response.put("authNo", authNo);
+        System.out.println("phonephonephonephonephonephonephonephonephonephone"+phone);
+        System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo"+authNo);
         return ResponseEntity.ok(response);
     }
 
-
-    /*
-    @ResponseBody
-    @GetMapping("/member/findMyId")
-    public ResponseEntity<String> findId(@RequestParam String id) {
-        tring authNo = authPhone().getBody().get("authNo");
-        String authNoCheck = String.valueOf(authNo);
-        if(authNo.equals(authNoCheck)) { // 인증번호와 입력한 텍스트가 같으면
-            return new ResponseEntity<>("일치", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("불일치", HttpStatus.BAD_REQUEST);
+    // ID찾을때만 인증번호만 보내는 컨트롤러
+    @GetMapping("/authPhone/findMyId/{phone}")
+    public ResponseEntity<String> findMyIdauthPhone(@PathVariable String phone) {
+        if (!memberService.findByPhone(phone)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
         }
-        return ResponseEntity.ok(id);
+        int authNum = signUp.sendIdSMS("+82" + phone);
+        String authNo = String.valueOf(authNum);
+        System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo"+authNo);
+//        return ResponseEntity.ok(authNo);
+        return new ResponseEntity<>(authNo, HttpStatus.OK);
     }
-    */
+
+    // ID 반환
+    @ResponseBody
+    @GetMapping("/authPhone/idget/{phone}")
+    public ResponseEntity<String> findId(@PathVariable String phone) {
+        String phone2= "+82"+phone;
+        String id = memberService.idFind(phone2);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
 
 
     @ResponseBody
@@ -94,6 +102,21 @@ public class MemberController {
         memberService.passwordUpdate(memberDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+
+        /*
+    @GetMapping("/member/findMyId")
+    public ResponseEntity<Map<String, String>> findId(@RequestParam String id) {
+        String authNo = signUp.sendSingupSMS("+82" + phone);
+        Map<String, String> response = new HashMap<>();
+        response.put("phone", phone);
+        response.put("authNo", authNo);
+        System.out.println("phonephonephonephonephonephonephonephonephonephone"+phone);
+        System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo"+authNo);
+        return ResponseEntity.ok(response);
+    }
+     */
 
 
 }

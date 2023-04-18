@@ -70,4 +70,10 @@ public class MemberServiceImpl implements MemberService{
         memberMapper.passwordUpdate(memberDTO);
     }
 
+    @Override
+    public String idFind(String phone) {
+        return memberMapper.idFindByPhone(phone).getId();
+    }
+
+
 }

@@ -93,6 +93,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     public CustomAccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler();
     }
+
     /*
      * 시큐리티 설정 제거
      *

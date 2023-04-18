@@ -27,10 +27,11 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("=========== loadUserByUsername 접근 ===========");
         MemberDTO member = memberMapper.getUserByIdAndPassword(username);
         ManagerDTO manager = managerMapper.managerGetUserByIdAndPassword(username);
         if (member != null ){
-            System.out.println("멤버 권한 부여");
+            System.out.println("=========== 멤버 권한 부여 ===========");
             String memberId = member.getId();
             String memberPw = member.getPassword();
             List<GrantedAuthority> authorities = new ArrayList<>();
@@ -41,7 +42,7 @@ public class CustomUserDetailService implements UserDetailsService {
                     .authorities(authorities)
                     .build();
         } else if (manager != null){
-            System.out.println("어드민 권한 부여");
+            System.out.println("=========== 어드민 권한 부여=========== ");
             String managerId = manager.getId();
             String managerPw = manager.getPassword();
             List<GrantedAuthority> authorities = new ArrayList<>();

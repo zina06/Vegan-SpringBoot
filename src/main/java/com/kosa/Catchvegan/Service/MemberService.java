@@ -25,5 +25,7 @@ public interface MemberService {
 
     public void passwordUpdate(MemberDTO memberDTO);
 
+    public String idFind(String phone);
+
 
 }
