@@ -22,4 +22,5 @@ public interface ManagerMapper {
 
     public ManagerDTO managerGetUserByIdAndPassword(@Param("id") String id);
     public ManagerDTO managerIdGet(@Param("id") String id);
+
 }

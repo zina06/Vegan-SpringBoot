@@ -61,47 +61,56 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-        // 회원 가입 할때만 인증번호만 보내는 컨트롤러
-        @GetMapping("/authPhone/signup/{phone}")
-        public ResponseEntity<Map<String, String>> authPhone (@PathVariable String phone){
-            if (!memberService.findByPhone(phone)) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("error", "휴대폰 번호를 찾지 못했습니다."));
-            }
-            String authNo = signUp.sendSingupSMS("+82" + phone);
-            Map<String, String> response = new HashMap<>();
-            response.put("phone", phone);
-            response.put("authNo", authNo);
-            System.out.println("phonephonephonephonephonephonephonephonephonephone" + phone);
-            System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo" + authNo);
-            return ResponseEntity.ok(response);
-        }
+    // 회원 가입 할때만 인증번호만 보내는 컨트롤러
+    @GetMapping("/authPhone/signup/{phone}")
+    public ResponseEntity<String> authPhone (@PathVariable String phone){
+        int authNum = signUp.sendSingUpSMS("+82" + phone);
+        String authNo = String.valueOf(authNum);
+        return new ResponseEntity<>(authNo, HttpStatus.OK);
+    }
 
-        // ID찾을때만 인증번호만 보내는 컨트롤러
-        @GetMapping("/authPhone/findMyId/{phone}")
-        public ResponseEntity<String> findMyIdauthPhone (@PathVariable String phone){
-            if (!memberService.findByPhone(phone)) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
-            }
-            int authNum = signUp.sendIdSMS("+82" + phone);
-            String authNo = String.valueOf(authNum);
-            System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo" + authNo);
-//        return ResponseEntity.ok(authNo);
-            return new ResponseEntity<>(authNo, HttpStatus.OK);
+    // ID찾을때만 인증번호만 보내는 컨트롤러
+    @GetMapping("/authPhone/findMyId/{phone}")
+    public ResponseEntity<String> findMyIdAuthPhone (@PathVariable String phone){
+        if (!memberService.findByPhone(phone)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
         }
+        int authNum = signUp.sendIdSMS("+82" + phone);
+        String authNo = String.valueOf(authNum);
+        return new ResponseEntity<>(authNo, HttpStatus.OK);
+    }
 
-        // ID 반환
-        @GetMapping("/authPhone/idget/{phone}")
-        public ResponseEntity<String> findId (@PathVariable String phone){
-            String phone2 = "+82" + phone;
-            String id = memberService.idFind(phone2);
-            return new ResponseEntity<>(id, HttpStatus.OK);
+    // ID 반환
+    @GetMapping("/authPhone/idget/{phone}")
+    public ResponseEntity<String> findId (@PathVariable String phone){
+        String phone2 = "+82" + phone;
+        String id = memberService.idFind(phone2);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+
+    // PW찾을때만 인증번호만 보내는 컨트롤러
+    @GetMapping("/authPhone/findMyPassword/{phone}")
+    public ResponseEntity<String> findMyPwAuthPhone (@PathVariable String phone){
+        if (!memberService.findByPhone(phone)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
         }
+        int authNum = signUp.sendIdSMS("+82" + phone);
+        String authNo = String.valueOf(authNum);
+        return new ResponseEntity<>(authNo, HttpStatus.OK);
+    }
 
-        @PostMapping("/member/findMyPassword")
-        public ResponseEntity<String> findPassword (@RequestBody MemberDTO memberDTO){
+    // PW 변경
+    @PutMapping("/authPhone/pwget/{id}")
+    public ResponseEntity<String> findPassword (@RequestBody MemberDTO memberDTO){
+        try{
             memberService.passwordUpdate(memberDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
         }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
         /*
     @GetMapping("/member/findMyId")
@@ -115,4 +124,5 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
      */
-    }
+
+}

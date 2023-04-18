@@ -4,6 +4,11 @@ server:
 spring:
   messages:
     basename: message
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      location: d:\\temp\\spring_uploaded_files
 
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
@@ -39,7 +44,7 @@ twilio:
   account:
     sid: AC0dfdf07723f0a2c8a520dc69e9019a1c
   auth:
-    token: 0ad82de71abf07b12a77359393a82333
+    token: c1a700c5df7659466917a1a2cb3617c2
   from:
     number: +16205165212
 

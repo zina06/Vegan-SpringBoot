@@ -60,4 +60,9 @@ public class ReviewController {
         return new ResponseEntity<>(service.oneMemberAllReview(dto), HttpStatus.OK);
     }
 
+    @GetMapping("/review/recent")
+    public ResponseEntity<List<ReviewDTO>> getRecentReview(){
+        List<ReviewDTO> reviewDTOList=service.getRecentReview();
+        return new ResponseEntity<>(reviewDTOList, HttpStatus.OK);
+    }
 }

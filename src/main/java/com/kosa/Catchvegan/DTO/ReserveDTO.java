@@ -14,6 +14,7 @@ public class ReserveDTO {
     private Long reserveIdx;
     private Integer memberIdx;
     private Integer restaurantIdx;
+
     private Date reserveDate;
     private Integer resCount;
     private String visitStatus;
