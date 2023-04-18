@@ -61,72 +61,56 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-        // 회원 가입 할때만 인증번호만 보내는 컨트롤러
-        @GetMapping("/authPhone/signup/{phone}")
-        public ResponseEntity<String> authPhone (@PathVariable String phone){
-            int authNum = signUp.sendSingUpSMS("+82" + phone);
-            String authNo = String.valueOf(authNum);
-            return new ResponseEntity<>(authNo, HttpStatus.OK);
+    // 회원 가입 할때만 인증번호만 보내는 컨트롤러
+    @GetMapping("/authPhone/signup/{phone}")
+    public ResponseEntity<String> authPhone (@PathVariable String phone){
+        int authNum = signUp.sendSingUpSMS("+82" + phone);
+        String authNo = String.valueOf(authNum);
+        return new ResponseEntity<>(authNo, HttpStatus.OK);
+    }
+
+    // ID찾을때만 인증번호만 보내는 컨트롤러
+    @GetMapping("/authPhone/findMyId/{phone}")
+    public ResponseEntity<String> findMyIdAuthPhone (@PathVariable String phone){
+        if (!memberService.findByPhone(phone)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
         }
+        int authNum = signUp.sendIdSMS("+82" + phone);
+        String authNo = String.valueOf(authNum);
+        return new ResponseEntity<>(authNo, HttpStatus.OK);
+    }
 
-        // ID찾을때만 인증번호만 보내는 컨트롤러
-        @GetMapping("/authPhone/findMyId/{phone}")
-        public ResponseEntity<String> findMyIdAuthPhone (@PathVariable String phone){
-            if (!memberService.findByPhone(phone)) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
-            }
-            int authNum = signUp.sendIdSMS("+82" + phone);
-            String authNo = String.valueOf(authNum);
-            return new ResponseEntity<>(authNo, HttpStatus.OK);
+    // ID 반환
+    @GetMapping("/authPhone/idget/{phone}")
+    public ResponseEntity<String> findId (@PathVariable String phone){
+        String phone2 = "+82" + phone;
+        String id = memberService.idFind(phone2);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+
+    // PW찾을때만 인증번호만 보내는 컨트롤러
+    @GetMapping("/authPhone/findMyPassword/{phone}")
+    public ResponseEntity<String> findMyPwAuthPhone (@PathVariable String phone){
+        if (!memberService.findByPhone(phone)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
         }
+        int authNum = signUp.sendIdSMS("+82" + phone);
+        String authNo = String.valueOf(authNum);
+        return new ResponseEntity<>(authNo, HttpStatus.OK);
+    }
 
-        // ID 반환
-        @GetMapping("/authPhone/idGet/{phone}")
-        public ResponseEntity<String> findId (@PathVariable String phone){
-            String phone2 = "+82" + phone;
-            String id = memberService.idFind(phone2);
-            return new ResponseEntity<>(id, HttpStatus.OK);
+    // PW 변경
+    @PutMapping("/authPhone/pwget/{id}")
+    public ResponseEntity<String> findPassword (@RequestBody MemberDTO memberDTO){
+        try{
+            memberService.passwordUpdate(memberDTO);
         }
-
-
-        // PW찾을때만 인증번호만 보내는 컨트롤러
-        @GetMapping("/authPhone/findMyPassword/{id}")
-        public ResponseEntity<String> findMyPwAuthPhone (@PathVariable String id){
-            try{
-                String phone = memberService.phoneFind(id);
-                System.out.println(phone);
-//            if (!memberService.pwFindByIdCheck(id)) {
-//                return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
-//            }
-                int authNum = signUp.sendPwSMS(phone);
-                String authNo = String.valueOf(authNum);
-                return new ResponseEntity<>(authNo, HttpStatus.OK);
-            }
-            catch (Exception e){
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
-            }
-
-//            System.out.println(phone);
-////            if (!memberService.pwFindByIdCheck(id)) {
-////                return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
-////            }
-//            int authNum = signUp.sendPwSMS(phone);
-//            String authNo = String.valueOf(authNum);
-//            return new ResponseEntity<>(authNo, HttpStatus.OK);
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }
-
-        // PW 변경
-        @PutMapping("/authPhone/pwGet/{id}")
-        public ResponseEntity<String> findPassword (@RequestBody MemberDTO memberDTO){
-            System.out.println(memberDTO);
-            try{
-                memberService.passwordUpdate(memberDTO);
-            }
-            catch (Exception e){
-                return new ResponseEntity<>(HttpStatus.CREATED);
-            }
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
         /*
     @GetMapping("/member/findMyId")

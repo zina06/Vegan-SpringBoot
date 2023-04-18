@@ -78,7 +78,14 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
         String userName = ((User)authResult.getPrincipal()).getUsername();
-
+        MemberDTO memberDTO = memberMapper.getUserByIdAndPassword(userName);
+        ManagerDTO managerDTO = managerMapper.managerGetUserByIdAndPassword(userName);
+        if(memberDTO != null){
+            response.addHeader("memberIdx", memberDTO.getMemberIdx().toString());
+        }
+        if(managerDTO !=null){
+            response.addHeader("managerIdx", managerDTO.getManagerIdx().toString());
+        }
         String jwt = Jwts.builder()
                 .setHeaderParam("type", "jwt")
                 .setSubject(userName)
@@ -86,5 +93,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .signWith(SignatureAlgorithm.HS256, "hello")
                 .compact();
         response.addHeader("token",jwt);
+//        response.addHeader("memberIdx", memberDTO.getMemberIdx().toString());
     }
 }

@@ -8,14 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
@@ -34,10 +32,12 @@ public class ReserveController {
     private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
 
     @ResponseBody
-    @GetMapping("/reserve/{restaurantIdx}")
-    public ResponseEntity<RestaurantDTO> reserveGet(@PathVariable int restaurantIdx){
-
-        return new ResponseEntity<>(service.restaurantDetail(restaurantIdx), HttpStatus.OK);
+    @GetMapping("/reserve/{restaurantIdx}/{memberIdx}")
+    public ResponseEntity<Object> reserveGet(@PathVariable("restaurantIdx") int restaurantIdx, @PathVariable("memberIdx") int memberIdx){
+        Map<String,Object> map = new HashMap();
+        map.put("RestaurantDTO",service.restaurantDetail(restaurantIdx));
+        map.put("MemberDTO",service.getMember(memberIdx));
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     //결제요청
@@ -69,23 +69,23 @@ public class ReserveController {
 
         while(iterator.hasNext()){
             SseEmitter emitter = iterator.next();
-            try{
+
+            try {
+                System.out.println("SSE 시도");
                 emitter.send(SseEmitter.event()
                         .name("paymentResult")
                         .data("success"));
+                System.out.println("SSE 성공");
                 emitter.complete();
+            } catch (Exception e) {
+                // SseEmitter가 끊어진 경우, 예외 처리
+                System.out.println("SSE 실패");
                 iterator.remove();
-            }catch(Exception e){
-                ReserveDTO dto = new ReserveDTO();
-                dto.setReserveIdx(reserveIdx);
-                service.deleteReserve(dto);
-                e.printStackTrace();
+                System.out.println("SSE 삭제");
             }
-//            emitter.send(SseEmitter.event()
-//                    .name("paymentResult")
-//                    .data("success"));
-//            emitter.complete();
-//            iterator.remove();
+
+            ReserveDTO dto = new ReserveDTO();
+            dto.setReserveIdx(reserveIdx);
         }
 
         return new ResponseEntity<>(kakaoApprove, HttpStatus.OK);
@@ -95,8 +95,8 @@ public class ReserveController {
 
     @GetMapping("/reserve-result")
     public SseEmitter getPaymentResult() {
-//        log.info("SSESSESSESSESSESSESSESSE");
-        SseEmitter emitter = new SseEmitter();
+        System.out.println("SSE 연결요청");
+        SseEmitter emitter = new SseEmitter(3600000L);
         emitter.onCompletion(() -> emitters.remove(emitter));
         emitter.onTimeout(() -> emitters.remove(emitter));
         emitters.put(UUID.randomUUID().toString(), emitter);
@@ -134,10 +134,23 @@ public class ReserveController {
 
 
     //달력에 맞는 시간 보내주기
-    @ResponseBody
     @PostMapping("/reserve/getTime")
-    public ResponseEntity<TimeDTO> canReserve(@RequestBody ReserveDTO reserveDTO){
-        System.out.println(reserveDTO);
-        return new ResponseEntity<>(service.reserveDate(reserveDTO),HttpStatus.OK);
+    public ResponseEntity canReserve(@RequestBody ReserveDTO reserveDTO){
+        if(service.canReserve(reserveDTO)){
+            return new ResponseEntity<>(service.reserveDate(reserveDTO),HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("alreadyReserve",HttpStatus.OK);
+        }
+    }
+
+    //예약취소및환불
+    @PostMapping("/reserve/refund")
+    public ResponseEntity<KakaoCancelResponseDTO> refund(@RequestBody PaymentDTO paymentDTO){
+        System.out.println(paymentDTO);
+        KakaoCancelResponseDTO kakaoCancelResponse = payService.kakaoCancel(paymentDTO);
+
+        return new ResponseEntity<>(kakaoCancelResponse, HttpStatus.OK);
+
     }
 }

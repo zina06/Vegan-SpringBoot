@@ -39,4 +39,15 @@ public class ReviewServiceImpl implements ReviewService{
         return mapper.oneMemberAllReview(memberDTO);
     }
 
+    @Override
+    public List<ReviewDTO> getReviewList(int restaurantIdx) {
+        return mapper.getReviewList(restaurantIdx);
+    }
+
+    @Override
+    public List<ReviewDTO> getRecentReview() {
+        return mapper.getRecentReview();
+    }
+
+
 }

@@ -1,7 +1,9 @@
 package com.kosa.Catchvegan.DTO;
 
 import lombok.Data;
+import lombok.Generated;
 
+@Generated
 @Data
 public class AmountDTO {
     private int total; // 총 결제 금액

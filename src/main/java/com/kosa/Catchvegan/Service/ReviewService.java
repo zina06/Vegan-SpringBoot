@@ -15,4 +15,8 @@ public interface ReviewService {
     public void reviewDelete(int reviewIdx);
 
     public List<MemberDTO> oneMemberAllReview(MemberDTO memberDTO);
+
+    public List<ReviewDTO> getReviewList(int restaurantIdx);
+
+    public List<ReviewDTO> getRecentReview();
 }

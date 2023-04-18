@@ -1,7 +1,11 @@
 package com.kosa.Catchvegan.DTO;
 
 import lombok.Data;
+import lombok.Generated;
 
+import java.util.Map;
+
+@Generated
 @Data
 public class KakaoApproveResponseDTO {
     private String aid; // 요청 고유 번호
@@ -18,4 +22,5 @@ public class KakaoApproveResponseDTO {
     private String created_at; // 결제 요청 시간
     private String approved_at; // 결제 승인 시간
     private String payload; // 결제 승인 요청에 대해 저장 값, 요청 시 전달 내용
+    private Map<String, Object> custom_json;
 }

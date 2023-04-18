@@ -39,7 +39,7 @@
     </resultMap>
 
     <select id="getUserByIdAndPassword" resultMap="veganmember">
-        select mb.id,password,name,phone,email,vegantype,withdraw,auth
+        select mb.memberidx, mb.id,password,name,phone,email,vegantype,withdraw,auth
         from member mb, memberauth ma
         where mb.memberidx = ma.memberidx(+)
           and mb.id = #{id}
