@@ -40,7 +40,7 @@ public class JwtFilter extends BasicAuthenticationFilter {
                                     FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) request2;
         HttpServletResponse response = (HttpServletResponse) response2;
-        System.out.println("doFilterInternaldoFilter 접속");
+        System.out.println("=========== doFilterInternaldoFilter 접근 ===========");
         System.out.println(request.getHeader("AUTHORIZATION"));
         if (request.getHeader("AUTHORIZATION") == null) {
             System.out.println("AUTHORIZATION 로그인 안한 사람");
@@ -51,7 +51,7 @@ public class JwtFilter extends BasicAuthenticationFilter {
             System.out.println("AUTHORIZATION : " + authorizationHeader);
             String jwt = authorizationHeader.replace("Bearer", "");
             if (!isJwtValid(jwt)) {
-                System.out.println("!isJwtValid 토큰 없는거 같은데?");
+                System.out.println("isJwtValid 확인불가능");
                 onError(response, "UNAUTHORIZATION");
                 return;
             }
@@ -59,7 +59,7 @@ public class JwtFilter extends BasicAuthenticationFilter {
             MemberDTO memberDTO = memberMapper.getUserByIdAndPassword(name);
             ManagerDTO managerDTO = managerMapper.managerGetUserByIdAndPassword(name);
             if (memberDTO != null) {
-                System.out.println("나는 멤버야나는 멤버야나는 멤버야나는 멤버야나는 멤버야나는 멤버야나는 멤버야나는 멤버야");
+                System.out.println("=========== Member테이블 접근 ===========");
                 UserDetails user = User.builder()
                         .username(memberDTO.getId())
                         .password(memberDTO.getPassword())
@@ -72,7 +72,6 @@ public class JwtFilter extends BasicAuthenticationFilter {
                        memberDTO.getRoles().stream().map(auth -> new SimpleGrantedAuthority(auth.getAuth()))
                               .collect(Collectors.toList()));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                System.out.println("authenticationauthenticationauthenticationauthentication" + authentication);
                 if (authentication != null && authentication.isAuthenticated() && authentication.getAuthorities().stream()
                         .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_USER"))) {
                     filterChain.doFilter(request, response);
@@ -80,9 +79,9 @@ public class JwtFilter extends BasicAuthenticationFilter {
                 else {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 }
-                filterChain.doFilter(request2, response2);
+//                filterChain.doFilter(request2, response2);
             } else if (managerDTO != null) {
-                System.out.println("나는어드민이야나는어드민이야나는어드민이야나는어드민이야나는어드민이야나는어드민이야나는어드민이야");
+                System.out.println("=========== Manager 테이블 접근 ===========");
                 UserDetails user = User.builder()
                         .username(managerDTO.getId())
                         .password(managerDTO.getPassword())
@@ -95,16 +94,14 @@ public class JwtFilter extends BasicAuthenticationFilter {
                         managerDTO.getRoles().stream().map(auth -> new SimpleGrantedAuthority(auth.getAuth()))
                                 .collect(Collectors.toList()));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                System.out.println("authenticationauthenticationauthenticationauthentication" + authentication);
+
                 if (authentication != null && authentication.isAuthenticated() && authentication.getAuthorities().stream()
                         .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_MANAGER"))) {
                     filterChain.doFilter(request, response);
                 }
                 else {
-//                    System.out.println("430430430430430430430430430403403403403403403403403403");
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 }
-                filterChain.doFilter(request2, response2);
             } else {
                 throw new UsernameNotFoundException("유저없음");
             }
@@ -116,6 +113,7 @@ public class JwtFilter extends BasicAuthenticationFilter {
         String subject = null;
         try {
             subject = Jwts.parser().setSigningKey("hello").parseClaimsJws(jwt).getBody().getSubject();
+            System.out.println("=========== isJwtValid 접근 ===========");
             System.out.println("subject : " + subject);
         }catch (Exception e){
             returnValue=false;

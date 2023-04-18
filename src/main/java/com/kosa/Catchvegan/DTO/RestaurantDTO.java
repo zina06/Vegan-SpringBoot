@@ -18,8 +18,6 @@ public class RestaurantDTO {
     private String city;
     private String restaurantInfo;
     private String menu;
-    private String address;
-    private String city; // 신규
     private double longitude;
     private double latitude;
     private Integer limitPerson;

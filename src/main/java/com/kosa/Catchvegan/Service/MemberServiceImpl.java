@@ -60,4 +60,27 @@ public class MemberServiceImpl implements MemberService{
         memberMapper.memberUpdate(memberDTO);
     }
 
+    @Override
+    public boolean findByPhone(String phone) {
+        return memberMapper.findByPhone(phone) == null? false : true;
+    }
+
+    @Override
+    public boolean idFindByPhone(String id) {
+        return memberMapper.idFindByPhone(id) == null? false : true;
+    }
+
+    @Override
+    public void passwordUpdate(MemberDTO memberDTO) {
+        String pw = memberDTO.getPassword();
+        memberDTO.setPassword(pe.encode(pw));
+        memberMapper.passwordUpdate(memberDTO);
+    }
+
+    @Override
+    public String idFind(String phone) {
+        return memberMapper.idFindByPhone(phone).getId();
+    }
+
+
 }

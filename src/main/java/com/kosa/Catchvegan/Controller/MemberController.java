@@ -1,14 +1,14 @@
 package com.kosa.Catchvegan.Controller;
 
-import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.MemberDTO;
-import com.kosa.Catchvegan.Security.JwtFilter;
+import com.kosa.Catchvegan.Quartz.SignUpSMS;
 import com.kosa.Catchvegan.Service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import java.security.Principal;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -17,6 +17,8 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private SignUpSMS signUp;
 
     @GetMapping("")
     public String gomain(){
@@ -38,9 +40,11 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Secured("ROLE_USER")
+    //@PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping ("/member/aftersignup")
-    public String aftersignup(){
+    public String aftersignup(Principal principal){
+        System.out.println("principal2 = " + principal);
+        System.out.println(principal.getName());
         return "여기는 멤버 토큰있는사람만 올수있어";
     }
 
@@ -57,5 +61,58 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+        // 회원 가입 할때만 인증번호만 보내는 컨트롤러
+        @GetMapping("/authPhone/signup/{phone}")
+        public ResponseEntity<Map<String, String>> authPhone (@PathVariable String phone){
+            if (!memberService.findByPhone(phone)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("error", "휴대폰 번호를 찾지 못했습니다."));
+            }
+            String authNo = signUp.sendSingupSMS("+82" + phone);
+            Map<String, String> response = new HashMap<>();
+            response.put("phone", phone);
+            response.put("authNo", authNo);
+            System.out.println("phonephonephonephonephonephonephonephonephonephone" + phone);
+            System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo" + authNo);
+            return ResponseEntity.ok(response);
+        }
 
-}
+        // ID찾을때만 인증번호만 보내는 컨트롤러
+        @GetMapping("/authPhone/findMyId/{phone}")
+        public ResponseEntity<String> findMyIdauthPhone (@PathVariable String phone){
+            if (!memberService.findByPhone(phone)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
+            }
+            int authNum = signUp.sendIdSMS("+82" + phone);
+            String authNo = String.valueOf(authNum);
+            System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo" + authNo);
+//        return ResponseEntity.ok(authNo);
+            return new ResponseEntity<>(authNo, HttpStatus.OK);
+        }
+
+        // ID 반환
+        @GetMapping("/authPhone/idget/{phone}")
+        public ResponseEntity<String> findId (@PathVariable String phone){
+            String phone2 = "+82" + phone;
+            String id = memberService.idFind(phone2);
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        }
+
+        @PostMapping("/member/findMyPassword")
+        public ResponseEntity<String> findPassword (@RequestBody MemberDTO memberDTO){
+            memberService.passwordUpdate(memberDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        /*
+    @GetMapping("/member/findMyId")
+    public ResponseEntity<Map<String, String>> findId(@RequestParam String id) {
+        String authNo = signUp.sendSingupSMS("+82" + phone);
+        Map<String, String> response = new HashMap<>();
+        response.put("phone", phone);
+        response.put("authNo", authNo);
+        System.out.println("phonephonephonephonephonephonephonephonephonephone"+phone);
+        System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo"+authNo);
+        return ResponseEntity.ok(response);
+    }
+     */
+    }

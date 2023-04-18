@@ -21,4 +21,5 @@ public class MemberDTO {
 
     private List<MemberAuthDTO> roles;
     private List<ReviewDTO> reviewDTOList; // 추가
+
 }
