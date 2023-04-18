@@ -30,7 +30,7 @@ public class MyDiningController {
     public ResponseEntity<List<ReserveDTO>> getVisitCompleted(@PathVariable int memberIdx){
         MemberDTO dto = new MemberDTO();
         dto.setMemberIdx(memberIdx);
-        return new ResponseEntity<>(service.getVisitCompleted(dto), HttpStatus.OK);
+        return new ResponseEntity<>(service.goReviewButton(dto), HttpStatus.OK);
     }
 
     @GetMapping("/mydining/getReserveCancel/{memberIdx}")

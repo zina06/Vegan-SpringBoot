@@ -39,5 +39,4 @@ public class ReviewServiceImpl implements ReviewService{
         return mapper.oneMemberAllReview(memberDTO);
     }
 
-
 }

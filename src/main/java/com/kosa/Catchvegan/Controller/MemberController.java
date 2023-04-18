@@ -45,9 +45,14 @@ public class MemberController {
     }
 
     @PutMapping("/member/mypage")
-    public ResponseEntity<MemberDTO> memberModify(@RequestBody MemberDTO memberDTO){
+    public ResponseEntity<MemberDTO> memberModify(@RequestBody MemberDTO memberDTO) {
 
-        memberService.memberUpdate(memberDTO);
+        try{
+            memberService.memberUpdate(memberDTO);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
