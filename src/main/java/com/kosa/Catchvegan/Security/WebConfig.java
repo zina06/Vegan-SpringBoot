@@ -43,13 +43,15 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/Catchvegan/member/findMyId")
                 .antMatchers("/Catchvegan/member/findMyPassword")
                 .antMatchers("/Catchvegan/member/signup")
+                .antMatchers("/Catchvegan/member/signup/**")
                 .antMatchers("/Catchvegan/member/checkid")
                 .antMatchers("/Catchvegan/manager/signup")
                 .antMatchers("/Catchvegan/authPhone/**")
                 .antMatchers("/Catchvegan/reserve-result")      // 카카오페이
                 .antMatchers("/Catchvegan/reserve/success/**")  // 카카오페이
                 .antMatchers("/Catchvegan/reserve/cancel/**")   // 카카오페이
-                .antMatchers("/Catchvegan/reserve/fail/**");    // 카카오페이
+                .antMatchers("/Catchvegan/reserve/fail/**")    // 카카오페이
+                .antMatchers("/Catchvegan/restaurant/get/**");  //식당상세정보
         // 이 요청들에 대해서는 spring security 필터 체인을 적용하지 않겠다
     }
 
@@ -63,6 +65,8 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/Catchvegan/reserve/**").access("hasRole('ROLE_USER')")   //예약페이지는 유저만 접근가능
                 .antMatchers("/Catchvegan/mydining/**").access("hasRole('ROLE_USER')")  //My-dining 페이지는 유저만 접근가능
                 .antMatchers("/Catchvegan/member/mypage/**").access("hasRole('ROLE_USER')") //마이페이지는 유저만 접근가능
+                .antMatchers("/Catchvegan/manager/**").access("hasRole('ROLE_MANAGER')")     //매니저페이지는 매니저만
+                .antMatchers("/file/**").access("hasRole('ROLE_MANAGER')")                    //식당정보수정도 매니저만
                 .anyRequest().authenticated() // authenticated()는 가장 마지막에 위치하도록 변경
                 .and()
                 .exceptionHandling()

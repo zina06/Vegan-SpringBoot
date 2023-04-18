@@ -113,7 +113,7 @@
     </resultMap>
 
     <select id="managerGetUserByIdAndPassword" resultMap="veganmanager">
-        select mg.id,password,auth
+        select mg.managerIdx, mg.id,password,auth
         from manager mg, managerauth ma
         where mg.manageridx = ma.manageridx(+)
           and mg.id = #{id}
