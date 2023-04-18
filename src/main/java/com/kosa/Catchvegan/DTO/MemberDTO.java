@@ -2,10 +2,11 @@ package com.kosa.Catchvegan.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
+@Generated
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,4 +22,5 @@ public class MemberDTO {
 
     private List<MemberAuthDTO> roles;
     private List<ReviewDTO> reviewDTOList; // 추가
+
 }

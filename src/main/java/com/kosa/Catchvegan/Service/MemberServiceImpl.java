@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 @Service
@@ -46,11 +47,40 @@ public class MemberServiceImpl implements MemberService{
         return memberMapper.getUserByIdAndPassword(id);
     }
 
+    @Transactional
     @Override
-    public void memberUpdate(MemberDTO memberDTO) {
+    public void memberUpdate(MemberDTO memberDTO) throws Exception {
+        System.out.println(memberDTO);
         String pw = memberDTO.getPassword();
+        MemberDTO member = memberMapper.getUserByIdAndPassword(memberDTO.getId());
+        if(pe.matches(pw, member.getPassword())){
+           throw new Exception();
+        }
         memberDTO.setPassword(pe.encode(pw));
         memberMapper.memberUpdate(memberDTO);
     }
+
+    @Override
+    public boolean findByPhone(String phone) {
+        return memberMapper.findByPhone(phone) == null? false : true;
+    }
+
+    @Override
+    public boolean idFindByPhone(String id) {
+        return memberMapper.idFindByPhone(id) == null? false : true;
+    }
+
+    @Override
+    public void passwordUpdate(MemberDTO memberDTO) {
+        String pw = memberDTO.getPassword();
+        memberDTO.setPassword(pe.encode(pw));
+        memberMapper.passwordUpdate(memberDTO);
+    }
+
+    @Override
+    public String idFind(String phone) {
+        return memberMapper.idFindByPhone(phone).getId();
+    }
+
 
 }

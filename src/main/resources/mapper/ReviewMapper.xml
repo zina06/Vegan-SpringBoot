@@ -67,7 +67,10 @@
 
     <update id="updateReview" parameterType="ReviewDTO">
         update review
-        set content = #{content}
+        set title = #{title},
+            content = #{content},
+            rating = #{rating},
+            images = #{images}
         where reviewidx = #{reviewIdx}
     </update>
 

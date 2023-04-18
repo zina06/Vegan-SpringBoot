@@ -1,6 +1,7 @@
 package com.kosa.Catchvegan.Mapper;
 
 import com.kosa.Catchvegan.DTO.MemberDTO;
+import com.kosa.Catchvegan.DTO.ReserveDTO;
 import com.kosa.Catchvegan.DTO.ReviewDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.junit.Test;

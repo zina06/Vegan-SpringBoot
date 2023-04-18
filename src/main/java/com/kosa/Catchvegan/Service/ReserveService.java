@@ -1,11 +1,10 @@
 package com.kosa.Catchvegan.Service;
 
-import com.kosa.Catchvegan.DTO.PaymentDTO;
-import com.kosa.Catchvegan.DTO.ReserveDTO;
-import com.kosa.Catchvegan.DTO.RestaurantDTO;
-import com.kosa.Catchvegan.DTO.TimeDTO;
+import com.kosa.Catchvegan.DTO.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 public interface ReserveService {
     public RestaurantDTO restaurantDetail(int restaurantIdx);
@@ -17,4 +16,17 @@ public interface ReserveService {
     public void reservePay(PaymentDTO paymentDTO);
 
     public int deleteReserve(ReserveDTO reserveDTO);
+
+    public MemberDTO getMember(int memberIdx);
+
+    public PaymentDTO getPayment(PaymentDTO paymentDTO);
+
+    public int cancelReserve(int reserveIdx);
+
+    public void cancelRes(CancelDTO dto);
+    public int deletePayment(ReserveDTO reserveDTO);
+
+    public boolean canReserve (ReserveDTO reserveDTO);
+
+    public void  noReserve();
 }

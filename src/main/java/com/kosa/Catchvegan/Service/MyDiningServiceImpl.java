@@ -28,5 +28,10 @@ public class MyDiningServiceImpl implements MyDiningService{
         return mapper.getReserveCancel(dto);
     }
 
+    @Override
+    public List<ReserveDTO> goReviewButton(MemberDTO dto) {
+        return mapper.goReviewButton(dto);
+    }
+
 
 }

@@ -17,14 +17,21 @@
     </resultMap>
 
     <select id="getReserves" resultMap="reserves">
-        select reserveidx, reservedate, rescount, name, city from reserve r, restaurant rt
+        select r.reserveidx, reservedate, rescount, name, city from reserve r, restaurant rt, payment p
         where r.restaurantidx = rt.restaurantidx
-        and memberidx = #{memberIdx}
+          and r.reserveidx = p.reserveidx
+          and memberidx = #{memberIdx}
+          and visitstatus = 'x'
+          and cancelstatus = 'x'
+        order by reserveDate
+    </select>
+
+        <!-- and memberidx = #{memberIdx}
         and visitstatus = 'x'
         and cancelstatus = 'x'
         and reservedate &gt; SYSTIMESTAMP
         order by reserveDate
-    </select>
+    </select> -->
 
     <select id="getVisitCompleted" resultMap="reserves">
         select reserveidx, reservedate, rescount, name, city from reserve r, restaurant rt
@@ -44,4 +51,35 @@
           or (visitstatus = 'x' and reservedate &lt; SYSTIMESTAMP))
         order by reserveDate
     </select>
+
+    <resultMap id="reservesWithReview" type="ReserveDTO">
+        <result column="reserveidx" property="reserveIdx"></result>
+        <result column="memberidx" property="memberIdx"></result>
+        <result column="reservedate" property="reserveDate"></result>
+        <result column="rescount" property="resCount"></result>
+        <association property="restaurantDTO" resultMap="restaurant"></association>
+        <association resultMap="visit" property="visitDTO"></association>
+    </resultMap>
+
+    <resultMap id="visit" type="VisitDTO">
+        <result property="reserveIdx" column="reserveidx"></result>
+        <result property="visitDate" column="visitdate"></result>
+        <association property="reviewDTO" resultMap="review"></association>
+    </resultMap>
+
+    <resultMap id="review" type="ReviewDTO">
+        <result column="reviewIdx" property="reviewIdx" ></result>
+    </resultMap>
+
+    <select id="goReviewButton" resultMap="reservesWithReview">
+        SELECT res.memberidx, res.reserveidx, res.reservedate, res.rescount, rv.*, rst.city, rst.name, v.visitdate
+        FROM member m
+                 LEFT OUTER JOIN reserve res ON res.memberidx = m.memberidx
+                 LEFT OUTER JOIN visit v ON v.reserveidx = res.reserveidx
+                 LEFT OUTER JOIN review rv ON rv.visitidx = v.visitidx
+                 LEFT OUTER JOIN restaurant rst ON res.restaurantidx = rst.restaurantidx
+        WHERE m.memberidx = #{memberIdx}
+    </select>
+
+
 </mapper>

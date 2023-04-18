@@ -34,6 +34,8 @@
         SELECT * FROM reserve
         WHERE TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
         AND restaurantidx = #{restaurantIdx}
+        AND visitstatus = 'x'
+        AND cancelstatus = 'x'
     </select>
 
     <insert id="reserveRes">
@@ -66,10 +68,55 @@
         delete from reserve
         where reserveidx = #{reserveIdx}
     </delete>
+    <delete id="deletePayment">
+        delete from payment
+        where reserveidx = #{reserveIdx}
+    </delete>
+
     <select id="reserveDateAlert" resultMap="reserveMap">
         SELECT * FROM reserve , member
            where reserve.memberidx = member.memberidx
         and TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+    </select>
+
+    <select id="getMember" resultType="MemberDTO">
+        select * from member where memberidx = #{memberidx}
+    </select>
+
+    <select id ="getPayment" resultType="PaymentDTO">
+        select * from payment
+        where reserveidx = #{reserveIdx}
+    </select>
+
+    <update id="cancelReserve" >
+        update reserve
+        set cancelstatus ='o'
+        where reserveidx = #{reserveIdx}
+    </update>
+
+    <insert id="cancelRes">
+        insert into cancel values(
+                                cancelseq.nextval,
+                                #{reserveIdx},
+                                 sysdate,
+                                'o'
+                                 )
+    </insert>
+
+    <select id="canReserve" resultType="ReserveDTO">
+        SELECT * FROM reserve r, payment p
+        WHERE TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+          AND r.reserveidx = p.reserveidx
+          AND visitstatus = 'x'
+          AND cancelstatus = 'x'
+    </select>
+
+    <select id="noReserve" resultType="ReserveDTO">
+        SELECT r.reserveidx AS reserveIdx FROM reserve r, payment p
+        where r.reserveidx = p.reserveidx(+)
+          AND visitstatus = 'x'
+          AND cancelstatus = 'x'
+        order by reserveidx
     </select>
 
 </mapper>

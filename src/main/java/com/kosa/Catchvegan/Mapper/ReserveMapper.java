@@ -1,8 +1,6 @@
 package com.kosa.Catchvegan.Mapper;
 
-import com.kosa.Catchvegan.DTO.PaymentDTO;
-import com.kosa.Catchvegan.DTO.ReserveDTO;
-import com.kosa.Catchvegan.DTO.RestaurantDTO;
+import com.kosa.Catchvegan.DTO.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -19,4 +17,19 @@ public interface ReserveMapper {
 
     public int  deleteReserve(ReserveDTO reserveDTO);
     public List<ReserveDTO> reserveDateAlert(ReserveDTO reserveDTO);
+
+    public MemberDTO getMember(int memberIdx);
+
+    public PaymentDTO getPayment(PaymentDTO paymentDTO);
+
+    public int cancelReserve(int reserveIdx);
+
+    public void cancelRes(CancelDTO dto);
+    public int deletePayment(ReserveDTO reserveDTO);
+
+    public List<ReserveDTO> canReserve(ReserveDTO reserveDTO);
+
+    public List<ReserveDTO> noReserve();
+
+
 }

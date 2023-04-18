@@ -24,7 +24,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     private CustomUserDetailService customUserDetailService;
 
     public WebConfig(MemberMapper memberMapper, ManagerMapper managerMapper,
-            CustomUserDetailService customUserDetailService) {
+                     CustomUserDetailService customUserDetailService) {
         this.memberMapper = memberMapper;
         this.managerMapper = managerMapper;
         this.customUserDetailService = customUserDetailService;
@@ -38,28 +38,38 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .antMatchers("/**")
                 .antMatchers("/Catchvegan")
+                .antMatchers("/Catchvegan/error")
+                .antMatchers("/Catchvegan/member/findMyId")
+                .antMatchers("/Catchvegan/member/findMyPassword")
+                .antMatchers("/Catchvegan/member/signup")
                 .antMatchers("/Catchvegan/member/checkid")
-                .antMatchers("/Catchvegan/member/signup");
-
+                .antMatchers("/Catchvegan/manager/signup")
+                .antMatchers("/Catchvegan/authPhone/**")
+                .antMatchers("/Catchvegan/reserve-result")      // 카카오페이
+                .antMatchers("/Catchvegan/reserve/success/**")  // 카카오페이
+                .antMatchers("/Catchvegan/reserve/cancel/**")   // 카카오페이
+                .antMatchers("/Catchvegan/reserve/fail/**");    // 카카오페이
         // 이 요청들에 대해서는 spring security 필터 체인을 적용하지 않겠다
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests()
-                .antMatchers("/Catchvegan").permitAll()
-                .antMatchers("/Catchvegan/member/checkid").permitAll()
-                .antMatchers("/Catchvegan/member/signup").permitAll()
-                .antMatchers("/Catchvegan/owner/signup").permitAll()
+        http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/Catchvegan/manager/findMyPassword").permitAll()
+                .antMatchers("/Catchvegan/manager/signup/**").permitAll()
+                //.antMatchers("/Catchvegan/member/aftersignup").access("hasRole('ROLE_USER')")
+                .antMatchers("/Catchvegan/reserve/**").access("hasRole('ROLE_USER')")   //예약페이지는 유저만 접근가능
+                .antMatchers("/Catchvegan/mydining/**").access("hasRole('ROLE_USER')")  //My-dining 페이지는 유저만 접근가능
+                .antMatchers("/Catchvegan/member/mypage/**").access("hasRole('ROLE_USER')") //마이페이지는 유저만 접근가능
+                .anyRequest().authenticated() // authenticated()는 가장 마지막에 위치하도록 변경
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler())
                 .and()
                 .addFilter(authenticationFilter())
-                .addFilter(JwtFilter()).authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
+                .addFilter(JwtFilter())
                 .formLogin()
                 .and()
                 .logout();
@@ -78,9 +88,14 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(customUserDetailService).passwordEncoder(passwordEncoder());
     }
 
+    @Bean
+    public CustomAccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
+
     /*
      * 시큐리티 설정 제거
-     * 
+     *
      * @Bean
      * public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
      * Exception {

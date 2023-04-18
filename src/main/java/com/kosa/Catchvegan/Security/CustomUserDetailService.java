@@ -27,13 +27,13 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("=========== loadUserByUsername 접근 ===========");
         MemberDTO member = memberMapper.getUserByIdAndPassword(username);
         ManagerDTO manager = managerMapper.managerGetUserByIdAndPassword(username);
-
-        if (member != null){
+        if (member != null ){
+            System.out.println("=========== 멤버 권한 부여 ===========");
             String memberId = member.getId();
             String memberPw = member.getPassword();
-//            List<MemberAuthDTO> memberRoles = member.getRoles();
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority("ROLE_USER")); // member 객체에 ROLE_USER role 추가
             return User.builder()
@@ -42,14 +42,11 @@ public class CustomUserDetailService implements UserDetailsService {
                     .authorities(authorities)
                     .build();
         } else if (manager != null){
-            System.out.println("MANAGER");
+            System.out.println("=========== 어드민 권한 부여=========== ");
             String managerId = manager.getId();
             String managerPw = manager.getPassword();
-            List<ManagerAuthDTO> managerRoles = manager.getRoles();
             List<GrantedAuthority> authorities = new ArrayList<>();
-            if (managerRoles != null && !managerRoles.isEmpty()) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_MANAGER")); // manager 객체에 ROLE_MANAGER role 추가
-            }
+            authorities.add(new SimpleGrantedAuthority("ROLE_MANAGER")); // manager 객체에 ROLE_MANAGER role 추가
             return User.builder()
                     .username(managerId)
                     .password(managerPw)

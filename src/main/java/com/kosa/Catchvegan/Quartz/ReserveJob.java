@@ -30,7 +30,6 @@ public class ReserveJob extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         // Reserve 테이블에서 오늘 날짜와 같은 예약 정보 조회하기
         Date today = new Date();
-
         ReserveDTO reserveDTO = new ReserveDTO();
         reserveDTO.setReserveDate(today);
         List<ReserveDTO> reservationList = reserveMapper.reserveDateAlert(reserveDTO);
@@ -56,7 +55,6 @@ public class ReserveJob extends QuartzJobBean {
                         content) // 메시지 내용
                 .create();
         System.out.println("Notification sent to " + phoneNumber + ": " + title + " - " + content);
-
     }
 
 }
