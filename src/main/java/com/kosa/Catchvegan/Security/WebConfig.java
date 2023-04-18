@@ -38,15 +38,14 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                //        .antMatchers("/**")
                 .antMatchers("/Catchvegan")
                 .antMatchers("/Catchvegan/error")
+                .antMatchers("/Catchvegan/authPhone/**")
                 .antMatchers("/Catchvegan/member/findMyId")
                 .antMatchers("/Catchvegan/member/findMyPassword")
                 .antMatchers("/Catchvegan/member/signup")
                 .antMatchers("/Catchvegan/member/checkid")
-                .antMatchers("/Catchvegan/manager/signup")
-                .antMatchers("/Catchvegan/authPhone/**");
+                .antMatchers("/Catchvegan/manager/signup");
         // 이 요청들에 대해서는 spring security 필터 체인을 적용하지 않겠다
     }
 
@@ -59,8 +58,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/Catchvegan/member/checkid").permitAll()
                 .antMatchers("/Catchvegan/member/signup").permitAll()
                 .antMatchers("/Catchvegan/member/findMyId").permitAll()
-                .antMatchers("/Catchvegan/authPhone/**").permitAll()
-                .antMatchers("/Catchvegan/manager/findMyPassword").permitAll()
+                .antMatchers("/Catchvegan/member/findMyPassword").permitAll()
                 .antMatchers("/Catchvegan/manager/signup").permitAll()
                 .antMatchers("/Catchvegan/manager/signup/**").permitAll()
                 //.antMatchers("/Catchvegan/member/aftersignup").access("hasRole('ROLE_USER')")

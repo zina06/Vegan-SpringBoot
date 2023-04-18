@@ -23,6 +23,12 @@ public interface MemberMapper {
     public  MemberDTO findByPhone(String phone);
     public  MemberDTO idFindByPhone(String id);
 
+    //아이디에 맞는 핸드폰 번호 반환
+    public  MemberDTO pwFindById(String id);
+
+    //DB에 아이디에 맞는 핸드폰 있는지 체크하기
+    public  MemberDTO pwFindByIdCheck(String id);
+
     public void passwordUpdate(MemberDTO memberDTO);
 
 }

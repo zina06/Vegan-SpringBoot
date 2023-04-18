@@ -63,43 +63,68 @@ public class MemberController {
 
         // 회원 가입 할때만 인증번호만 보내는 컨트롤러
         @GetMapping("/authPhone/signup/{phone}")
-        public ResponseEntity<Map<String, String>> authPhone (@PathVariable String phone){
-            if (!memberService.findByPhone(phone)) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("error", "휴대폰 번호를 찾지 못했습니다."));
-            }
-            String authNo = signUp.sendSingupSMS("+82" + phone);
-            Map<String, String> response = new HashMap<>();
-            response.put("phone", phone);
-            response.put("authNo", authNo);
-            System.out.println("phonephonephonephonephonephonephonephonephonephone" + phone);
-            System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo" + authNo);
-            return ResponseEntity.ok(response);
+        public ResponseEntity<String> authPhone (@PathVariable String phone){
+            int authNum = signUp.sendSingUpSMS("+82" + phone);
+            String authNo = String.valueOf(authNum);
+            return new ResponseEntity<>(authNo, HttpStatus.OK);
         }
 
         // ID찾을때만 인증번호만 보내는 컨트롤러
         @GetMapping("/authPhone/findMyId/{phone}")
-        public ResponseEntity<String> findMyIdauthPhone (@PathVariable String phone){
+        public ResponseEntity<String> findMyIdAuthPhone (@PathVariable String phone){
             if (!memberService.findByPhone(phone)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
             }
             int authNum = signUp.sendIdSMS("+82" + phone);
             String authNo = String.valueOf(authNum);
-            System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo" + authNo);
-//        return ResponseEntity.ok(authNo);
             return new ResponseEntity<>(authNo, HttpStatus.OK);
         }
 
         // ID 반환
-        @GetMapping("/authPhone/idget/{phone}")
+        @GetMapping("/authPhone/idGet/{phone}")
         public ResponseEntity<String> findId (@PathVariable String phone){
             String phone2 = "+82" + phone;
             String id = memberService.idFind(phone2);
             return new ResponseEntity<>(id, HttpStatus.OK);
         }
 
-        @PostMapping("/member/findMyPassword")
+
+        // PW찾을때만 인증번호만 보내는 컨트롤러
+        @GetMapping("/authPhone/findMyPassword/{id}")
+        public ResponseEntity<String> findMyPwAuthPhone (@PathVariable String id){
+            try{
+                String phone = memberService.phoneFind(id);
+                System.out.println(phone);
+//            if (!memberService.pwFindByIdCheck(id)) {
+//                return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
+//            }
+                int authNum = signUp.sendPwSMS(phone);
+                String authNo = String.valueOf(authNum);
+                return new ResponseEntity<>(authNo, HttpStatus.OK);
+            }
+            catch (Exception e){
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
+            }
+
+//            System.out.println(phone);
+////            if (!memberService.pwFindByIdCheck(id)) {
+////                return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
+////            }
+//            int authNum = signUp.sendPwSMS(phone);
+//            String authNo = String.valueOf(authNum);
+//            return new ResponseEntity<>(authNo, HttpStatus.OK);
+        }
+
+        // PW 변경
+        @PutMapping("/authPhone/pwGet/{id}")
         public ResponseEntity<String> findPassword (@RequestBody MemberDTO memberDTO){
-            memberService.passwordUpdate(memberDTO);
+            System.out.println(memberDTO);
+            try{
+                memberService.passwordUpdate(memberDTO);
+            }
+            catch (Exception e){
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            }
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
@@ -115,4 +140,5 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
      */
-    }
+
+}

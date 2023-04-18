@@ -13,14 +13,14 @@ public class SignUpSMS {
     @Value("AC0dfdf07723f0a2c8a520dc69e9019a1c")
     private String sid;
 
-    @Value("fe1d2e5b849922dcae4b382512fee51e")
+    @Value("c1a700c5df7659466917a1a2cb3617c2")
     private String token;
 
     @Autowired
     MemberMapper memberMapper;
 
     // 회원가입 SMS 전송
-    public String sendSingupSMS (String phone) {
+    public int sendSingUpSMS (String phone) {
         Twilio.init(sid,token);
         // 휴대폰 인증번호 생성
         int authNo = randomRange(100000, 999999);
@@ -36,7 +36,7 @@ public class SignUpSMS {
                 new PhoneNumber("+16205165212"),
                 // message
                 authMsg).create();
-        return String.valueOf(authNo);
+        return authNo;
     }
 
 
@@ -59,6 +59,28 @@ public class SignUpSMS {
                 authMsg).create();
         return authNo;
     }
+
+
+    // 패스워드 찾기 SMS 전송
+    public int sendPwSMS(String phone) {
+        Twilio.init(sid,token);
+        // 휴대폰 인증번호 생성
+        int authNo = randomRange(100000, 999999);
+        // 전송대상 휴대폰 번호
+        String sendTarget = phone;
+        // 전송 메세지
+        System.out.println(phone);
+        String authMsg = "Catchvegan 패스워드 찾기 인증 번호 [" + authNo + "] 입니다" ;
+        Message message = Message.creator(
+                // to
+                new PhoneNumber(sendTarget),
+                // from
+                new PhoneNumber("+16205165212"),
+                // message
+                authMsg).create();
+        return authNo;
+    }
+
 
     // 인증번호 범위 지정
     public static int randomRange(int n1, int n2) {
