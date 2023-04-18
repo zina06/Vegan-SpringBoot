@@ -38,7 +38,6 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                //        .antMatchers("/**")
                 .antMatchers("/Catchvegan")
                 .antMatchers("/Catchvegan/error")
                 .antMatchers("/Catchvegan/member/findMyId")
@@ -46,7 +45,11 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/Catchvegan/member/signup")
                 .antMatchers("/Catchvegan/member/checkid")
                 .antMatchers("/Catchvegan/manager/signup")
-                .antMatchers("/Catchvegan/authPhone/**");
+                .antMatchers("/Catchvegan/authPhone/**")
+                .antMatchers("/Catchvegan/reserve-result")      // 카카오페이
+                .antMatchers("/Catchvegan/reserve/success/**")  // 카카오페이
+                .antMatchers("/Catchvegan/reserve/cancel/**")   // 카카오페이
+                .antMatchers("/Catchvegan/reserve/fail/**");    // 카카오페이
         // 이 요청들에 대해서는 spring security 필터 체인을 적용하지 않겠다
     }
 
@@ -54,16 +57,12 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/Catchvegan").permitAll()
-                .antMatchers("/Catchvegan/error").permitAll()
-                .antMatchers("/Catchvegan/member/checkid").permitAll()
-                .antMatchers("/Catchvegan/member/signup").permitAll()
-                .antMatchers("/Catchvegan/member/findMyId").permitAll()
-                .antMatchers("/Catchvegan/authPhone/**").permitAll()
                 .antMatchers("/Catchvegan/manager/findMyPassword").permitAll()
-                .antMatchers("/Catchvegan/manager/signup").permitAll()
                 .antMatchers("/Catchvegan/manager/signup/**").permitAll()
                 //.antMatchers("/Catchvegan/member/aftersignup").access("hasRole('ROLE_USER')")
+                .antMatchers("/Catchvegan/reserve/**").access("hasRole('ROLE_USER')")   //예약페이지는 유저만 접근가능
+                .antMatchers("/Catchvegan/mydining/**").access("hasRole('ROLE_USER')")  //My-dining 페이지는 유저만 접근가능
+                .antMatchers("/Catchvegan/member/mypage/**").access("hasRole('ROLE_USER')") //마이페이지는 유저만 접근가능
                 .anyRequest().authenticated() // authenticated()는 가장 마지막에 위치하도록 변경
                 .and()
                 .exceptionHandling()
