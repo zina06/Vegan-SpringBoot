@@ -10,7 +10,7 @@ import java.util.List;
 public interface ManagerService  {
     public RestaurantDTO restaurantmanage(int managerIdx);
     public void updaterestaurant(RestaurantDTO restaurantDTO);
-    public List<ReserveDTO> reservememberlist(int restaurantIdx);
+    public List<ReserveDTO> reservememberlist(ReserveDTO reserveDTO);
     public void confirmstatus(ReserveDTO reserveDTO);
 
 

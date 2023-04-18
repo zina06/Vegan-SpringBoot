@@ -61,11 +61,14 @@
             r.reserveDate,
             r.rescount,
             r.visitStatus,
-            r.cancelStatus
+            r.cancelStatus,
+            r.reserveIdx,
+            m.memberIdx
             from member m
                  left outer join reserve r
                  on m.memberIdx=r.memberIdx
                     where r.restaurantidx=#{restaurantIdx}
+                    and TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
     </select>
 
     <!-- 방문완료한 회원의 상태 변경-->
@@ -80,13 +83,12 @@
 
 
 
-
     <select id="findAllManagers" resultType="ManagerDTO">
         select * from manager
     </select>
 
     <insert id="createManager">
-        <selectKey keyProperty="manageridx" keyColumn="managerIdx" order="BEFORE" resultType="Integer">
+        <selectKey keyProperty="managerIdx" keyColumn="managerIdx" order="BEFORE" resultType="Integer">
             select managerseq.nextval from dual
         </selectKey>
         insert into manager(manageridx,restaurantidx,id,password)
@@ -115,10 +117,6 @@
         from manager mg, managerauth ma
         where mg.manageridx = ma.manageridx(+)
           and mg.id = #{id}
-    </select>
-
-    <select id="managerGet" resultType="ManagerDTO">
-        SELECT id, name FROM manager WHERE id = #{id}
     </select>
 
     <select id="managerIdGet" resultType="ManagerDTO">

@@ -24,7 +24,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     private CustomUserDetailService customUserDetailService;
 
     public WebConfig(MemberMapper memberMapper, ManagerMapper managerMapper,
-            CustomUserDetailService customUserDetailService) {
+                     CustomUserDetailService customUserDetailService) {
         this.memberMapper = memberMapper;
         this.managerMapper = managerMapper;
         this.customUserDetailService = customUserDetailService;
@@ -38,11 +38,12 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .antMatchers("/**")
+                //        .antMatchers("/**")
                 .antMatchers("/Catchvegan")
+                .antMatchers("/Catchvegan/error")
                 .antMatchers("/Catchvegan/member/checkid")
-                .antMatchers("/Catchvegan/member/signup");
-
+                .antMatchers("/Catchvegan/member/signup")
+                .antMatchers("/Catchvegan/manager/signup");
         // 이 요청들에 대해서는 spring security 필터 체인을 적용하지 않겠다
     }
 
@@ -51,9 +52,11 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/Catchvegan").permitAll()
+                .antMatchers("/Catchvegan/error").permitAll()
                 .antMatchers("/Catchvegan/member/checkid").permitAll()
                 .antMatchers("/Catchvegan/member/signup").permitAll()
-                .antMatchers("/Catchvegan/owner/signup").permitAll()
+                .antMatchers("/Catchvegan/manager/signup").permitAll()
+                .antMatchers("/Catchvegan/member/aftersignup").access("hasRole('ROLE_USER')")
                 .and()
                 .addFilter(authenticationFilter())
                 .addFilter(JwtFilter()).authorizeRequests()
@@ -80,7 +83,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
     /*
      * 시큐리티 설정 제거
-     * 
+     *
      * @Bean
      * public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
      * Exception {
