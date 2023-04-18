@@ -16,4 +16,8 @@ public class ReviewDTO {
     private String content;
     private double rating;
     private String images;
+
+    private MemberDTO memberDTO;
+
+    private RestaurantDTO restaurantDTO;
 }

@@ -23,7 +23,9 @@ public interface ReviewMapper {
 
     public List<MemberDTO> oneMemberAllReview(MemberDTO memberDTO);
 
+    public List<ReviewDTO> getReviewList(int restaurantIdx);
 
+    public List<ReviewDTO> getRecentReview();
 }
 
 

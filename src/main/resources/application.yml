@@ -4,6 +4,11 @@ server:
 spring:
   messages:
     basename: message
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      location: d:\\temp\\spring_uploaded_files
 
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy

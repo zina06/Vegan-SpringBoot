@@ -18,6 +18,17 @@
         <collection resultMap="review" property="reviewDTOList"></collection>
     </resultMap>
 
+    <resultMap id="memberMap" type="MemberDTO">
+        <id property="memberIdx" column="memberidx" />
+        <result property="id" column="id" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="phone" column="phone" />
+        <result property="email" column="email" />
+        <result property="veganType" column="vegantype" />
+        <result property="withdraw" column="withdraw" />
+    </resultMap>
+
     <resultMap id="review" type="ReviewDTO">
         <result property="reviewIdx" column="reviewidx"/>
         <result property="visitIdx" column="visitidx"/>
@@ -25,8 +36,21 @@
         <result property="content" column="content"/>
         <result property="rating" column="rating"/>
         <result property="images" column="images"/>
+        <association property="memberDTO" resultMap="memberMap"/>
+        <association property="restaurantDTO" resultMap="restaurantMap"/>
     </resultMap>
 
+    <resultMap id="restaurantMap" type="RestaurantDTO">
+        <result property="name" column="name"/>
+        <result property="city" column="city"/>
+        <result property="images" column="images"></result>
+    </resultMap>
+
+
+
+    <resultMap id="visitMap" type="VisitDto">
+        <result property="visitIdx" column="visitidx"/>
+    </resultMap>
 
     <select id="reviewsFindAll" resultType="ReviewDTO">
         select * from review
@@ -57,6 +81,35 @@
           and v.reserveidx(+) = res.reserveidx
           and res.memberidx(+) = m.memberidx
           and m.memberidx = #{memberIdx}
+    </select>
+
+    <!--한 식당에 대한 리뷰 불러오기-->
+    <select id="getReviewList" resultMap="review">
+        select r.title, r.content, r.rating, r.images, m.name, r.reviewIdx
+              from review r
+                 LEFT OUTER JOIN visit v ON r.visitidx=r.visitidx
+                 LEFT OUTER JOIN reserve rv ON v.reserveidx=rv.reserveidx
+                 LEFT OUTER JOIN restaurant res ON rv.restaurantidx=res.restaurantidx
+                 LEFT OUTER JOIN member m ON rv.memberidx=m.memberidx
+                                         where res.restaurantidx=#{restaurantIdx}
+    </select>
+
+
+    <!--main에 리뷰 띄우기-->
+    <select id="getRecentReview" resultMap="review">
+
+        SELECT *
+        FROM (
+            SELECT r.title, r.content, r.rating, r.images, m.name, r.reviewIdx, res.name as "res.name", res.restaurantIdx
+            FROM review r
+            LEFT OUTER JOIN visit v ON r.visitidx=v.visitidx
+            LEFT OUTER JOIN reserve rv ON v.reserveidx=rv.reserveidx
+            LEFT OUTER JOIN restaurant res ON rv.restaurantidx=res.restaurantidx
+            LEFT OUTER JOIN member m ON rv.memberidx=m.memberidx
+                    ORDER BY r.reviewIdx DESC
+                ) r
+                        WHERE ROWNUM &lt;= 5
+
     </select>
 
 </mapper>

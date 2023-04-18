@@ -46,12 +46,12 @@
                     name=#{name},
                     menu=#{menu},
                     restaurantinfo=#{restaurantInfo},
-                    images=#{images},
-                    reservepay=#{reservePay},
-                    limitperson=#{limitPerson}
+                    images=#{images}
                         where restaurantidx=#{restaurantIdx}
 
     </update>
+
+
 
     <!--  예약자목록 불러오기-->
     <select id="reservememberlist" resultMap="reserveMap">
