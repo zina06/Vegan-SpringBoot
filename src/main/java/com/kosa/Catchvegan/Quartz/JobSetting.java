@@ -19,6 +19,9 @@ public class JobSetting {
     @Autowired
     private ReserveJob reserveJob;
 
+    @Autowired
+    private DeleteJob deleteJob;
+
 
     @PostConstruct
     public void start() throws SchedulerException {
@@ -32,5 +35,14 @@ public class JobSetting {
                 .build();
 
         scheduler.scheduleJob(jobDetail, trigger);
+
+        JobDetail jobDetail1 = JobBuilder.newJob(deleteJob.getClass())
+                .withIdentity("deleteJob", "group2")
+                .build();
+        Trigger trigger1 = TriggerBuilder.newTrigger()
+                .withIdentity("deleteTrigger", "group2")
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 * * ? * *"))
+                .build();
+        scheduler.scheduleJob(jobDetail1,trigger1);
     }
 }

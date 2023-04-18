@@ -38,8 +38,11 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-//                .antMatchers("/**")
-                .antMatchers("/Catchvegan")
+                .antMatchers("/**")
+                .antMatchers("/Catchvegan/reserve/**")
+                .antMatchers("/Catchvegan/reserve-result")
+                .antMatchers("/Catchvegan/mydining/**")
+                .antMatchers("/Catchvegan/reserve/**")
                 .antMatchers("/Catchvegan/member/checkid")
                 .antMatchers("/Catchvegan/member/signup");
 

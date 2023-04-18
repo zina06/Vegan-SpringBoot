@@ -1,21 +1,25 @@
 package com.kosa.Catchvegan.Service;
 
-import com.kosa.Catchvegan.DTO.KakaoApproveResponseDTO;
-import com.kosa.Catchvegan.DTO.KakaoReadyResponseDTO;
-import com.kosa.Catchvegan.DTO.RestaurantDTO;
+import com.kosa.Catchvegan.DTO.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import static org.apache.logging.log4j.core.util.Integers.parseInt;
+
 @Service
 public class KakaoPayService {
 
-
+    @Autowired
+    private ReserveService service;
     private KakaoReadyResponseDTO kakaoReady;
 
+    @Transactional
     public KakaoReadyResponseDTO kakaoPayReady(String name, int persons, int total, Long reserveIdx){
 
         // 카카오페이 요청 양식
@@ -46,6 +50,7 @@ public class KakaoPayService {
         return kakaoReady;
     }
 
+    @Transactional
     public KakaoApproveResponseDTO approveResponse(String pgToken, Long reserveIdx) {
 
         // 카카오 요청
@@ -69,6 +74,40 @@ public class KakaoPayService {
 
         return approveResponse;
     }
+
+    /**
+     * 결제 환불
+     */
+    @Transactional
+    public KakaoCancelResponseDTO kakaoCancel(PaymentDTO DTO) {
+        PaymentDTO paymentDTO = service.getPayment(DTO);
+        service.cancelReserve(paymentDTO.getReserveIdx());
+        CancelDTO cancelDTO =  new CancelDTO();
+        cancelDTO.setReserveIdx(paymentDTO.getReserveIdx());
+        service.cancelRes(cancelDTO);
+        // 카카오페이 요청
+        MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
+        parameters.add("cid", "TC0ONETIME");
+        parameters.add("tid", paymentDTO.getTid().toString());
+        parameters.add("cancel_amount", paymentDTO.getPayAmount());
+        parameters.add("cancel_tax_free_amount", 0);
+
+
+        // 파라미터, 헤더
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
+
+        // 외부에 보낼 url
+        RestTemplate restTemplate = new RestTemplate();
+
+        KakaoCancelResponseDTO cancelResponse = restTemplate.postForObject(
+                "https://kapi.kakao.com/v1/payment/cancel",
+                requestEntity,
+                KakaoCancelResponseDTO.class);
+
+        return cancelResponse;
+    }
+
+
     private HttpHeaders getHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
 

@@ -42,3 +42,8 @@ twilio:
     token: 3abfc9e59d8b3b9c6a3d0055a1b181b1
   from:
     number: +15074458078
+
+jacoco:
+  enabled: true
+  append: false
+  destination: build/jacoco
