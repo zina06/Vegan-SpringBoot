@@ -37,13 +37,14 @@ quartz:
           threadCount: 3
 twilio:
   account:
-    sid: ACe7800a91efb2cbb3d1c9fc0e6d83c630
+    sid: AC0dfdf07723f0a2c8a520dc69e9019a1c
   auth:
-    token: 3abfc9e59d8b3b9c6a3d0055a1b181b1
+    token: 0ad82de71abf07b12a77359393a82333
   from:
-    number: +15074458078
+    number: +16205165212
 
 jacoco:
   enabled: true
   append: false
   destination: build/jacoco
+    

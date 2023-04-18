@@ -41,6 +41,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
+        System.out.println("=========== attemptAuthentication 접근 ===========");
         try {
             MemberDTO md = new ObjectMapper().readValue(request.getInputStream(),
                     MemberDTO.class);
@@ -50,18 +51,19 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             mg.setPassword(md.getPassword());
             ManagerDTO mas = managerMapper.managerGetUserByIdAndPassword(mg.getId());
             if (mas != null) {
+                System.out.println("=========== attemptAuthentication 매니저 ================");
                 return getAuthenticationManager().authenticate(
                         new UsernamePasswordAuthenticationToken(
                                 mas.getId(),
-                                md.getPassword(),
+                                mg.getPassword(),
                                 new ArrayList<>())
                 );
             } else if (mds != null) {
-
+                System.out.println("=========== attemptAuthentication 맴버 ================");
                 return getAuthenticationManager().authenticate(
                         new UsernamePasswordAuthenticationToken(
                                 mds.getId(),
-                                mg.getPassword(),
+                                md.getPassword(),
                                 new ArrayList<>())
                 );
             } else {

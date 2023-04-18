@@ -10,4 +10,10 @@ import java.util.List;
 public interface MyDiningMapper {
 
     public List<ReserveDTO> getReserves(MemberDTO dto);
+
+    public List<ReserveDTO> getVisitCompleted(MemberDTO dto);
+
+    public List<ReserveDTO> getReserveCancel(MemberDTO dto);
+
+    public List<ReserveDTO> goReviewButton(MemberDTO dto);
 }

@@ -2,7 +2,6 @@ package com.kosa.Catchvegan.Service;
 
 import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.MemberDTO;
-import com.kosa.Catchvegan.DTO.ReserveDTO;
 import org.apache.catalina.Manager;
 
 import java.util.List;
@@ -19,8 +18,14 @@ public interface MemberService {
 
     public MemberDTO getUserByIdAndPassword(String id);
 
+    public void memberUpdate(MemberDTO memberDTO) throws Exception;
 
+    public boolean findByPhone(String phone);
+    public boolean idFindByPhone(String id);
 
+    public void passwordUpdate(MemberDTO memberDTO);
+
+    public String idFind(String phone);
 
 
 }

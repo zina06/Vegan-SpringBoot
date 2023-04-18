@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Generated;
 import lombok.NoArgsConstructor;
+import java.util.List;
+
+
 @Generated
 @Data
 @AllArgsConstructor
@@ -15,4 +18,5 @@ public class ReviewDTO {
     private String content;
     private double rating;
     private String images;
+    private MemberDTO memberDTO;
 }

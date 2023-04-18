@@ -3,7 +3,9 @@ package com.kosa.Catchvegan.Controller;
 import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.ReserveDTO;
 import com.kosa.Catchvegan.DTO.RestaurantDTO;
+import com.kosa.Catchvegan.Mapper.ReserveMapper;
 import com.kosa.Catchvegan.Service.ManagerService;
+import com.kosa.Catchvegan.Service.ReserveService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static java.lang.Integer.parseInt;
 
 
 @Slf4j
@@ -21,6 +28,20 @@ public class ManagerController {
     @Autowired
     ManagerService managerService;
 
+
+
+    //식당 정보 불러오기
+
+//    @GetMapping("/manager/{managerIdx}")
+//    public Map<String, Object> RestaurantManager(@PathVariable int managerIdx){
+//        Map<String, Object> map=new HashMap<>();
+//        RestaurantDTO restaurantDTO = managerService.restaurantmanage(managerIdx);
+//        List<ReserveDTO> reservememberlist = managerService.reservememberlist(restaurantDTO.getRestaurantIdx());
+//        map.put("restaurantDTO",restaurantDTO);
+//        map.put("reservelist",reservememberlist);
+//
+//        return map;
+//    }
     @PostMapping("/manager/signup")
     public ResponseEntity<String> adminSignup(@RequestBody ManagerDTO managerDTO){
         System.out.println("나는 어드민으로 가입할꺼야");
@@ -28,20 +49,38 @@ public class ManagerController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    //식당 정보 불러오기
-    @GetMapping("/manager/{managerIdx}")
-    public ResponseEntity<RestaurantDTO> RestaurantManager(@PathVariable int managerIdx){
-        try {
-            RestaurantDTO restaurantDTO = managerService.restaurantmanage(managerIdx);
-            if (restaurantDTO != null) {
-                return new ResponseEntity<RestaurantDTO>(restaurantDTO, HttpStatus.OK);
-            }
+  
 
-        } catch (Exception e) {
-            log.error(e.getMessage());
+    @GetMapping("/manager/{managerIdx}")
+    public Map<String, Object> RestaurantManager(@PathVariable int managerIdx, @RequestParam String reserveDate){
+        Map<String, Object> map=new HashMap<>();
+        RestaurantDTO restaurantDTO = managerService.restaurantmanage(managerIdx);
+        System.out.println(reserveDate);
+        try{
+            String year = reserveDate.substring(0, 4); // 2023
+            String month = reserveDate.substring(5, 7); // 04
+            String day = reserveDate.substring(8, 10); // 13
+            System.out.println(year + "-" + month + "-" + day);
+            ReserveDTO reserveDTO = new ReserveDTO();
+            reserveDTO.setReserveDate(new Date(parseInt(year)-1900,parseInt(month)-1,parseInt(day)));
+            reserveDTO.setRestaurantIdx(restaurantDTO.getRestaurantIdx());
+            List<ReserveDTO>reserveDTOS=managerService.reservememberlist(reserveDTO);
+//            map.put("restaurantDTO",restaurantDTO);
+            map.put("reservelist",reserveDTOS);
         }
-        return new ResponseEntity<RestaurantDTO>(HttpStatus.NO_CONTENT);
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            map.put("restaurantDTO",restaurantDTO);
+        }
+
+
+
+        return map;
     }
+
+
 
     //식당 정보 수정
     @PutMapping("/managerupdate")
@@ -59,21 +98,21 @@ public class ManagerController {
     }
 
     //예약자 목록 리스트
-    @GetMapping("/manager/reservemember/{restaurantIdx}")
-    public ResponseEntity<List<ReserveDTO>> ReserveMemberlist(@PathVariable int restaurantIdx){
-        List<ReserveDTO> reservememberlist = managerService.reservememberlist(restaurantIdx);
-        try {
-
-
-            if (reservememberlist != null) {
-                return new ResponseEntity<List<ReserveDTO>>(reservememberlist, HttpStatus.OK);
-            }
-
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-        return new ResponseEntity<List<ReserveDTO>>(HttpStatus.NO_CONTENT);
-    }
+//    @GetMapping("/manager/reservemember/{restaurantIdx}")
+//    public ResponseEntity<List<ReserveDTO>> ReserveMemberlist(@PathVariable int restaurantIdx){
+//        List<ReserveDTO> reservememberlist = managerService.reservememberlist(restaurantIdx);
+//        try {
+//
+//
+//            if (reservememberlist != null) {
+//                return new ResponseEntity<List<ReserveDTO>>(reservememberlist, HttpStatus.OK);
+//            }
+//
+//        } catch (Exception e) {
+//            log.error(e.getMessage());
+//        }
+//        return new ResponseEntity<List<ReserveDTO>>(HttpStatus.NO_CONTENT);
+//    }
 
 
 

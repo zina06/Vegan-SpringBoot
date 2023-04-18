@@ -22,4 +22,5 @@ public class ReserveDTO {
     private MemberDTO memberDTO;
 
     private RestaurantDTO restaurantDTO;
+    private VisitDTO visitDTO;
 }
