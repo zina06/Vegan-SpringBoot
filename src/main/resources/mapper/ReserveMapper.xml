@@ -72,4 +72,5 @@
         and TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
     </select>
 
+
 </mapper>
