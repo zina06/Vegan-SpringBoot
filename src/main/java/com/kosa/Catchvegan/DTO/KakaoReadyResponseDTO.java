@@ -1,7 +1,9 @@
 package com.kosa.Catchvegan.DTO;
 
 import lombok.Data;
+import lombok.Generated;
 
+@Generated
 @Data
 public class KakaoReadyResponseDTO {
     private String tid; // 결제 고유 번호

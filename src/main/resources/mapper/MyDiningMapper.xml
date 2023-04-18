@@ -17,14 +17,21 @@
     </resultMap>
 
     <select id="getReserves" resultMap="reserves">
-        select reserveidx, reservedate, rescount, name, city from reserve r, restaurant rt
+        select r.reserveidx, reservedate, rescount, name, city from reserve r, restaurant rt, payment p
         where r.restaurantidx = rt.restaurantidx
-        and memberidx = #{memberIdx}
+          and r.reserveidx = p.reserveidx
+          and memberidx = #{memberIdx}
+          and visitstatus = 'x'
+          and cancelstatus = 'x'
+        order by reserveDate
+    </select>
+
+        <!-- and memberidx = #{memberIdx}
         and visitstatus = 'x'
         and cancelstatus = 'x'
         and reservedate &gt; SYSTIMESTAMP
         order by reserveDate
-    </select>
+    </select> -->
 
     <select id="getVisitCompleted" resultMap="reserves">
         select reserveidx, reservedate, rescount, name, city from reserve r, restaurant rt

@@ -1,9 +1,6 @@
 package com.kosa.Catchvegan.Service;
 
-import com.kosa.Catchvegan.DTO.PaymentDTO;
-import com.kosa.Catchvegan.DTO.ReserveDTO;
-import com.kosa.Catchvegan.DTO.RestaurantDTO;
-import com.kosa.Catchvegan.DTO.TimeDTO;
+import com.kosa.Catchvegan.DTO.*;
 import com.kosa.Catchvegan.Mapper.ReserveMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,5 +95,49 @@ public class ReserveServiceImpl implements ReserveService{
     @Override
     public int deleteReserve(ReserveDTO reserveDTO) {
         return mapper.deleteReserve(reserveDTO);
+    }
+
+    @Override
+    public MemberDTO getMember(int memberIdx) {
+        return mapper.getMember(memberIdx);
+    }
+
+    @Override
+    public PaymentDTO getPayment(PaymentDTO paymentDTO) {
+        return mapper.getPayment(paymentDTO);
+    }
+
+    @Override
+    public int cancelReserve(int reserveIdx) {
+        return mapper.cancelReserve(reserveIdx);
+    }
+
+    @Override
+    public void cancelRes(CancelDTO dto) {
+        mapper.cancelRes(dto);
+    }
+
+    @Override
+    public int deletePayment(ReserveDTO reserveDTO) {
+        return mapper.deletePayment(reserveDTO);
+    }
+
+    @Override
+    public boolean canReserve(ReserveDTO reserveDTO) {
+        return mapper.canReserve(reserveDTO).size() == 0 ? true : false ;
+    }
+
+    @Override
+    public void noReserve() {
+        List<ReserveDTO> reserve = mapper.noReserve();
+        if(reserve.isEmpty()){
+            return;
+        }
+        else{
+            for(ReserveDTO r : reserve){
+                System.out.println("delete Reserve" + r);
+                mapper.deleteReserve(r);
+            }
+        }
     }
 }
