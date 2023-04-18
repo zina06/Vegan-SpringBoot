@@ -39,6 +39,6 @@ twilio:
   account:
     sid: AC0dfdf07723f0a2c8a520dc69e9019a1c
   auth:
-    token: fe1d2e5b849922dcae4b382512fee51e
+    token: 0ad82de71abf07b12a77359393a82333
   from:
     number: +16205165212

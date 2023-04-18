@@ -14,4 +14,6 @@ public interface MyDiningMapper {
     public List<ReserveDTO> getVisitCompleted(MemberDTO dto);
 
     public List<ReserveDTO> getReserveCancel(MemberDTO dto);
+
+    public List<ReserveDTO> goReviewButton(MemberDTO dto);
 }

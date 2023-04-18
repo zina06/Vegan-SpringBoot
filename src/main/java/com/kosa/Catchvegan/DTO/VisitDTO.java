@@ -13,4 +13,5 @@ public class VisitDTO {
     private Integer visitIdx;
     private Integer reserveIdx;
     private Date visitDate;
+    private ReviewDTO reviewDTO;
 }

@@ -18,6 +18,17 @@
         <collection resultMap="review" property="reviewDTOList"></collection>
     </resultMap>
 
+    <resultMap id="memberMap" type="MemberDTO">
+        <id property="memberIdx" column="memberidx" />
+        <result property="id" column="id" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="phone" column="phone" />
+        <result property="email" column="email" />
+        <result property="veganType" column="vegantype" />
+        <result property="withdraw" column="withdraw" />
+    </resultMap>
+
     <resultMap id="review" type="ReviewDTO">
         <result property="reviewIdx" column="reviewidx"/>
         <result property="visitIdx" column="visitidx"/>
@@ -25,8 +36,8 @@
         <result property="content" column="content"/>
         <result property="rating" column="rating"/>
         <result property="images" column="images"/>
+        <association property="memberDTO" resultMap="memberMap"/>
     </resultMap>
-
 
     <select id="reviewsFindAll" resultType="ReviewDTO">
         select * from review
@@ -43,7 +54,10 @@
 
     <update id="updateReview" parameterType="ReviewDTO">
         update review
-        set content = #{content}
+        set title = #{title},
+            content = #{content},
+            rating = #{rating},
+            images = #{images}
         where reviewidx = #{reviewIdx}
     </update>
 
@@ -58,5 +72,4 @@
           and res.memberidx(+) = m.memberidx
           and m.memberidx = #{memberIdx}
     </select>
-
 </mapper>

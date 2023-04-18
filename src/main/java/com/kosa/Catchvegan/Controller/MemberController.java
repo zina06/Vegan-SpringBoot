@@ -52,10 +52,14 @@ public class MemberController {
     }
 
     @PutMapping("/member/mypage")
-    public ResponseEntity<MemberDTO> memberModify(@RequestBody MemberDTO memberDTO){
-        memberService.memberUpdate(memberDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+    public ResponseEntity<MemberDTO> memberModify(@RequestBody MemberDTO memberDTO) {
+
+        try{
+            memberService.memberUpdate(memberDTO);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
 
     // 회원 가입 할때만 인증번호만 보내는 컨트롤러
     @GetMapping("/authPhone/signup/{phone}")

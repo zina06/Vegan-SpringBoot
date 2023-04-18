@@ -18,7 +18,7 @@ public interface MemberService {
 
     public MemberDTO getUserByIdAndPassword(String id);
 
-    public void memberUpdate(MemberDTO memberDTO);
+    public void memberUpdate(MemberDTO memberDTO) throws Exception;
 
     public boolean findByPhone(String phone);
     public boolean idFindByPhone(String id);
