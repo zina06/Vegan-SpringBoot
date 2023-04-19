@@ -87,14 +87,18 @@ public class MemberController {
 
 
     // PW찾을때만 인증번호만 보내는 컨트롤러
-    @GetMapping("/authPhone/findMyPassword/{phone}")
-    public ResponseEntity<String> findMyPwAuthPhone (@PathVariable String phone){
-        if (!memberService.findByPhone(phone)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("error");
+    @GetMapping("/authPhone/findMyPassword/{id}")
+    public ResponseEntity<String> findMyPwAuthPhone (@PathVariable String id){
+        try{
+            String phone = memberService.phoneFind(id);
+            int authNum = signUp.sendIdSMS(phone);
+            String authNo = String.valueOf(authNum);
+            return new ResponseEntity<>(authNo, HttpStatus.OK);
         }
-        int authNum = signUp.sendIdSMS("+82" + phone);
-        String authNo = String.valueOf(authNum);
-        return new ResponseEntity<>(authNo, HttpStatus.OK);
+        catch (Exception e){
+            return new ResponseEntity<>("error" ,HttpStatus.CONFLICT);
+        }
+
     }
 
     // PW 변경
