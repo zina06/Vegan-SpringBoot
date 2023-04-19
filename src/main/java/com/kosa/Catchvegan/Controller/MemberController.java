@@ -40,11 +40,8 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    //@PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping ("/member/aftersignup")
-    public String aftersignup(Principal principal){
-        System.out.println("principal2 = " + principal);
-        System.out.println(principal.getName());
+    public String aftersignup(){
         return "여기는 멤버 토큰있는사람만 올수있어";
     }
 
@@ -112,17 +109,16 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-        /*
-    @GetMapping("/member/findMyId")
-    public ResponseEntity<Map<String, String>> findId(@RequestParam String id) {
-        String authNo = signUp.sendSingupSMS("+82" + phone);
-        Map<String, String> response = new HashMap<>();
-        response.put("phone", phone);
-        response.put("authNo", authNo);
-        System.out.println("phonephonephonephonephonephonephonephonephonephone"+phone);
-        System.out.println("authNoauthNoauthNoauthNoauthNoauthNoauthNoauthNo"+authNo);
-        return ResponseEntity.ok(response);
+    //멤버탈퇴
+    @PutMapping("/member/mypage/remove")
+    public ResponseEntity<MemberDTO> memberRemove(@RequestBody MemberDTO memberDTO) {
+        try{
+            memberService.memberRemove(memberDTO);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-     */
 
 }
