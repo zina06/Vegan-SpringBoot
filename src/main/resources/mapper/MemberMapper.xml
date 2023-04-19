@@ -80,10 +80,18 @@
         select id from member where phone=#{phone}
     </select>
 
+    <select id="pwFindById" resultType="MemberDTO">
+        select phone from member where id=#{id}
+    </select>
+
+    <select id="pwFindByIdCheck" resultType="MemberDTO">
+        select phone from member where id=#{id}
+    </select>
+
     <update id="passwordUpdate">
         update member
         set password = #{password}
-        where memberidx = #{memberIdx}
+        where id = #{id}
     </update>
 
 

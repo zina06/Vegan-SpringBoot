@@ -40,6 +40,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/Catchvegan")
                 .antMatchers("/Catchvegan/error")
+                .antMatchers("/Catchvegan/authPhone/**")
                 .antMatchers("/Catchvegan/member/findMyId")
                 .antMatchers("/Catchvegan/member/findMyPassword")
                 .antMatchers("/Catchvegan/member/signup")
