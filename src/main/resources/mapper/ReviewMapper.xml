@@ -65,6 +65,10 @@
         select * from review where visitidx = #{visitIdx}
     </select>
 
+    <select id="oneReview" resultType="ReviewDTO">
+        select * from review where reviewidx = #{reviewIdx}
+    </select>
+
     <update id="updateReview" parameterType="ReviewDTO">
         update review
         set title = #{title},

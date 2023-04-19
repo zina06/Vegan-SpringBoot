@@ -61,7 +61,7 @@ public class SignUpSMS {
     }
 
 
-    // 아이디 찾기 SMS 전송
+    // 패스워드 찾기 SMS 전송
     public int sendPwSMS(String phone) {
         Twilio.init(sid,token);
         // 휴대폰 인증번호 생성
@@ -70,7 +70,7 @@ public class SignUpSMS {
         String sendTarget = phone;
         // 전송 메세지
         System.out.println(phone);
-        String authMsg = "Catchvegan ID 찾기 인증 번호 [" + authNo + "] 입니다" ;
+        String authMsg = "Catchvegan 패스워드 찾기 인증 번호 [" + authNo + "] 입니다" ;
         Message message = Message.creator(
                 // to
                 new PhoneNumber(sendTarget),

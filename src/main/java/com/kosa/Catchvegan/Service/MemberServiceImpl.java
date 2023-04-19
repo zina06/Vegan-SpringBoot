@@ -50,7 +50,6 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     @Override
     public void memberUpdate(MemberDTO memberDTO) throws Exception {
-        System.out.println(memberDTO);
         String pw = memberDTO.getPassword();
         MemberDTO member = memberMapper.getUserByIdAndPassword(memberDTO.getId());
         if(pe.matches(pw, member.getPassword())){
@@ -58,6 +57,18 @@ public class MemberServiceImpl implements MemberService{
         }
         memberDTO.setPassword(pe.encode(pw));
         memberMapper.memberUpdate(memberDTO);
+    }
+
+    @Transactional
+    @Override
+    public void memberRemove(MemberDTO memberDTO) throws Exception {
+        String pw = memberDTO.getPassword();
+        MemberDTO member = memberMapper.getUserByIdAndPassword(memberDTO.getId());
+        if(pe.matches(pw, member.getPassword())){
+            throw new Exception();
+        }
+        memberDTO.setPassword(pe.encode(pw));
+        memberMapper.memberRemove(memberDTO);
     }
 
     @Override
@@ -70,17 +81,33 @@ public class MemberServiceImpl implements MemberService{
         return memberMapper.idFindByPhone(id) == null? false : true;
     }
 
-    @Override
-    public void passwordUpdate(MemberDTO memberDTO) {
-        String pw = memberDTO.getPassword();
-        memberDTO.setPassword(pe.encode(pw));
-        memberMapper.passwordUpdate(memberDTO);
-    }
 
     @Override
     public String idFind(String phone) {
         return memberMapper.idFindByPhone(phone).getId();
     }
 
+    //아이디에 맞는 핸드폰 번호 반환
+    @Override
+    public String phoneFind(String id) {
+        return memberMapper.pwFindById(id).getPhone();
+    }
 
+    //DB에 아이디에 맞는 핸드폰 있는지 체크하기
+    @Override
+    public boolean pwFindByIdCheck(String id) {
+        return memberMapper.pwFindByIdCheck(id) == null? false : true;
+    }
+
+    @Transactional
+    @Override
+    public void passwordUpdate(MemberDTO memberDTO) throws Exception {
+        MemberDTO member = memberMapper.getUserByIdAndPassword(memberDTO.getId());
+        String pw = memberDTO.getPassword();
+        if(pe.matches(pw, member.getPassword())){
+            throw new Exception();
+        }
+        memberDTO.setPassword(pe.encode(pw));
+        memberMapper.passwordUpdate(memberDTO);
+    }
 }
