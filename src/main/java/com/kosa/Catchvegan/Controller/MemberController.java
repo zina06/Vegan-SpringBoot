@@ -78,7 +78,7 @@ public class MemberController {
     }
 
     // ID 반환
-    @GetMapping("/authPhone/idget/{phone}")
+    @GetMapping("/authPhone/idGet/{phone}")
     public ResponseEntity<String> findId (@PathVariable String phone){
         String phone2 = "+82" + phone;
         String id = memberService.idFind(phone2);
@@ -98,7 +98,7 @@ public class MemberController {
     }
 
     // PW 변경
-    @PutMapping("/authPhone/pwget/{id}")
+    @PutMapping("/authPhone/pwGet/{id}")
     public ResponseEntity<String> findPassword (@RequestBody MemberDTO memberDTO){
         try{
             memberService.passwordUpdate(memberDTO);
@@ -110,7 +110,7 @@ public class MemberController {
     }
 
     //멤버탈퇴
-    @PutMapping("/member/mypage/remove")
+    @PutMapping("/member/myPage/remove")
     public ResponseEntity<MemberDTO> memberRemove(@RequestBody MemberDTO memberDTO) {
         try{
             memberService.memberRemove(memberDTO);
