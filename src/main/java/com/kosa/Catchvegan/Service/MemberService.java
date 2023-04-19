@@ -20,12 +20,20 @@ public interface MemberService {
 
     public void memberUpdate(MemberDTO memberDTO) throws Exception;
 
+    public void memberRemove(MemberDTO memberDTO) throws Exception;
+
     public boolean findByPhone(String phone);
     public boolean idFindByPhone(String id);
 
-    public void passwordUpdate(MemberDTO memberDTO);
+    public void passwordUpdate(MemberDTO memberDTO) throws Exception;
 
     public String idFind(String phone);
+
+    //아이디에 맞는 핸드폰 번호 반환
+    public String phoneFind(String id);
+
+    //DB에 아이디에 맞는 핸드폰 있는지 체크하기
+    public boolean pwFindByIdCheck(String id);
 
 
 }
