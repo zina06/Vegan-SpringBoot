@@ -63,6 +63,7 @@
 
     <resultMap id="visit" type="VisitDTO">
         <result property="reserveIdx" column="reserveidx"></result>
+        <result property="visitIdx" column="visitIdx"></result>
         <result property="visitDate" column="visitdate"></result>
         <association property="reviewDTO" resultMap="review"></association>
     </resultMap>
@@ -72,7 +73,7 @@
     </resultMap>
 
     <select id="goReviewButton" resultMap="reservesWithReview">
-        SELECT res.memberidx, res.reserveidx, res.reservedate, res.rescount, rv.*, rst.city, rst.name, v.visitdate
+        SELECT res.memberidx, res.reserveidx, res.reservedate, res.rescount, rv.reviewIdx, rst.city, rst.name, v.visitdate, v.visitidx
         FROM member m
                  LEFT OUTER JOIN reserve res ON res.memberidx = m.memberidx
                  LEFT OUTER JOIN visit v ON v.reserveidx = res.reserveidx
