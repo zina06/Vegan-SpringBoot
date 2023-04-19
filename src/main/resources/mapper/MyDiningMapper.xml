@@ -79,6 +79,9 @@
                  LEFT OUTER JOIN review rv ON rv.visitidx = v.visitidx
                  LEFT OUTER JOIN restaurant rst ON res.restaurantidx = rst.restaurantidx
         WHERE m.memberidx = #{memberIdx}
+          and res.visitstatus = 'o'
+          and res.cancelstatus = 'x'
+        order by res.reserveDate
     </select>
 
 

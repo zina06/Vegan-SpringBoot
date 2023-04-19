@@ -20,4 +20,5 @@ public class RestaurantDTO {
     private Integer limitPerson;
     private Integer reservePay;
     private String images;
+    private String restaurantPhone;
 }

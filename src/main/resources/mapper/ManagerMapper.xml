@@ -72,15 +72,20 @@
     </select>
 
     <!-- 방문완료한 회원의 상태 변경-->
-    <update id="confirmstatus">
-        update
+    <update id="confirmStatus">
+       update
             reserve
                 set
-                  visitstatus=#{visitStatus}
-                    where reserveidx=#{reserveIdx}
+                    visitStatus=#{visitStatus}
+                        where reserveIdx=#{reserveIdx}
     </update>
 
-
+    <!-- 방문 확정 후 visit생성-->
+    <insert id="createVisit">
+        insert into
+            visit
+                values(reserveseq.nextval, #{reserveIdx}, sysdate)
+    </insert>
 
 
     <select id="findAllManagers" resultType="ManagerDTO">

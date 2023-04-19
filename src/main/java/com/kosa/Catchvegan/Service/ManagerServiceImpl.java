@@ -3,6 +3,7 @@ package com.kosa.Catchvegan.Service;
 import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.ReserveDTO;
 import com.kosa.Catchvegan.DTO.RestaurantDTO;
+import com.kosa.Catchvegan.DTO.VisitDTO;
 import com.kosa.Catchvegan.Mapper.ManagerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,8 +35,13 @@ public class ManagerServiceImpl implements ManagerService{
     }
 
     @Override
-    public void confirmstatus(ReserveDTO reserveDTO) {
-        managerMapper.confirmstatus(reserveDTO);
+    public void confirmStatus(ReserveDTO reserveDTO) {
+        managerMapper.confirmStatus(reserveDTO);
+    }
+
+    @Override
+    public void createVisit(VisitDTO visitDTO) {
+        managerMapper.createVisit(visitDTO);
     }
 
 
