@@ -22,7 +22,7 @@ public class ReviewFileController {
     @Autowired
     private ReviewService reviewService;
 //    private final static String imageDirectory= Paths.get("").toAbsolutePath()+"/images/";
-    private final static String imageDirectory= "/Users/han-yechan/Desktop/파이널/vue/Vegan-Vue.js/src/assets/img/reviewimg";
+    private final static String imageDirectory= "C:\\final-vue\\vegan-vue\\src\\assets/uploadimages";
 
     @PostMapping(value = "/reviewInsertFiles")
     public ResponseEntity uploadFiles(@RequestParam("file") MultipartFile file, @RequestPart(required = false) ReviewDTO reviewDTO) {

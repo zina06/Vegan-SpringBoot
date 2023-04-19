@@ -3,6 +3,7 @@ package com.kosa.Catchvegan.Controller;
 import com.kosa.Catchvegan.DTO.ManagerDTO;
 import com.kosa.Catchvegan.DTO.ReserveDTO;
 import com.kosa.Catchvegan.DTO.RestaurantDTO;
+import com.kosa.Catchvegan.DTO.VisitDTO;
 import com.kosa.Catchvegan.Mapper.ReserveMapper;
 import com.kosa.Catchvegan.Service.ManagerService;
 import com.kosa.Catchvegan.Service.ReserveService;
@@ -118,13 +119,13 @@ public class ManagerController {
 
 
     //방문 회원 상태 변경
-    @PutMapping("/manager/confirmstatus")
+    @PutMapping ("/manager/confirmStatus")
     public ResponseEntity<Void> ConfirmStatus(@RequestBody ReserveDTO reserveDTO){
 //        ReserveDTO reserveDTO=new ReserveDTO();
 //        reserveDTO.setReserveIdx(reserveIdx);
         try{
 
-            managerService.confirmstatus(reserveDTO);
+            managerService.confirmStatus(reserveDTO);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e){
             log.error(e.getMessage());
@@ -132,6 +133,19 @@ public class ManagerController {
         }
 
 
+    }
+
+    //방문확정 후 visitDTO생성
+    @PostMapping("/manager/createVisit")
+    public ResponseEntity<Void> createVisit(@RequestBody VisitDTO visitDTO){
+        try{
+
+            managerService.createVisit(visitDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
 }

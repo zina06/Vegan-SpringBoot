@@ -41,7 +41,7 @@
     </resultMap>
 
     <resultMap id="restaurantMap" type="RestaurantDTO">
-        <result property="name" column="name"/>
+        <result property="name" column="res.name"/>
         <result property="city" column="city"/>
         <result property="images" column="images"></result>
     </resultMap>
@@ -107,7 +107,8 @@
 
         SELECT *
         FROM (
-            SELECT r.title, r.content, r.rating, r.images, m.name, r.reviewIdx, res.name as "res.name", res.restaurantIdx
+            SELECT r.title, r.content, r.rating, res.images,
+                   m.name, r.reviewIdx, res.name as "res.name", res.restaurantIdx
             FROM review r
             LEFT OUTER JOIN visit v ON r.visitidx=v.visitidx
             LEFT OUTER JOIN reserve rv ON v.reserveidx=rv.reserveidx
