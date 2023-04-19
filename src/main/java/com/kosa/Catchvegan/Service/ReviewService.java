@@ -19,4 +19,6 @@ public interface ReviewService {
     public List<ReviewDTO> getReviewList(int restaurantIdx);
 
     public List<ReviewDTO> getRecentReview();
+
+    public ReviewDTO oneReview(int reviewIdx);
 }

@@ -49,5 +49,10 @@ public class ReviewServiceImpl implements ReviewService{
         return mapper.getRecentReview();
     }
 
+    @Override
+    public ReviewDTO oneReview(int reviewIdx) {
+        return mapper.oneReview(reviewIdx);
+    }
+
 
 }
