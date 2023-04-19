@@ -41,6 +41,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/Catchvegan")
                 .antMatchers("/Catchvegan/error")
                 .antMatchers("/Catchvegan/authPhone/**")
+                .antMatchers("/Catchvegan/restaurant/**")
                 .antMatchers("/Catchvegan/member/findMyId")
                 .antMatchers("/Catchvegan/member/findMyPassword")
                 .antMatchers("/Catchvegan/member/signup")
@@ -62,6 +63,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/Catchvegan/manager/findMyPassword").permitAll()
                 .antMatchers("/Catchvegan/manager/signup/**").permitAll()
+                .antMatchers("/Catchvegan/restaurant/**").permitAll()
                 //.antMatchers("/Catchvegan/member/aftersignup").access("hasRole('ROLE_USER')")
                 .antMatchers("/Catchvegan/reserve/**").access("hasRole('ROLE_USER')")   //예약페이지는 유저만 접근가능
                 .antMatchers("/Catchvegan/mydining/**").access("hasRole('ROLE_USER')")  //My-dining 페이지는 유저만 접근가능

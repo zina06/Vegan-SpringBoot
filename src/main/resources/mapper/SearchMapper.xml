@@ -5,15 +5,15 @@
 
 <mapper namespace="com.kosa.Catchvegan.Mapper.SearchMapper">
     <select id="restaurantAllShow" resultType="RestaurantDTO">
-        select * from vegun_data
+        select * from restaurant 
     </select>
     <select id="getAddressWithPagingList"
             resultType="RestaurantDTO">
    		<![CDATA[
         SELECT RESTAURANTIDX, NAME, VEGANTYPE, ADDRESS, CITY, RESTAURANTINFO, MENU, LONGITUDE, LATITUDE, LIMITPERSON, RESERVEPAY, IMAGES
-        FROM (SELECT /*+INDEX_DESC(vegun_data RESTAURANTIDX) */
+        FROM (SELECT /*+INDEX_DESC(restaurant  RESTAURANTIDX) */
                   ROWNUM rn, RESTAURANTIDX, NAME, VEGANTYPE, ADDRESS, CITY, RESTAURANTINFO, MENU, LONGITUDE, LATITUDE, LIMITPERSON, RESERVEPAY, IMAGES
-            FROM vegun_data
+            FROM restaurant 
             WHERE CITY = #{keyword}
             AND
             (
@@ -39,9 +39,9 @@
     <select id="getLocationWithPagingList" resultType="RestaurantDTO">
         <![CDATA[
         SELECT RESTAURANTIDX, NAME, VEGANTYPE, ADDRESS, CITY, RESTAURANTINFO, MENU, LONGITUDE, LATITUDE, LIMITPERSON, RESERVEPAY, IMAGES FROM
-            (SELECT /*+INDEX_DESC(vegun_data RESTAURANTIDX) */
+            (SELECT /*+INDEX_DESC(restaurant  RESTAURANTIDX) */
                  ROWNUM rn,  RESTAURANTIDX, NAME, VEGANTYPE, ADDRESS, CITY, RESTAURANTINFO, MENU, LONGITUDE, LATITUDE, LIMITPERSON, RESERVEPAY, IMAGES
-            FROM vegun_data
+            FROM restaurant 
             WHERE       (LATITUDE  BETWEEN #{latitude} - 0.019 AND #{latitude} + 0.019)
                 AND     (LONGITUDE BETWEEN #{longitude} - 0.022 AND #{longitude} + 0.022)
                 AND
@@ -66,7 +66,7 @@
     </select>
 
     <select id="getAddressList" resultType="String">
-        select CITY from vegun_data
+        select CITY from restaurant 
             GROUP BY CITY
             ORDER BY CITY
     </select>
@@ -75,7 +75,7 @@
         <![CDATA[
         select count(*)
         from (select CITY, VEGANTYPE
-              from vegun_data
+              from restaurant 
               WHERE CITY = #{keyword}
                 AND ((
                                  VEGANTYPE = #{typeVege} OR
@@ -97,7 +97,7 @@
         <![CDATA[
         select count(*)
         from (select LATITUDE, LONGITUDE, VEGANTYPE
-              from vegun_data
+              from restaurant 
               WHERE (LATITUDE BETWEEN #{latitude} - 0.019 AND #{latitude} + 0.019)
                 AND (LONGITUDE BETWEEN #{longitude} - 0.022 AND #{longitude} + 0.022)
                 AND ((
