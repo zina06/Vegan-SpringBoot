@@ -59,6 +59,18 @@ public class MemberServiceImpl implements MemberService{
         memberMapper.memberUpdate(memberDTO);
     }
 
+    @Transactional
+    @Override
+    public void memberRemove(MemberDTO memberDTO) throws Exception {
+        String pw = memberDTO.getPassword();
+        MemberDTO member = memberMapper.getUserByIdAndPassword(memberDTO.getId());
+        if(pe.matches(pw, member.getPassword())){
+            throw new Exception();
+        }
+        memberDTO.setPassword(pe.encode(pw));
+        memberMapper.memberRemove(memberDTO);
+    }
+
     @Override
     public boolean findByPhone(String phone) {
         return memberMapper.findByPhone(phone) == null? false : true;

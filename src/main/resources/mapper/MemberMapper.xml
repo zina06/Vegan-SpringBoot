@@ -53,7 +53,7 @@
         update member set password = #{password} where id = #{id}
     </update>
 
-    <update id="userRemove">
+    <update id="memberRemove">
         update member
         set withdraw = 'o'
         where id = #{id}
