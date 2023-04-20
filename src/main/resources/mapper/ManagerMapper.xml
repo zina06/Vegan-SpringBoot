@@ -27,7 +27,7 @@
     </resultMap>
 
     <!--  식당정보 불러오기-->
-    <select id="restaurantmanage" resultType="RestaurantDto">
+    <select id="getOneRestaurant" resultType="RestaurantDto">
         select
             *
             from restaurant r
@@ -39,7 +39,7 @@
     </select>
 
     <!--  식당정보 수정하기-->
-    <update id="updaterestaurant" parameterType="RestaurantDto">
+    <update id="updateRestaurant" parameterType="RestaurantDto">
         update
             restaurant
                 set
@@ -54,7 +54,7 @@
 
 
     <!--  예약자목록 불러오기-->
-    <select id="reservememberlist" resultMap="reserveMap">
+    <select id="reserveMemberList" resultMap="reserveMap">
         select
             m.name,
             m.phone,
@@ -69,6 +69,22 @@
                  on m.memberIdx=r.memberIdx
                     where r.restaurantidx=#{restaurantIdx}
                     and TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+    </select>
+
+    <select id="findAllReserve" resultType="ReserveDTO">
+        select
+            m.name,
+            m.phone,
+            r.reserveDate,
+            r.rescount,
+            r.visitStatus,
+            r.cancelStatus,
+            r.reserveIdx,
+            m.memberIdx
+        from member m
+                 left outer join reserve r
+                                 on m.memberIdx=r.memberIdx
+        where r.restaurantidx=#{restaurantIdx}
     </select>
 
     <!-- 방문완료한 회원의 상태 변경-->

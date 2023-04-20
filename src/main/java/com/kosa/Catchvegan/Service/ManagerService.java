@@ -5,9 +5,9 @@ import com.kosa.Catchvegan.DTO.*;
 import java.util.List;
 
 public interface ManagerService  {
-    public RestaurantDTO restaurantmanage(int managerIdx);
-    public void updaterestaurant(RestaurantDTO restaurantDTO);
-    public List<ReserveDTO> reservememberlist(ReserveDTO reserveDTO);
+    public RestaurantDTO getOneRestaurant(int managerIdx);
+    public void updateRestaurant(RestaurantDTO restaurantDTO);
+    public List<ReserveDTO> reserveMemberList(ReserveDTO reserveDTO);
     public void confirmStatus(ReserveDTO reserveDTO);
     public void createVisit(VisitDTO visitDTO);
 
@@ -19,4 +19,6 @@ public interface ManagerService  {
     public boolean managerIdGet(String id);
 
     public ManagerDTO managerGetUserByIdAndPassword(String id);
+
+    public List<ReserveDTO> findAllReserve (RestaurantDTO restaurantDTO);
 }
