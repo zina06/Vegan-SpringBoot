@@ -140,4 +140,10 @@ public class ReserveServiceImpl implements ReserveService{
             }
         }
     }
+
+    @Override
+    public void createRefund(RefundDTO refundDTO) {
+        mapper.createRefund(refundDTO);
+    }
+
 }

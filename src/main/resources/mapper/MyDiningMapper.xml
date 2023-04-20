@@ -33,14 +33,15 @@
         order by reserveDate
     </select> -->
 
-    <select id="getVisitCompleted" resultMap="reserves">
-        select reserveidx, reservedate, rescount, name, city from reserve r, restaurant rt
-        where r.restaurantidx = rt.restaurantidx
-          and memberidx = #{memberIdx}
-          and visitstatus = 'o'
-          and cancelstatus = 'x'
-        order by reserveDate
-    </select>
+<!--    <select id="getVisitCompleted" resultMap="reserves">-->
+<!--        select r.reserveidx, reservedate, rescount, name, city, v.visitdate from reserve r, restaurant rt, visit v-->
+<!--        where r.restaurantidx = rt.restaurantidx-->
+<!--          and v.reserveidx = r.reserveidx-->
+<!--          and memberidx = #{memberIdx}-->
+<!--          and visitstatus = 'o'-->
+<!--          and cancelstatus = 'x'-->
+<!--        order by v.visitdate desc-->
+<!--    </select>-->
 
     <select id="getReserveCancel" resultMap="reserves">
         select reserveidx, reservedate, rescount, name, city from reserve r, restaurant rt
@@ -82,7 +83,7 @@
         WHERE m.memberidx = #{memberIdx}
           and res.visitstatus = 'o'
           and res.cancelstatus = 'x'
-        order by res.reserveDate
+        order by v.visitdate desc
     </select>
 
 

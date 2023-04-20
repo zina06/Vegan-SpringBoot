@@ -20,18 +20,18 @@ public class ManagerServiceImpl implements ManagerService{
     private BCryptPasswordEncoder pe;
 
     @Override
-    public RestaurantDTO restaurantmanage(int managerIdx) {
-        return managerMapper.restaurantmanage(managerIdx);
+    public RestaurantDTO getOneRestaurant(int managerIdx) {
+        return managerMapper.getOneRestaurant(managerIdx);
     }
 
     @Override
-    public void updaterestaurant(RestaurantDTO restaurantDTO) {
-         managerMapper.updaterestaurant(restaurantDTO);
+    public void updateRestaurant(RestaurantDTO restaurantDTO) {
+         managerMapper.updateRestaurant(restaurantDTO);
     }
 
     @Override
-    public List<ReserveDTO> reservememberlist(ReserveDTO reserveDTO) {
-        return managerMapper.reservememberlist(reserveDTO);
+    public List<ReserveDTO> reserveMemberList(ReserveDTO reserveDTO) {
+        return managerMapper.reserveMemberList(reserveDTO);
     }
 
     @Override
@@ -68,6 +68,11 @@ public class ManagerServiceImpl implements ManagerService{
     @Override
     public ManagerDTO managerGetUserByIdAndPassword(String id) {
         return managerMapper.managerGetUserByIdAndPassword(id);
+    }
+
+    @Override
+    public List<ReserveDTO> findAllReserve(RestaurantDTO restaurantDTO) {
+        return managerMapper.findAllReserve(restaurantDTO);
     }
 
 }

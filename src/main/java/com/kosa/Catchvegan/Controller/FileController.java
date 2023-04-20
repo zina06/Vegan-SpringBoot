@@ -34,7 +34,7 @@ public class FileController {
     @Value("${spring.servlet.multipart.location}")
     private String location;
 //    private final static String imageDirectory= Paths.get("").toAbsolutePath()+"/images/";
-    private final static String imageDirectory= "C:\\final-vue\\vegan-vue\\src\\assets/uploadimages";
+    private final static String imageDirectory= "C:\\final-vue\\vegan-vue\\src\\assets\\img\\restaurant";
 
     public FileController() {
         File file = new File(imageDirectory);
@@ -92,7 +92,7 @@ public class FileController {
     @PostMapping ("/file/update")
     public void updateFile(@RequestPart("restaurantDTO") RestaurantDTO restaurantDTO, @RequestParam("file") MultipartFile file , @RequestParam("managerIdx") int managerIdx){
         System.out.println(restaurantDTO);
-        RestaurantDTO dto = managerService.restaurantmanage(managerIdx);
+        RestaurantDTO dto = managerService.getOneRestaurant(managerIdx);
         dto.setName(restaurantDTO.getName());
 //        dto.setImages(file.getOriginalFilename());
         dto.setMenu(restaurantDTO.getMenu());
@@ -136,7 +136,7 @@ public class FileController {
 //                    deletefile.delete();
 //                    System.out.println("파일 삭제 완료");
 //                }
-            managerService.updaterestaurant(dto);
+            managerService.updateRestaurant(dto);
     }
 
 
@@ -152,7 +152,7 @@ public class FileController {
             System.out.println(file.getOriginalFilename());
 
 
-            managerService.updaterestaurant(restaurantDTO);
+            managerService.updateRestaurant(restaurantDTO);
 
             try (FileOutputStream writer = new FileOutputStream(filePath)) {
                 writer.write(file.getBytes());
