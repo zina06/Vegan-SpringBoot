@@ -1,12 +1,13 @@
 package com.kosa.Catchvegan.Security;
 
-import java.io.IOException;
+
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.access.AccessDeniedHandler;
+import java.io.IOException;
 
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 

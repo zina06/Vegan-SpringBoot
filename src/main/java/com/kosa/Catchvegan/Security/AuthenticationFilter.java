@@ -77,6 +77,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
+        System.out.println("=========== successfulAuthentication 접근 ===========");
         String userName = ((User)authResult.getPrincipal()).getUsername();
         MemberDTO memberDTO = memberMapper.getUserByIdAndPassword(userName);
         ManagerDTO managerDTO = managerMapper.managerGetUserByIdAndPassword(userName);
