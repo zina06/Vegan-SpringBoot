@@ -29,4 +29,5 @@ public interface ReserveService {
     public boolean canReserve (ReserveDTO reserveDTO);
 
     public void  noReserve();
+    public void createRefund(RefundDTO refundDTO);
 }
