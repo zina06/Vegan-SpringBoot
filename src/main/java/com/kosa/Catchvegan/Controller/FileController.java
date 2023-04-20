@@ -34,7 +34,7 @@ public class FileController {
     @Value("${spring.servlet.multipart.location}")
     private String location;
 //    private final static String imageDirectory= Paths.get("").toAbsolutePath()+"/images/";
-    private final static String imageDirectory= "C:\\final-vue\\vegan-vue\\src\\assets/uploadimages";
+    private final static String imageDirectory= "C:\\final-vue\\vegan-vue\\src\\assets\\img\\restaurant";
 
     public FileController() {
         File file = new File(imageDirectory);
