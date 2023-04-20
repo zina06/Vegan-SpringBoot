@@ -85,6 +85,15 @@ public class KakaoPayService {
         CancelDTO cancelDTO =  new CancelDTO();
         cancelDTO.setReserveIdx(paymentDTO.getReserveIdx());
         service.cancelRes(cancelDTO);
+        //1일전이면 50푸로만환불
+        if(DTO.getPayAmount()!=null){
+            paymentDTO.setPayAmount(paymentDTO.getPayAmount()/2);
+        }
+        //환불 DTO
+        RefundDTO refundDTO = new RefundDTO();
+        refundDTO.setPayIdx(paymentDTO.getPayIdx());
+        refundDTO.setRefundAmount(paymentDTO.getPayAmount());
+        service.createRefund(refundDTO);
         // 카카오페이 요청
         MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", "TC0ONETIME");

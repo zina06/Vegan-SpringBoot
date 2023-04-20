@@ -41,7 +41,7 @@ public class JobSetting {
                 .build();
         Trigger trigger1 = TriggerBuilder.newTrigger()
                 .withIdentity("deleteTrigger", "group2")
-                .withSchedule(CronScheduleBuilder.cronSchedule("0 * * ? * *"))
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 0 ? * *"))
                 .build();
         scheduler.scheduleJob(jobDetail1,trigger1);
     }
