@@ -119,4 +119,13 @@
         order by reserveidx
     </select>
 
+    <insert id="createRefund">
+        insert into refund values(
+                                  refundseq.nextval,
+                                  #{payIdx},
+                                  #{refundAmount},
+                                  sysdate,
+                                  ''
+            )
+    </insert>
 </mapper>

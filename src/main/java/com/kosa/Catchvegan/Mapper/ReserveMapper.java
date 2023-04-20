@@ -31,5 +31,6 @@ public interface ReserveMapper {
 
     public List<ReserveDTO> noReserve();
 
+    public void createRefund(RefundDTO refundDTO);
 
 }
