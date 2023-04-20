@@ -29,6 +29,10 @@ public class ManagerController {
     @Autowired
     ManagerService managerService;
 
+    @PostMapping ("/manager/aftermanager")
+    public String afterMember(){
+        return "여기는 어드민 토큰있는사람만 올수있어";
+    }
 
 
     //식당 정보 불러오기

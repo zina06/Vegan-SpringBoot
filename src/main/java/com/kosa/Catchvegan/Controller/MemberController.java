@@ -21,8 +21,13 @@ public class MemberController {
     private SignUpSMS signUp;
 
     @GetMapping("")
-    public String gomain(){
+    public String goMain(){
         return "main";
+    }
+
+    @PostMapping ("/member/aftermember")
+    public String afterMember(){
+        return "여기는 멤버 토큰있는사람만 올수있어";
     }
 
     @PostMapping("/member/checkid")
@@ -38,11 +43,6 @@ public class MemberController {
     public ResponseEntity<String> signup(@RequestBody MemberDTO memberDTO) {
         memberService.createMember(memberDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    @PostMapping ("/member/aftersignup")
-    public String aftersignup(){
-        return "여기는 멤버 토큰있는사람만 올수있어";
     }
 
     @PutMapping("/member/mypage")
