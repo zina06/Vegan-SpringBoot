@@ -11,11 +11,11 @@ import java.util.List;
 
 @Mapper
 public interface ManagerMapper {
-    public RestaurantDTO restaurantmanage(int managerIdx);
+    public RestaurantDTO getOneRestaurant(int managerIdx);
 
-    public void updaterestaurant(RestaurantDTO restaurantDTO);
+    public void updateRestaurant(RestaurantDTO restaurantDTO);
 
-    public List<ReserveDTO> reservememberlist(ReserveDTO reserveDTO);
+    public List<ReserveDTO> reserveMemberList(ReserveDTO reserveDTO);
     public void confirmStatus(ReserveDTO reserveDTO);
 
     public void createVisit(VisitDTO visitDTO);
@@ -30,6 +30,7 @@ public interface ManagerMapper {
 
     public ManagerDTO managerIdGet(@Param("id") String id);
 
+    public List<ReserveDTO> findAllReserve(RestaurantDTO restaurantDTO);
 
 
 }

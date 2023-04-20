@@ -55,8 +55,9 @@ public class ManagerController {
     @GetMapping("/manager/{managerIdx}")
     public Map<String, Object> RestaurantManager(@PathVariable int managerIdx, @RequestParam String reserveDate){
         Map<String, Object> map=new HashMap<>();
-        RestaurantDTO restaurantDTO = managerService.restaurantmanage(managerIdx);
+        RestaurantDTO restaurantDTO = managerService.getOneRestaurant(managerIdx);
         System.out.println(reserveDate);
+        List<ReserveDTO>reserveDTOS1=managerService.findAllReserve(restaurantDTO);
         try{
             String year = reserveDate.substring(0, 4); // 2023
             String month = reserveDate.substring(5, 7); // 04
@@ -65,15 +66,21 @@ public class ManagerController {
             ReserveDTO reserveDTO = new ReserveDTO();
             reserveDTO.setReserveDate(new Date(parseInt(year)-1900,parseInt(month)-1,parseInt(day)));
             reserveDTO.setRestaurantIdx(restaurantDTO.getRestaurantIdx());
-            List<ReserveDTO>reserveDTOS=managerService.reservememberlist(reserveDTO);
+            List<ReserveDTO>reserveDTOS=managerService.reserveMemberList(reserveDTO);   //날짜에 따른 예약목록
+
 //            map.put("restaurantDTO",restaurantDTO);
             map.put("reservelist",reserveDTOS);
         }
         catch(Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         finally {
-            map.put("restaurantDTO",restaurantDTO);
+
+
+                map.put("restaurantDTO",restaurantDTO);
+                map.put("all", reserveDTOS1);
+
+
         }
 
 
@@ -88,7 +95,7 @@ public class ManagerController {
     public ResponseEntity<Void> RestaurantUpdate(@RequestBody RestaurantDTO restaurantDTO){
         try{
 //            restaurantDTO.setRestaurantIdx(restaurantIdx);
-            managerService.updaterestaurant(restaurantDTO);
+            managerService.updateRestaurant(restaurantDTO);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e){
             log.error(e.getMessage());
