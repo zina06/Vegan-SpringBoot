@@ -33,12 +33,12 @@ public class ReviewController {
         return new ResponseEntity<>(service.reviewDetail(visitIdx), HttpStatus.OK);
     }
 
-    @PostMapping("/review")
-    public ResponseEntity reviewCreate(@RequestBody ReviewDTO reviewDTO){
-        service.reviewCreate(reviewDTO);
-
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
+//    @PostMapping("/review")
+//    public ResponseEntity reviewCreate(@RequestBody ReviewDTO reviewDTO){
+//        service.reviewCreate(reviewDTO);
+//
+//        return new ResponseEntity(HttpStatus.CREATED);
+//    }
 
     @PutMapping("/review")
     public ResponseEntity<ReviewDTO> reviewModify(@RequestBody ReviewDTO reviewDTO) {
