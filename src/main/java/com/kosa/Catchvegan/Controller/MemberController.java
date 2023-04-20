@@ -25,6 +25,12 @@ public class MemberController {
         return "main";
     }
 
+    @GetMapping("/oneMember/{memberIdx}")
+    public ResponseEntity oneMember(@PathVariable int memberIdx){
+
+        return new ResponseEntity<>(memberService.oneMember(memberIdx),HttpStatus.OK);
+    }
+
     @PostMapping("/member/checkid")
     public ResponseEntity<String> checkId(@RequestBody MemberDTO memberDTO) {
         String id = memberDTO.getId();
@@ -52,7 +58,7 @@ public class MemberController {
             memberService.memberUpdate(memberDTO);
         }
         catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

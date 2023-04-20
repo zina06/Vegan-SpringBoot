@@ -42,6 +42,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/Catchvegan/error")
                 .antMatchers("/Catchvegan/authPhone/**")
                 .antMatchers("/Catchvegan/restaurant/**")
+                .antMatchers("/Catchvegan/oneMember/**")
                 .antMatchers("/Catchvegan/member/findMyId")
                 .antMatchers("/Catchvegan/member/findMyPassword")
                 .antMatchers("/Catchvegan/member/signup")
