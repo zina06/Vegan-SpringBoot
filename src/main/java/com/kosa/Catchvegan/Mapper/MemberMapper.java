@@ -11,6 +11,7 @@ import java.util.List;
 @Mapper
 public interface MemberMapper {
     public List<MemberDTO> findAllMembers();
+    public MemberDTO oneMember (Integer memberIdx);
     public Long createMember(MemberDTO member);
 
     public void userRole(@Param("memberIdx") Integer memberIdx);

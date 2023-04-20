@@ -11,6 +11,7 @@ public interface MemberService {
 
     //Member
     public List<MemberDTO> findAllMembers();
+    public MemberDTO oneMember (Integer memberIdx);
 
     public MemberDTO createMember(MemberDTO member);
 

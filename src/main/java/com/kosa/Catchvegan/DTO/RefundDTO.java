@@ -13,7 +13,6 @@ import java.util.Date;
 public class RefundDTO {
     private Integer refundIdx;
     private Integer payIdx;
-    private Integer reserveIdx;
     private Integer refundAmount;
     private Date refundDate;
     private String refundInfo;

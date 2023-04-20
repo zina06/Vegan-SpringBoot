@@ -83,10 +83,10 @@
         where reviewidx = #{reviewIdx}
     </delete>
     <select id="oneMemberAllReview" resultMap="memberResultMap">
-        select m.*,rv.reviewidx, rv.visitidx, rv.title, rv.content, rv.rating, rv.images from review rv,visit v,reserve res, member m
-        where rv.visitidx(+) = v.visitidx
+        select rv.reviewidx, rv.visitidx, rv.title, rv.content, rv.rating, rv.images from review rv, visit v, reserve res, member m
+        where rv.visitidx = v.visitidx
           and v.reserveidx = res.reserveidx
-          and res.memberidx(+) = m.memberidx
+          and res.memberidx = m.memberidx
           and m.memberidx = #{memberIdx}
     </select>
 
