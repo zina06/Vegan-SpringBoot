@@ -107,7 +107,7 @@
 
         SELECT *
         FROM (
-            SELECT r.title, r.content, r.rating, res.images,
+            SELECT r.title, r.content, r.rating, r.images,
                    m.name, r.reviewIdx, res.name as "res.name", res.restaurantIdx
             FROM review r
             LEFT OUTER JOIN visit v ON r.visitidx=v.visitidx
