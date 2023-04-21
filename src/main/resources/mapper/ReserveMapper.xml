@@ -109,6 +109,7 @@
           AND r.reserveidx = p.reserveidx
           AND visitstatus = 'x'
           AND cancelstatus = 'x'
+          AND memberidx = #{memberIdx}
     </select>
 
     <select id="noReserve" resultType="ReserveDTO">
