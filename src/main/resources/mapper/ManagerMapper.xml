@@ -67,6 +67,8 @@
             from member m
                  left outer join reserve r
                  on m.memberIdx=r.memberIdx
+                 right join payment p
+                 on r.reserveIdx = p.reserveIdx
                     where r.restaurantidx=#{restaurantIdx}
                     and TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
     </select>
@@ -83,7 +85,9 @@
             m.memberIdx
         from member m
                  left outer join reserve r
-                                 on m.memberIdx=r.memberIdx
+                           on m.memberIdx=r.memberIdx
+                 right join payment p
+                           on r.reserveIdx = p.reserveIdx
         where r.restaurantidx=#{restaurantIdx}
     </select>
 
