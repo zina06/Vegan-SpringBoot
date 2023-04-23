@@ -13,11 +13,6 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Autowired
     private ReviewMapper mapper;
-    @Override
-    public ReviewDTO reviewDetail(int visitIdx) {
-
-        return mapper.detailReview(visitIdx);
-    }
 
     @Override
     public void reviewCreate(ReviewDTO reviewDTO) {
@@ -41,6 +36,7 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public List<ReviewDTO> getReviewList(int restaurantIdx) {
+
         return mapper.getReviewList(restaurantIdx);
     }
 
@@ -48,11 +44,5 @@ public class ReviewServiceImpl implements ReviewService{
     public List<ReviewDTO> getRecentReview() {
         return mapper.getRecentReview();
     }
-
-    @Override
-    public ReviewDTO oneReview(int reviewIdx) {
-        return mapper.oneReview(reviewIdx);
-    }
-
 
 }
