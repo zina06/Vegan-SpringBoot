@@ -31,11 +31,12 @@
     </select>
 
     <select id="reserveDate" resultType="ReserveDTO">
-        SELECT * FROM reserve
-        WHERE TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
-        AND restaurantidx = #{restaurantIdx}
-        AND visitstatus = 'x'
-        AND cancelstatus = 'x'
+        SELECT r.* FROM reserve r, payment p
+        WHERE r.reserveIdx = p.reserveIdx
+          AND TRUNC(reservedate) = TO_DATE(TO_CHAR(#{reserveDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+          AND restaurantidx = #{restaurantIdx}
+          AND visitstatus = 'x'
+          AND cancelstatus = 'x'
     </select>
 
     <insert id="reserveRes">

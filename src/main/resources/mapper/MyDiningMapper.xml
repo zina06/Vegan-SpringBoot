@@ -9,6 +9,7 @@
         <result column="reserveidx" property="reserveIdx"></result>
         <result column="reservedate" property="reserveDate"></result>
         <result column="rescount" property="resCount"></result>
+        <result column="cancelstatus" property="cancelStatus"></result>
         <association resultMap="restaurant" property="restaurantDTO"></association>
     </resultMap>
     <resultMap id="restaurant" type="RestaurantDTO">
@@ -23,6 +24,7 @@
           and memberidx = #{memberIdx}
           and visitstatus = 'x'
           and cancelstatus = 'x'
+          and reservedate > SYSTIMESTAMP
         order by reserveDate
     </select>
 
@@ -44,7 +46,7 @@
 <!--    </select>-->
 
     <select id="getReserveCancel" resultMap="reserves">
-        select reserveidx, reservedate, rescount, name, city from reserve r, restaurant rt
+        select reserveidx, reservedate, rescount, name, city, cancelstatus from reserve r, restaurant rt
         where r.restaurantidx = rt.restaurantidx
           and memberidx = #{memberIdx}
           and ((visitstatus = 'x'
