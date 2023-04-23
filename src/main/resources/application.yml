@@ -44,7 +44,7 @@ twilio:
   account:
     sid: ACe7800a91efb2cbb3d1c9fc0e6d83c630
   auth:
-    token: 6ea96e3192e8f855311c6c9edac6f29a
+    token: 3027620df6adab999ec4c5183e76ba01
   from:
     number: +15074458078
 
