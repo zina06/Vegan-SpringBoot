@@ -30,12 +30,6 @@ public class MemberController {
         return "여기는 멤버 토큰있는사람만 올수있어";
     }
 
-    @GetMapping("/oneMember/{memberIdx}")
-    public ResponseEntity oneMember(@PathVariable int memberIdx){
-
-        return new ResponseEntity<>(memberService.oneMember(memberIdx),HttpStatus.OK);
-    }
-
     @PostMapping("/member/checkid")
     public ResponseEntity<String> checkId(@RequestBody MemberDTO memberDTO) {
         String id = memberDTO.getId();
