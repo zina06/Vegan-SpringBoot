@@ -6,7 +6,6 @@ import com.kosa.Catchvegan.DTO.ReviewDTO;
 import java.util.List;
 
 public interface ReviewService {
-    public ReviewDTO reviewDetail(int visitIdx);
 
     public void reviewCreate(ReviewDTO reviewDTO);
 
@@ -19,6 +18,4 @@ public interface ReviewService {
     public List<ReviewDTO> getReviewList(int restaurantIdx);
 
     public List<ReviewDTO> getRecentReview();
-
-    public ReviewDTO oneReview(int reviewIdx);
 }
