@@ -29,11 +29,6 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberDTO oneMember(Integer memberIdx) {
-        return memberMapper.oneMember(memberIdx);
-    }
-
-    @Override
     @Transactional
     public MemberDTO createMember(MemberDTO member){
         String pw = member.getPassword();
