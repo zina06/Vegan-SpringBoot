@@ -91,23 +91,20 @@ public class FileController {
 
     @PostMapping ("/file/update")
     public void updateFile(@RequestPart("restaurantDTO") RestaurantDTO restaurantDTO, @RequestParam("file") MultipartFile file , @RequestParam("managerIdx") int managerIdx){
-        System.out.println(restaurantDTO);
+
         RestaurantDTO dto = managerService.getOneRestaurant(managerIdx);
         dto.setName(restaurantDTO.getName());
 //        dto.setImages(file.getOriginalFilename());
         dto.setMenu(restaurantDTO.getMenu());
         dto.setRestaurantInfo(restaurantDTO.getRestaurantInfo());
-        System.out.println("images : " + dto.getImages());
-        System.out.println("file : " + file);
-            String filePath = imageDirectory + File.separator + UUID.randomUUID() + file.getOriginalFilename();
-        System.out.println(filePath);
-            String oldFileName=reserveService.restaurantDetail(dto.getRestaurantIdx()).getImages();
-        System.out.println(filePath);
-        System.out.println(oldFileName);
-            if(file.getOriginalFilename().equals(""))
-//                restaurantDTO.setImages(oldFileName);
-                dto.setImages(file.getOriginalFilename());
+
+        String oldFileName=reserveService.restaurantDetail(dto.getRestaurantIdx()).getImages();
+            // 파일이 존재하지 않는데 dto.setImages에 file 넣어주게되면 nullPoint Exception 뜸
+            if(file == null || file.getOriginalFilename().equals(""))
+                restaurantDTO.setImages(oldFileName);
+//                dto.setImages(file.getOriginalFilename());
             else{
+//                String filePath = imageDirectory + File.separator + UUID.randomUUID() + file.getOriginalFilename();
                 String newFileName="n_"+file.getOriginalFilename();
 //                restaurantDTO.setImages(newFileName);
                 dto.setImages(newFileName);
@@ -122,9 +119,9 @@ public class FileController {
             }
 
             System.out.println("75line");
-            System.out.println(filePath);
+//            System.out.println(filePath);
             System.out.println(UUID.randomUUID());
-            System.out.println(file.getOriginalFilename());
+//            System.out.println(file.getOriginalFilename());
 //            try (FileOutputStream writer = new FileOutputStream(filePath)) {
 //                writer.write(file.getBytes());
 //

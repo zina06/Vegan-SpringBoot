@@ -94,7 +94,7 @@
     <select id="getReviewList" resultMap="review">
         select r.title, r.content, r.rating, r.images, m.name, r.reviewIdx
               from review r
-                 LEFT OUTER JOIN visit v ON r.visitidx=r.visitidx
+                 LEFT OUTER JOIN visit v ON r.visitidx=v.visitidx
                  LEFT OUTER JOIN reserve rv ON v.reserveidx=rv.reserveidx
                  LEFT OUTER JOIN restaurant res ON rv.restaurantidx=res.restaurantidx
                  LEFT OUTER JOIN member m ON rv.memberidx=m.memberidx

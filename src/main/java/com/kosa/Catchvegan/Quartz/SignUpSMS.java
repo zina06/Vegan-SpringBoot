@@ -13,7 +13,7 @@ public class SignUpSMS {
     @Value("AC0dfdf07723f0a2c8a520dc69e9019a1c")
     private String sid;
 
-    @Value("c1a700c5df7659466917a1a2cb3617c2")
+    @Value("1d3041bf7f28d4f2144327fb967d63aa")
     private String token;
 
     @Autowired
