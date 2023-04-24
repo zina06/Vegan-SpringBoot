@@ -96,6 +96,7 @@ public class FileController {
         dto.setName(restaurantDTO.getName());
 //        dto.setImages(file.getOriginalFilename());
         dto.setMenu(restaurantDTO.getMenu());
+        dto.setRestaurantInfo(restaurantDTO.getRestaurantInfo());
         System.out.println("images : " + dto.getImages());
         System.out.println("file : " + file);
             String filePath = imageDirectory + File.separator + UUID.randomUUID() + file.getOriginalFilename();
