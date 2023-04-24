@@ -45,7 +45,7 @@
                 set
                     name=#{name},
                     menu=#{menu},
-                    restaurantinfo=#{restaurantInfo},
+                    restaurantinfo= #{restaurantInfo},
                     images=#{images}
                         where restaurantidx=#{restaurantIdx}
 
